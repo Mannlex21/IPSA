@@ -1,0 +1,22 @@
+﻿.vertical-offset-100 {
+    padding-top: 100px;
+    padding-bottom:150px;
+}
+.validation-summary-errors {
+    color: red;
+    text-align: center;
+}
+@media (min-width: 337px) {
+    .col-md-4 {
+        width: 341px;
+    }
+
+    .col-md-offset-4 {
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+}
+.txtLogin {
+    text-align: center;
+     font-size: 28px; 
+}

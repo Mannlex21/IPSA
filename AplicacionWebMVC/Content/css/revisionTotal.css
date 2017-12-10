@@ -1,0 +1,11 @@
+﻿input, label, textarea, .labelClass, .inputBox {
+    display: inline-block !important;
+}
+.inputBox {
+    margin-bottom: 10px;
+    margin-right: 5px;
+    width: 10%;
+}
+#filterButton, #btnLimpiarSearch{
+    margin-bottom:5px;
+}

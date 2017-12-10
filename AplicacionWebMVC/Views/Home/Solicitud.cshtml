@@ -1,0 +1,285 @@
+﻿@using AplicacionWebMVC.Models
+@model Materiales
+
+@{
+    ViewBag.Title = "Home Page";
+}
+@section Scripts
+{
+    
+    <script type="text/javascript">
+        $(window).load(function () {
+            setTimeout(function () {
+                $(".loader").fadeOut(100);
+            }, 1000);
+        });
+        var username = "@HttpContext.Current.User.Identity.Name";
+        console.log(username);
+    </script>
+
+
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/datatables.min.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.jqGrid/ui.jqgrid.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/grid.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/Main.css")"/>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/validacion.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/checkbox.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/datatables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/notify.min.js")"></script>  
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/sweetalert.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/pdfmake.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/vfs_fonts.js")"></script>   
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.0.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/Main.js")" ></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/grid.js")"></script> 
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/validacion.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/gridDepartamentos.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/datePicker.js")"></script> 
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/imprimirPDF.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/divExpandir.js")"></script>
+
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    Response.Redirect("~/Home/Index");
+}
+<div class="loader"></div>
+<div id="ejercicioURL" data-request-url="@Url.Action("GetEjercicio", "Ejercicio")"></div>
+<div id="departamentoURL" data-request-url="@Url.Action("GetDepartamento", "Departamentos")"></div>
+<div id="departamentosURL" data-request-url="@Url.Action("GetDepartamentos", "Departamentos")"></div>
+<div id="departamentos2URL" data-request-url="@Url.Action("GetDepartamentos2", "Departamentos")"></div>
+<div id="materialesURL" data-request-url="@Url.Action("GetMateriales", "Materiales")"></div>
+<div id="requisicionURL" data-request-url="@Url.Action("setRequisicion", "Requisicion")"></div>
+<div id="emailURL" data-request-url="@Url.Action("sendEmailAsync", "Email")"></div>
+<div class="jumbotron row">
+    <h1>Solicitante</h1>
+    <form action="" name="infoSol" id="infoSol">
+        <div class="div1 col-md-6">
+            <label for="departamento">Departamento <span id="errDepartamento" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox" name="departamentoD" id="departamentoD" readonly="readonly">
+            <input type="text" class="inputBox" name="departamentoA" id="departamentoA" readonly="readonly">
+            @if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Admin"))
+            {
+                <input type="text" class="inputBox" name="departamento" id="departamento" readonly="readonly">
+                <button type="button" id="agregarDepartamento" class="btn btn-info glyphicon glyphicon-search"></button>
+            }
+            else
+            {
+                <input type="text" class="inputBox" name="departamento" id="departamento" readonly="readonly" style="width: 77%;">
+            }
+
+            <label for="uso">Uso <span id="errUso" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox" name="uso" id="uso" maxlength="255">
+
+            <label for="fechaNecesitar">Fecha a necesitar <span id="errFechaN" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox" name="fechaNecesitar" id="fechaNecesitar" readonly="readonly">
+
+            <label for="fechaActual">Fecha de requisición <span id="errFechaA" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox" name="fechaActual" id="fechaActual" readonly="readonly">
+
+            <label for="ejercicio">Ejercicio <span id="errEjercicio" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox" name="ejercicio" id="ejercicio">
+
+        </div>
+        <div class="div2 col-md-6">
+            <label for="partidaPrep">Partida prepuestal <span id="errPartidaPrep" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox" name="partidaPrep" id="partidaPrep">
+
+            <label for="observaciones">Observaciones <span id="errObservaciones" class="errorPersonalizado"></span></label>
+            <textarea name="observaciones" class="inputBox" id="observaciones" cols="30" rows="4" maxlength="255"></textarea>
+
+            <label for="ciclo">Ciclos</label>
+            <select class="inputBox" id="ciclo">
+                <option value="Z">Zafra (Z)</option>
+                <option value="R">Reparacion (R)</option>
+                <option value="W">Proyecto (W)</option>
+            </select>
+            <button type="button" id="btnLimpiarP" class="btn btn-danger btn-lg">Limpiar</button>
+        </div>
+    </form>
+</div>
+
+
+<div class="jumbotron row">
+    <h1>Materiales</h1>
+    <form action="" name="infoPar" id="infoPar">
+        <div class="div1 col-md-6">
+            <label for="descripcion">Decripción <span id="errDescripcion" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="descripcion" id="descripcion">
+
+            <label for="cantidad">Cantidad <span id="errCantidad" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="cantidad" id="cantidad">
+
+            <label for="unidad">Unidad <span id="errUnidad" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="unidad" id="unidad">
+
+            <label for="existencia">Existencia <span id="errExistencia" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="existencia" id="existencia">
+
+            <label for="clave">Clave <span id="errClave" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="clave" id="clave">
+        </div>
+
+        <div class="div2 col-md-6">
+            <label for="precioU">Precio unitario <span id="errPrecioU" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="precioU" id="precioU">
+
+            <label for="detalle">Detalle <span id="errDetalle" class="errorPersonalizado"></span></label>
+            <textarea name="detalle" class="inputBox2" id="detalle" cols="30" rows="4"></textarea>
+
+            <button type="button" id="btnAgregarI" class="btn btn-success btn-lg">Agregar</button>
+            <button type="button" id="btnLimpiarI" class="btn btn-danger btn-lg">Limpiar</button>
+            <button type="button" id="btnModal" class="btn btn-info btn-lg">Buscar</button>
+        </div>
+    </form>
+</div>
+<div class="jumbotron row" >
+    <div>
+        <h1>Datos adicionales <a id="abrirCerrar" data-target="#fm1" class="tabs glyphicon glyphicon-plus" data-group="footer-blocks" data-toggle="collapse"></a></h1>
+        
+    </div>
+    <div id="fm1" class="collapse show-in-md">
+        <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB1" id="chkB1" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Trabajo sindicato</label></div>
+        <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB2" id="chkB2" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Retencion impuesto 2.5%</label></div>
+        <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB3" id="chkB3" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Trabajo que requieren DC3: Altura</label></div>
+        <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB4" id="chkB4" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Espacios confinados</label></div>
+        <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB5" id="chkB5" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Electrico</label></div>
+        <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB6" id="chkB6" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Corte</label></div>
+        <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB7" id="chkB7" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Soldadura</label></div>
+        <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB8" id="chkB8" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Izajes de carga</label></div>
+        <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB9" id="chkB9" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Operaciones montacarga</label></div>
+    </div>
+    
+</div>
+<div class="jumbotron row" >
+    <div id="tabla" class="table-responsive">
+        <h1>Partidas <span id="errTablaP" class="errorPersonalizado"></span></h1>
+        <table id="tablaPartida" style="width:100%; background:white;" class="table table-condensed table-striped table-bordered table-hover dt-responsive">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Partida</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Descripcion</th>
+                    <th>Clave</th>
+                    <th>Existencia</th>
+                    <th>Detalle</th>
+                    <th>Precio unitario</th>
+                    <th>Precio total</th>
+                    <th>Control</th>
+                </tr>
+            </thead>
+            <tfoot>
+
+                <tr>
+                    <th class="noBorde"></th>
+                    <th class="noBorde"></th>
+                    <th class="noBorde"></th>
+                    <th class="noBorde"></th>
+                    <th class="noBorde"></th>
+                    <th class="noBorde"></th>
+                    <th class="noBorde"></th>
+                    <th>Total</th>
+                    <th id="idTotal"></th>
+                    <th class="noBorde"></th>
+                </tr>
+            </tfoot>
+            <tbody id="tbody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+    <button type="button" id="btnGuardar" class="btn btn-success btn-lg">Guardar</button>
+    <button type="button" id="btnCancelar" class="btn btn-danger btn-lg">Cancelar</button>
+    <button type="button" id="btnImprimir" class="btn btn-info btn-lg" disabled>Imprimir</button>
+</div>
+
+<div id="modalMateriales" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Material</h4>
+            </div>
+            <div class="modal-body modalB">
+                <div class="loaderM"></div>
+                <div id="divM" >
+                    <div>
+                        @Html.TextBoxFor(model => model.idMaterial, new { @class = "filterItem", placeholder = "Id Material" })
+                        @Html.ValidationMessageFor(model => model.idMaterial)
+
+                        @Html.TextBoxFor(model => model.descripcion, new { @class = "filterItem", placeholder = "Descripcion" })
+                        @Html.ValidationMessageFor(model => model.descripcion)
+
+                        @Html.TextBoxFor(model => model.marca, new { @class = "filterItem", placeholder = "Marca" })
+                        @Html.ValidationMessageFor(model => model.marca)
+
+                        @Html.TextBoxFor(model => model.consecutivo, new { @class = "filterItem", placeholder = "Consecutivo" })
+                        @Html.ValidationMessageFor(model => model.consecutivo)
+
+                        <button id="filterButton" name="search" class="btn btn-success btn-sm glyphicon glyphicon-search" />
+                    </div>
+                    <table id="grid"></table>
+                    <div id="pager"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modalDepartamentos" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Departamento</h4>
+            </div>
+            <div class="modal-body modalD">
+                <div class="loaderD"></div>
+                <div id="divD">
+                    <table id="gridDep"></table>
+                    <div id="pagerDep"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modalEmergente" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header modalPersonal">
+                <button type="button" class="close closePersonal" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="textoTabla"></p>
+            </div>
+            <div class="modal-footer modalFooterPesonal">
+                <!--button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button-->
+            </div>
+        </div>
+
+    </div>
+</div>

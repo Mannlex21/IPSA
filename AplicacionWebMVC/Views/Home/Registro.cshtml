@@ -1,0 +1,109 @@
+﻿@model AplicacionWebMVC.Models.Usuarios
+@{
+    ViewBag.Title = "Registro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts
+{
+    <script type="text/javascript">
+        $(window).load(function () {
+            setTimeout(function () {
+                $(".loader").fadeOut(100);
+            }, 1000);
+        });
+    </script>
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/checkbox.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/departamento.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/js/registro.js")"></script>
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    Response.Redirect("~/Home/Index");
+}
+    <div class="loader"></div>
+    <div id="departamentos2URL" data-request-url="@Url.Action("GetDepartamentos2", "Departamentos")"></div>
+    @using (Html.BeginForm("Registro", "Home", new { user = HttpContext.Current.User.Identity.Name}, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Registro de usuario</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.nombreUsuario,"Usuario", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.nombreUsuario, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.nombreUsuario, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.idEmpleado,"ID del Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.idEmpleado, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.idEmpleado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.contrasena, "Contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.contrasena, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.contrasena, "", new { @class = "text-danger" })
+                </div>
+            </div>
+           
+            <div class="form-group">
+                @Html.LabelFor(model => model.registradoPor, "Registrado por", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.registradoPor, new { htmlAttributes = new { @class = "form-control", @Value = HttpContext.Current.User.Identity.Name, @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.registradoPor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.departamento, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <select id="departamento" class="form-control" name="departamento">
+                    </select>
+                    @Html.ValidationMessageFor(model => model.departamento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Role, "Rol", htmlAttributes: new { @class = "control-label col-md-2", @id ="selectRole" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Role, new List<SelectListItem>
+                    {
+                                        new SelectListItem() {Text = "Administrador", Value="Admin"},
+                                        new SelectListItem() {Text = "Empleado", Value="Empleado"},
+                                        new SelectListItem() {Text = "Revisor 1", Value="Revisor1"},
+                                        new SelectListItem() {Text = "Revisor 2", Value="Revisor2"}
+                    }, new { @class = "form-control" })
+                    
+                    <!--@Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })-->
+                    @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div id="divOpciones" class="form-group" style="display:none;">
+                    <label class="control-label col-md-2">Opciones extras</label>
+                    <div class="divOpciones">
+                        <!--label class="labelText">@Html.CheckBox("sindicato") Trabajo sindicato</!--label>
+                        <label class="labelText">@Html.CheckBox("impuesto") Retencion impuesto 2.5%</label>
+                        <label class="labelText">@Html.CheckBox("altura") Trabajo que requieren DC3: Altura</label>
+                        <label class="labelText">@Html.CheckBox("espaciosConfinados") Espacios confinados</label>
+                        <label class="labelText">@Html.CheckBox("electrico") Electrico</label>
+                        <label class="labelText">@Html.CheckBox("corte") Corte</label>
+                        <label class="labelText">@Html.CheckBox("soldadura") Soldadura</label>
+                        <label class="labelText">@Html.CheckBox("izaje") Izajes de carga</label>
+                        <label class="labelText">@Html.CheckBox("montacarga") Operaciones montacarga</label-->
+                        
+                        <label class="labelText">@Html.RadioButton("tipo", "Seguridad") Seguridad</label>
+                        <label class="labelText">@Html.RadioButton("tipo", "Electrico") Electrico</label>
+                        <label class="labelText">@Html.RadioButton("tipo", "CapitalHumano") Capital humano</label>
+                     </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar" class="btn btn-default"  id="guardarRegistro"/>
+                </div>
+            </div>
+        </div>
+    }

@@ -1,0 +1,153 @@
+﻿@model AplicacionWebMVC.Models.Materiales
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Materiales</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.consecutivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.consecutivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uMedida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uMedida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.maximo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.maximo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.minimo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.minimo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.costoProm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.costoProm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.costoPromAnt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.costoPromAnt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.importe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.importe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.existencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.existencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.localizacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.localizacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cantIni)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cantIni)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.importeIni)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.importeIni)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaUltimoMov)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaUltimoMov)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.puntoPedido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.puntoPedido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pedidoEstandar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pedidoEstandar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.marca)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.marca)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

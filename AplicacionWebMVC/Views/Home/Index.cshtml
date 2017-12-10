@@ -1,0 +1,48 @@
+﻿ @{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(window).load(function () {
+            setTimeout(function () {
+                $(".loader").fadeOut(100);
+            }, 1000);
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Anton" >
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/index/plugins/flexslider/flexslider.css")" media="screen" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/index/style.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/index/plugins/flexslider/jquery.flexslider-min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/index/plugins/flexslider/flexslider.config.js")"></script>
+
+}
+   <div class="loader"></div>       
+    <section id="featured" class="bg">
+        <!-- start slider -->
+        <!-- start slider -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Slider -->
+                    <div id="main-slider" class="main-slider flexslider">
+                        <ul class="slides">
+                            <li>
+                                <img src="~/file/img/puga.jpg" alt="" />
+                                <div class="flex-caption">
+                                    <h3 class="titulo">Bienvenido, <span class="tituloUsuario">@(User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Visitante")</span></h3>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- end slider -->
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+

@@ -1,0 +1,136 @@
+﻿
+@model PagedList.IPagedList<AplicacionWebMVC.Models.Solicitud_Requisiciones>
+@using PagedList.Mvc;
+ 
+@{
+    ViewBag.Title = "Revision";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts{
+<script type="text/javascript">
+
+        $(window).load(function () {
+            setTimeout(function () {
+                $(".loader").fadeOut(100);
+            }, 1000);
+    });
+</script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.jqGrid/ui.jqgrid.css")"/>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/Main.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/gridDetalle.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.0.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/detalleRequisicion.js")"></script>
+}
+
+@if (!User.Identity.IsAuthenticated)
+{
+    Response.Redirect("~/Home/Index");
+}
+<div class="loader"></div>   
+<div id="solicitudURL" data-request-url="@Url.Action("GetSolicitud", "Home")"></div>
+<h2>Revision</h2>
+<table class="table">
+    <tr>
+        <th>
+            PreRequisición
+        </th>
+        <th>
+            Departamento
+        </th>
+        <th>
+            Uso
+        </th>
+        <th>
+            Observaciones
+        </th>
+        <th>
+            Ciclo
+        </th>
+        <th>
+            Area
+        </th>
+        <th>
+            Fecha Requisicion
+        </th>
+        <th>
+            Fecha a necesitar
+        </th> 
+        <th>
+            Detalle
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.preRequisicion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Departamentos.idDepartamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.uso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.observaciones)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ciclo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.area)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaRequisicion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaNecesitar)
+        </td>
+        <td>
+            <button class="btn btn-success glyphicon glyphicon-info-sign" style="margin: auto;display: block;" onclick="@("abrirDetalle('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"','"+item.uso+ "','" + item.ciclo + "')")"></button>
+        </td>
+        <td>
+            @Html.ActionLink("Liberar", "LiberarSolicitud", new { preRequisicion = item.preRequisicion  })
+        </td>
+    </tr>
+}
+
+</table>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Revision", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<div id="modalDetalle" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Detalle</h4>
+            </div>
+            <div class="modal-body modalD">
+                <div class="loaderD"></div>
+                <div id="divD" style="display:none;">
+                    <label for="lblPreReq">PreRequisicion :</label>
+                    <p id="lblPreReq"></p>
+                    <label for="lblUsoR">Uso :</label>
+                    <p id="lblUsoR"></p>
+                    <label for="lblCiclo">Ciclo :</label>
+                    <p id="lblCiclo"></p>
+                    <table id="gridDet"></table>
+                    <div id="pagerDet"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>

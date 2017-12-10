@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" type="image/ico" href="~/file/logo.gif">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--title>@ViewBag.Title - Mi aplicación ASP.NET</title-->
+    <title>Solicitud y Requisición</title>
+    
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/cargando.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Site.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.10.2.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/modernizr-2.6.2.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/respond.js")"></script>
+</head>
+<body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar5">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="~/Views/Home/Index.cshtml">
+                        <img id="imgLogo" style="width: 45px;" src="~/file/logo.png" alt="Dispute Bills">
+                    </a>
+                </div>
+                <div id="navbar5" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="barHome" class="barElem ">@Html.ActionLink("Inicio", "Index", "Home")</li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Admin"))
+                            {
+                                
+                                <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
+                                <li id="barRevision" class="dropdown barElem">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li id="barRevision1" class="barElem">@Html.ActionLink("Revision", "Revision", "Home")</li>
+                                        <li id="barRevision2" class="barElem">@Html.ActionLink("Lista total", "RevisionTotal", "Home")</li>
+                                        <li id="barRevision3" class="barElem">@Html.ActionLink("Revision externa", "RevisionExterna", "Home")</li>
+                                    </ul>
+                                </li>
+                                <li id="barRegistro" class="dropdown barElem">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li id="barRegistro1">@Html.ActionLink("Lista", "ListaUsuarios", "Home")</li>
+                                        <li id="barRegistro2">@Html.ActionLink("Registrar", "Registro", "Home")</li>
+
+                                        <!--li><a href="#">Something else here</a></!--li>
+                                        <li role="separator" class="divider"></!--li>
+                                        <li><a href="#">Separated link</a></!--li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">One more separated link</a></li-->
+                                    </ul>
+                                </li>
+                            }
+                            else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Empleado"))
+                            {
+                                <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
+                            }
+                            else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Revisor1"))
+                            {
+                                <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>  
+                                <li id="barRevision" class="dropdown barElem">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li id="barRevision1" class="barElem">@Html.ActionLink("Revision", "Revision", "Home")</li>
+                                        <li id="barRevision2" class="barElem">@Html.ActionLink("Lista", "RevisionTotal", "Home")</li>
+                                        
+                                    </ul>
+                                </li>
+                            }
+                            else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Revisor2"))
+                            {
+                                <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
+                                <li id="barRevision" class="dropdown barElem">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li id="barRevision1" class="barElem">@Html.ActionLink("Revision", "Revision", "Home")</li>
+                                        <li id="barRevision3" class="barElem">@Html.ActionLink("Revision externa", "RevisionExterna", "Home")</li>
+                                        <li id="barRevision2" class="barElem">@Html.ActionLink("Lista", "RevisionTotal", "Home")</li>
+                                    </ul>
+                                </li>
+                            }
+                            <li id="barLogOut" class="barElem"><a href="@Url.Action("SignOut","Home")">Cerrar Sesión (@(User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Visitante"))</a></li>
+                        }
+                        else
+                        {
+                            <li id="barLogin" class="barElem">@Html.ActionLink("Iniciar sesión", "Login", "Home")</li>
+                        }
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+            <!--/.container-fluid -->
+        </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - IPSA</p>
+        </footer>
+    </div>
+    
+    @RenderSection("Scripts", required: false)
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var res = window.location.pathname.split("/");
+            var r;
+            if (res.length ==3) {
+                r = res[2];
+            } else if (res.length==4) {
+                r = res[3];
+            } else if (res.length == 5) {
+                r = res[4];
+            }
+            var elems = document.querySelectorAll("active");
+            [].forEach.call(elems, function (el) {
+                el.className = el.className.replace(/\bactive\b/, "");
+            });
+            if (r == null || r == undefined || r == "Index" || r=="") {
+                var d = document.getElementById("barHome");
+            } else {
+                if (res.indexOf("ListaUsuarios") > -1) {
+                    var d = document.getElementById("barRegistro");
+                    document.getElementById("barRegistro1").className += ' active';
+                } else if (res.indexOf("Registro") > -1){
+                    var d = document.getElementById("barRegistro");
+                    document.getElementById("barRegistro2").className+=' active';
+                } else if (res.indexOf("UpdateUsuarios") > -1) {
+                    var d = document.getElementById("barRegistro");
+                } else if (res.indexOf("Revision") > -1) {
+                    var d = document.getElementById("barRevision");
+                    document.getElementById("barRevision1").className += ' active';
+                } else if (res.indexOf("RevisionTotal") > -1) {
+                    var d = document.getElementById("barRevision");
+                    document.getElementById("barRevision2").className += ' active';
+                 } else if (res.indexOf("RevisionExterna") > -1) {
+                    var d = document.getElementById("barRevision");
+                    document.getElementById("barRevision3").className += ' active';
+                } else {
+                    var d = document.getElementById("bar" + r);
+                }
+            }
+            
+            d.className += " active";
+        });
+    </script>
+</body>
+</html>

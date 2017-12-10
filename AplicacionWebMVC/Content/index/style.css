@@ -1,0 +1,178 @@
+@font-face {
+    font-family: 'gotham-medium';
+    src: url('../../fonts/Gotham Medium Regular.ttf'); /* IE9 Compat Modes */
+}
+.titulo {
+    font-family: 'gotham-medium',Fallback, sans-serif;
+    font-size: 3vw;
+    margin:0;
+}
+.tituloUsuario {
+    font-family: 'gotham-medium', Fallback, sans-serif;
+    color: green;
+    word-wrap: break-word;
+}
+.main-slider .flex-caption {
+    height:auto !important;
+    min-height: 14vw !important;
+    max-height: 17vw !important;
+}
+    /* ===================================
+6. Sliders
+==================================== */
+    /* rev slider */
+    .tp-caption a.btn {
+    color: #fff;
+}
+
+/* flexslider */
+.main-slider.flexslider { 
+    margin: 40px 0 50px; 
+    background: transparent; 
+    border: none;
+-webkit-border-radius: 0; -moz-border-radius: 0; -o-border-radius: 0; border-radius: 0; -webkit-box-shadow: none; -moz-box-shadow: none; 
+-o-box-shadow: none;
+box-shadow: none;
+}
+
+.main-slider .flex-caption {background:none; -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000); zoom: 1;}
+.main-slider .flex-caption {
+    bottom: 13%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    margin: 0;
+    padding: 3vw 3vw 3vw 4vw;
+    position: absolute;
+    right: 0;
+    width: 28vw;
+    height: 14vw;
+}
+@media (min-width: 0px) and (max-width: 440px) {
+    .main-slider .flex-caption {
+        padding: 2vw 3vw 3vw 4vw;
+    }
+}
+.main-slider .flex-caption h3 {
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.main-slider .flex-caption p {
+    margin: 0 0 15px;
+}
+
+.main-slider .flex-direction-nav a:before {
+    font-family: "flexslider-icon";
+    font-size: 20px;
+    display: inline-block;
+    content: '\f001';
+}
+
+.main-slider .flex-direction-nav a.flex-next:before {
+    content: '\f002';
+}
+
+
+
+    /* ===================================
+7. Section: call action
+==================================== */
+    section.callaction {
+        background: #fafafa;
+        padding: 30px 0 0 0;
+    }
+
+    .cta-text {
+        margin-top: 10px;
+        text-align: left;
+    }
+
+        .cta-text h2 {
+            font-weight: 900;
+            line-height: 1.1em;
+        }
+
+    .cta-btn {
+        float: right;
+        padding: 20px;
+        margin-top: 10px;
+    }
+
+    /* ===================================
+8. Section: Content
+==================================== */
+
+    #content {
+        position: relative;
+        background: #fff;
+        padding: 60px 0 40px 0;
+    }
+
+        #content img {
+            margin-bottom: 30px;
+        }
+
+    /* --- box --- */
+
+    .box {
+        width: 100%;
+    }
+
+    .box-gray {
+        background: #f8f8f8;
+        padding: 20px 20px 30px;
+    }
+
+        .box-gray h4, .box-gray i {
+            margin-bottom: 20px;
+        }
+
+    .box h4 {
+        font-weight: 300;
+    }
+
+    .box .icon {
+        margin-bottom: 20px;
+    }
+
+
+    /* ===================================
+9. Section: Bottom
+==================================== */
+
+    #bottom {
+        background: #fcfcfc;
+        padding: 50px 0 0;
+    }
+    /* twitter */
+    #twitter-wrapper {
+        text-align: center;
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    #twitter em {
+        font-style: normal;
+        font-size: 13px;
+    }
+
+        #twitter em.twitterTime a {
+            font-weight: 600;
+        }
+
+    #twitter ul {
+        padding: 0;
+        list-style: none;
+    }
+
+        #twitter ul li {
+            font-size: 20px;
+            line-height: 1.6em;
+            font-weight: 300;
+            margin-bottom: 20px;
+            position: relative;
+            word-break: break-word;
+        }
+
