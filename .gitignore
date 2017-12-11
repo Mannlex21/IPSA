@@ -297,3 +297,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+AplicacionWebMVC/Web.config
+AplicacionWebMVC/Models/Almacen.Designer.cs
+AplicacionWebMVC/Models/Almacen.Context.cs

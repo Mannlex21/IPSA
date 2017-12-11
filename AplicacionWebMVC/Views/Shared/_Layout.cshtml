@@ -5,7 +5,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--title>@ViewBag.Title - Mi aplicación ASP.NET</title-->
     <title>Solicitud y Requisición</title>
     
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/cargando.css")" />
@@ -43,8 +42,8 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li id="barRevision1" class="barElem">@Html.ActionLink("Revision", "Revision", "Home")</li>
-                                        <li id="barRevision2" class="barElem">@Html.ActionLink("Lista total", "RevisionTotal", "Home")</li>
                                         <li id="barRevision3" class="barElem">@Html.ActionLink("Revision externa", "RevisionExterna", "Home")</li>
+                                        <li id="barRevision2" class="barElem">@Html.ActionLink("Lista total", "RevisionTotal", "Home")</li>
                                     </ul>
                                 </li>
                                 <li id="barRegistro" class="dropdown barElem">
@@ -52,12 +51,6 @@
                                     <ul class="dropdown-menu">
                                         <li id="barRegistro1">@Html.ActionLink("Lista", "ListaUsuarios", "Home")</li>
                                         <li id="barRegistro2">@Html.ActionLink("Registrar", "Registro", "Home")</li>
-
-                                        <!--li><a href="#">Something else here</a></!--li>
-                                        <li role="separator" class="divider"></!--li>
-                                        <li><a href="#">Separated link</a></!--li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="#">One more separated link</a></li-->
                                     </ul>
                                 </li>
                             }
@@ -97,9 +90,7 @@
                         }
                     </ul>
                 </div>
-                <!--/.nav-collapse -->
             </div>
-            <!--/.container-fluid -->
         </nav>
 
     <div class="container body-content">

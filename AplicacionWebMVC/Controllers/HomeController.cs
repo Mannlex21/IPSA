@@ -315,7 +315,7 @@ namespace AplicacionWebMVC.Controllers
             var solicitud = from s in DB.Solicitud_Requisiciones select s;
             if (usuario.FirstOrDefault().Role.Equals("Admin"))
             {
-                solicitud = solicitud.Where(s => s.liberaLocal == true);
+                solicitud = solicitud.Where(s => s.liberaLocal == false);
             }
             else
             {
@@ -417,19 +417,26 @@ namespace AplicacionWebMVC.Controllers
                     usuario = usuario.Where(u => u.nombreUsuario == User.Identity.Name);
                     var detUsuario = from d in DB.DetallesUsuarios select d;
                     detUsuario = detUsuario.Where(u => u.idUsuario == usuario.FirstOrDefault().idUsuario);
-                    if (detUsuario.FirstOrDefault().seguridad == true)
+                    if (usuario.FirstOrDefault().Role.Equals("Admin"))
                     {
-                        query = "UPDATE Solicitud_Requisiciones SET liberaSeguridad = 1 WHERE preRequisicion =" + preRequisicion;
+                        query = "UPDATE Solicitud_Requisiciones SET liberaSeguridad = 1,liberaElectrico = 1,liberaCapitalHumano = 1  WHERE preRequisicion =" + preRequisicion;
                     }
-                    if (detUsuario.FirstOrDefault().electricos == true)
-                    {
-                        query = "UPDATE Solicitud_Requisiciones SET liberaElectrico = 1 WHERE preRequisicion =" + preRequisicion;
-                    }
-                    if (detUsuario.FirstOrDefault().capitalHumano == true)
-                    {
-                        query = "UPDATE Solicitud_Requisiciones SET liberaCapitalHumano = 1 WHERE preRequisicion =" + preRequisicion;
-                    }
+                    else {
+                        if (detUsuario.FirstOrDefault().seguridad == true)
+                        {
+                            query = "UPDATE Solicitud_Requisiciones SET liberaSeguridad = 1 WHERE preRequisicion =" + preRequisicion;
+                        }
+                        if (detUsuario.FirstOrDefault().electricos == true)
+                        {
+                            query = "UPDATE Solicitud_Requisiciones SET liberaElectrico = 1 WHERE preRequisicion =" + preRequisicion;
+                        }
+                        if (detUsuario.FirstOrDefault().capitalHumano == true)
+                        {
+                            query = "UPDATE Solicitud_Requisiciones SET liberaCapitalHumano = 1 WHERE preRequisicion =" + preRequisicion;
+                        }
 
+                        
+                    }
                     using (SqlCommand cmd = new SqlCommand(query))
                     {
                         cmd.Connection = con;
@@ -438,6 +445,7 @@ namespace AplicacionWebMVC.Controllers
                         con.Close();
                     }
                 }
+                    
                 return RedirectToAction("RevisionExterna");
             }
             catch (SqlException odbcEx)
