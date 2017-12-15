@@ -1,6 +1,6 @@
 ﻿$(function () {
     var objM = [];
-    var des, marca, uni, conse, precio, exis;
+    var des, marca, uni,  precio, exis;
     document.getElementById("divM").style.display = "none";
     var url = $('#materialesURL').data('request-url');
     $("#grid").jqGrid({
@@ -8,7 +8,7 @@
             datatype: 'json',
             mtype: 'Get',
             //table header name   
-            colNames: ['Id', 'Descripcion','Marca','Unidad','Consecutivo','Precio Unidad','Existencia','Control'],
+            colNames: ['Id', 'Descripcion','Marca','Unidad','Precio Unidad','Existencia','Control'],
             //colModel takes the data from controller and binds to grid  
             colModel: [
                 {
@@ -51,17 +51,6 @@
                     }
                 }, {
                     key: false,
-                    name: 'consecutivo',
-                    index: 'consecutivo',
-                    editable: false,
-                    resizable: true,
-                    width:60,
-                    formatter: function (cellvalue, rowObject) {
-                        conse = cellvalue;
-                        return cellvalue;
-                    }
-                }, {
-                    key: false,
                     name: 'costoProm',
                     index: 'costoProm',
                     editable: false,
@@ -92,7 +81,6 @@
                             "descripcion": des,
                             "marca": marca,
                             "unidad": uni,
-                            "consecutivo": conse,
                             "precioU": precio,
                             "existencia": exis
                         };

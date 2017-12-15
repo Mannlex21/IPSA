@@ -41,8 +41,8 @@ namespace AplicacionWebMVC.Controllers
                 }
                 using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                 {
-                    string query = "INSERT INTO Solicitud_Requisiciones(preRequisicion,preRequisicionAnt,requisicion,fechaRequisicion,fechaNecesitar,uso,departamento,ciclo,area,fechaRecepcion,ejercicio,solicitante,observaciones,liberaLocal,liberaSeguridad,liberaElectrico,liberaCapitalHumano) " +
-                        "VALUES(@preRequisicion,@preRequisicionAnt,@requisicion,@fechaRequisicion,@fechaNecesitar,@uso,@departamento,@ciclo,@area,@fechaRecepcion,@ejercicio,@solicitante,@observaciones,@liberaLocal,@liberaSeguridad,@liberaElectrico,@liberaCapitalHumano)";
+                    string query = "INSERT INTO Solicitud_Requisiciones(preRequisicion,preRequisicionAnt,requisicion,fechaRequisicion,fechaNecesitar,uso,departamento,ciclo,area,fechaRecepcion,ejercicio,solicitante,observaciones,liberaLocal,liberaSeguridad,liberaElectrico,liberaCapitalHumano,liberaAlmacen) " +
+                        "VALUES(@preRequisicion,@preRequisicionAnt,@requisicion,@fechaRequisicion,@fechaNecesitar,@uso,@departamento,@ciclo,@area,@fechaRecepcion,@ejercicio,@solicitante,@observaciones,@liberaLocal,@liberaSeguridad,@liberaElectrico,@liberaCapitalHumano,@liberaAlmacen)";
                     query += " SELECT SCOPE_IDENTITY()";
                     using (SqlCommand cmd = new SqlCommand(query))
                     {
@@ -93,6 +93,7 @@ namespace AplicacionWebMVC.Controllers
                             cmd.Parameters.AddWithValue("@liberaCapitalHumano", false);
                         }
                         cmd.Parameters.AddWithValue("@liberaLocal", false);
+                        cmd.Parameters.AddWithValue("@liberaAlmacen", false);
                         s = cmd.ExecuteScalar().ToString();
                         con.Close();
                     }

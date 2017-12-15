@@ -222,9 +222,6 @@
                         @Html.TextBoxFor(model => model.marca, new { @class = "filterItem", placeholder = "Marca" })
                         @Html.ValidationMessageFor(model => model.marca)
 
-                        @Html.TextBoxFor(model => model.consecutivo, new { @class = "filterItem", placeholder = "Consecutivo" })
-                        @Html.ValidationMessageFor(model => model.consecutivo)
-
                         <button id="filterButton" name="search" class="btn btn-success btn-sm glyphicon glyphicon-search" />
                     </div>
                     <table id="grid"></table>

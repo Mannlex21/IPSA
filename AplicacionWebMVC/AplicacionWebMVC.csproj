@@ -207,6 +207,9 @@
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\GpoMateriales.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Materiales.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -217,6 +220,9 @@
     <Compile Include="Models\Partidas.cs" />
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\Solicitud_Requisiciones.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SubGrupos.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">

@@ -27,7 +27,6 @@ namespace AplicacionWebMVC.Controllers
                     a.descripcion,
                     a.marca,
                     a.uMedida,
-                    a.consecutivo,
                     a.costoProm,
                     a.existencia
                 });
@@ -42,10 +41,6 @@ namespace AplicacionWebMVC.Controllers
             if (!string.IsNullOrEmpty(idMaterial))
             {
                 Results = Results.Where(s => s.idMaterial.ToString().Contains(idMaterial));
-            }
-            if (!string.IsNullOrEmpty(consecutivo))
-            {
-                Results = Results.Where(s => s.consecutivo.ToString().Contains(consecutivo));
             }
             int totalRecords = Results.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);

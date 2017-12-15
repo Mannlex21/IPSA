@@ -22,7 +22,6 @@ namespace AplicacionWebMVC.Models
     
         public int idMaterial { get; set; }
         public int materialesCont { get; set; }
-        public Nullable<short> consecutivo { get; set; }
         public string uMedida { get; set; }
         public string descripcion { get; set; }
         public Nullable<decimal> maximo { get; set; }

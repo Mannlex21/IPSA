@@ -85,17 +85,8 @@
             <div id="divOpciones" class="form-group" style="display:none;">
                     <label class="control-label col-md-2">Opciones extras</label>
                     <div class="divOpciones">
-                        <!--label class="labelText">@Html.CheckBox("sindicato") Trabajo sindicato</!--label>
-                        <label class="labelText">@Html.CheckBox("impuesto") Retencion impuesto 2.5%</label>
-                        <label class="labelText">@Html.CheckBox("altura") Trabajo que requieren DC3: Altura</label>
-                        <label class="labelText">@Html.CheckBox("espaciosConfinados") Espacios confinados</label>
-                        <label class="labelText">@Html.CheckBox("electrico") Electrico</label>
-                        <label class="labelText">@Html.CheckBox("corte") Corte</label>
-                        <label class="labelText">@Html.CheckBox("soldadura") Soldadura</label>
-                        <label class="labelText">@Html.CheckBox("izaje") Izajes de carga</label>
-                        <label class="labelText">@Html.CheckBox("montacarga") Operaciones montacarga</label-->
                         
-                        <label class="labelText">@Html.RadioButton("tipo", "Seguridad") Seguridad</label>
+                        <label class="labelText">@Html.RadioButton("tipo", "Seguridad", new { @checked = true }) Seguridad</label>
                         <label class="labelText">@Html.RadioButton("tipo", "Electrico") Electrico</label>
                         <label class="labelText">@Html.RadioButton("tipo", "CapitalHumano") Capital humano</label>
                      </div>
