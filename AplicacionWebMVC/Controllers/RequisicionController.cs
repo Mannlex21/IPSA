@@ -36,8 +36,6 @@ namespace AplicacionWebMVC.Controllers
                         preReq = Convert.ToInt32(cmd.ExecuteScalar());
                         con.Close();
                     }
-                    
-
                 }
                 using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                 {
@@ -106,8 +104,8 @@ namespace AplicacionWebMVC.Controllers
                     
                     using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                     {
-                        string query = "INSERT INTO DetalleRequisicion (preRequisicion,requisicion,partida,material,cantidad,detalle,ejercicio,costoU,costoTotal,existencia,FechaUltimaEntrada,departamento) " +
-                            "VALUES(@preRequisicion, @requisicion, @partida, @material, @cantidad, @detalle, @ejercicio, @costoU, @costoTotal, @existencia, @FechaUltimaEntrada,@departamento)";
+                        string query = "INSERT INTO DetalleRequisicion (preRequisicion,requisicion,partida,material,cantidad,detalle,ejercicio,costoU,costoTotal,existencia,FechaUltimaEntrada,departamento,descripcion) " +
+                            "VALUES(@preRequisicion, @requisicion, @partida, @material, @cantidad, @detalle, @ejercicio, @costoU, @costoTotal, @existencia, @FechaUltimaEntrada,@departamento,@descripcion)";
                         query += " SELECT SCOPE_IDENTITY()";
                         using (SqlCommand cmd = new SqlCommand(query))
                         {
@@ -125,6 +123,7 @@ namespace AplicacionWebMVC.Controllers
                             cmd.Parameters.AddWithValue("@existencia", float.Parse(value.Existencia));
                             cmd.Parameters.AddWithValue("@FechaUltimaEntrada", Convert.ToDateTime("01/01/2017"));
                             cmd.Parameters.AddWithValue("@departamento", solicitud.departamento);
+                            cmd.Parameters.AddWithValue("@descripcion", value.Descripcion);
                             r =r+cmd.ExecuteScalar().ToString()+",";
                             con.Close();
                         }
