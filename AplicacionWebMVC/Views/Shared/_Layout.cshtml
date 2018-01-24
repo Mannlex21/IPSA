@@ -82,6 +82,10 @@
                                     </ul>
                                 </li>
                             }
+                            else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Proveedor"))
+                            {
+                                <li id="barProveedor" class="barElem">@Html.ActionLink("Proveedor", "Proveedor", "Proveedor")</li>
+                            }
                             <li id="barLogOut" class="barElem"><a href="@Url.Action("SignOut","Home")">Cerrar Sesión (@(User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Visitante"))</a></li>
                         }
                         else
@@ -134,10 +138,14 @@
                 } else if (res.indexOf("RevisionTotal") > -1) {
                     var d = document.getElementById("barRevision");
                     document.getElementById("barRevision2").className += ' active';
-                 } else if (res.indexOf("RevisionExterna") > -1) {
+                } else if (res.indexOf("RevisionExterna") > -1) {
                     var d = document.getElementById("barRevision");
                     document.getElementById("barRevision3").className += ' active';
-                } else {
+                }else if (res.indexOf("Proveedor") > -1) {
+                    var d = document.getElementById("barProveedor");
+                    document.getElementById("barProveedor").className += ' active';
+                } 
+                else {
                     var d = document.getElementById("bar" + r);
                 }
             }

@@ -171,6 +171,7 @@
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialesController.cs" />
+    <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\RequisicionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -466,6 +467,7 @@
     <Content Include="Views\Home\Revision.cshtml" />
     <Content Include="Views\Home\RevisionTotal.cshtml" />
     <Content Include="Views\Home\RevisionExterna.cshtml" />
+    <Content Include="Views\Proveedor\Proveedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

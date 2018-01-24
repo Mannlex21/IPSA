@@ -31,18 +31,18 @@ namespace AplicacionWebMVC.Controllers
         [HttpPost]
         public ActionResult Login(Usuarios usuario, string returnUrl)
         {
-            var Results = DB.Usuarios.Where(u => u.nombreUsuario == usuario.nombreUsuario && u.contrasena == usuario.contrasena).FirstOrDefault();
-            if (Results != null)
+            var Result = DB.Usuarios.Where(u => u.nombreUsuario == usuario.nombreUsuario && u.contrasena == usuario.contrasena).FirstOrDefault();
+            if (Result != null)
             {
-                FormsAuthentication.SetAuthCookie(Results.nombreUsuario, false);
+                FormsAuthentication.SetAuthCookie(Result.nombreUsuario, false);
                 if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                          && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
-                    return Redirect(returnUrl);
+                    return Redirect(returnUrl); 
                 }
                 else
                 {
-                    return RedirectToAction("Index");
+                   return RedirectToAction("Index");  
                 }
             }
             else
