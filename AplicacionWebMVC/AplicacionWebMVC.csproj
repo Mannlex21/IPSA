@@ -453,11 +453,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Solicitud.cshtml" />
-    <Content Include="Views\Materiales\Create.cshtml" />
-    <Content Include="Views\Materiales\Delete.cshtml" />
-    <Content Include="Views\Materiales\Details.cshtml" />
-    <Content Include="Views\Materiales\Edit.cshtml" />
-    <Content Include="Views\Materiales\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Registro.cshtml" />
@@ -467,7 +462,11 @@
     <Content Include="Views\Home\Revision.cshtml" />
     <Content Include="Views\Home\RevisionTotal.cshtml" />
     <Content Include="Views\Home\RevisionExterna.cshtml" />
-    <Content Include="Views\Proveedor\Proveedor.cshtml" />
+    <Content Include="Views\Proveedor\Cotizacion.cshtml" />
+    <Content Include="Views\Proveedor\Perfil.cshtml" />
+    <Content Include="Views\Proveedor\Invitacion.cshtml" />
+    <Content Include="Views\Proveedor\ListaProveedor.cshtml" />
+    <Content Include="Views\Proveedor\RegistroProveedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
