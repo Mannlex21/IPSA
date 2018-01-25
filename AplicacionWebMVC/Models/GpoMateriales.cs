@@ -14,6 +14,12 @@ namespace AplicacionWebMVC.Models
     
     public partial class GpoMateriales
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GpoMateriales()
+        {
+            this.SubGrupos = new HashSet<SubGrupos>();
+        }
+    
         public short numGpo { get; set; }
         public string descripcion { get; set; }
         public Nullable<int> cuenta_F_Z { get; set; }
@@ -50,5 +56,8 @@ namespace AplicacionWebMVC.Models
         public Nullable<int> subSubCuenta_D_R { get; set; }
         public Nullable<decimal> cantidad { get; set; }
         public Nullable<decimal> importe { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubGrupos> SubGrupos { get; set; }
     }
 }

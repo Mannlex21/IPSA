@@ -478,7 +478,7 @@ namespace AplicacionWebMVC.Controllers
                 Results = Results.OrderBy(s => s.detalle);
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
-            var r= Results.Select(
+            var r = Results.Select(
                 a => new
                 {
                     a.idDReq,
@@ -487,8 +487,8 @@ namespace AplicacionWebMVC.Controllers
                     a.cantidad,
                     a.costoU,
                     a.departamento,
-                    descripcion=a.Materiales.descripcion,
-                    idMaterial=a.Materiales.idMaterial
+                    descripcion = (DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().descripcion == null) ? a.descripcion : DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().descripcion,
+                    idMaterial = (DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().idMaterial == null) ? a.material : DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().idMaterial
                 });
             var jsonData = new
             {

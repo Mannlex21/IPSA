@@ -27,8 +27,8 @@ namespace AplicacionWebMVC.Models
         public Nullable<decimal> costoTotal { get; set; }
         public Nullable<decimal> existencia { get; set; }
         public Nullable<System.DateTime> FechaUltimaEntrada { get; set; }
+        public string descripcion { get; set; }
     
-        public virtual Materiales Materiales { get; set; }
         public virtual Solicitud_Requisiciones Solicitud_Requisiciones { get; set; }
     }
 }

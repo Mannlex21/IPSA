@@ -17,11 +17,10 @@ namespace AplicacionWebMVC.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Materiales()
         {
-            this.DetalleRequisicion = new HashSet<DetalleRequisicion>();
+            this.MaterialesContable = new HashSet<MaterialesContable>();
         }
     
         public int idMaterial { get; set; }
-        public int materialesCont { get; set; }
         public string uMedida { get; set; }
         public string descripcion { get; set; }
         public Nullable<decimal> maximo { get; set; }
@@ -39,9 +38,9 @@ namespace AplicacionWebMVC.Models
         public Nullable<decimal> pedidoEstandar { get; set; }
         public bool herramienta { get; set; }
         public string marca { get; set; }
+        public string materialReferencia { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleRequisicion> DetalleRequisicion { get; set; }
-        public virtual MaterialesContable MaterialesContable { get; set; }
+        public virtual ICollection<MaterialesContable> MaterialesContable { get; set; }
     }
 }

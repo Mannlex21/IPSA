@@ -106,8 +106,8 @@ namespace AplicacionWebMVC.Controllers
                     
                     using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                     {
-                        string query = "INSERT INTO DetalleRequisicion (preRequisicion,requisicion,partida,material,cantidad,detalle,ejercicio,costoU,costoTotal,existencia,FechaUltimaEntrada,departamento) " +
-                            "VALUES(@preRequisicion, @requisicion, @partida, @material, @cantidad, @detalle, @ejercicio, @costoU, @costoTotal, @existencia, @FechaUltimaEntrada,@departamento)";
+                        string query = "INSERT INTO DetalleRequisicion (preRequisicion,descripcion,requisicion,partida,material,cantidad,detalle,ejercicio,costoU,costoTotal,existencia,FechaUltimaEntrada,departamento) " +
+                            "VALUES(@preRequisicion,@descripcion, @requisicion, @partida, @material, @cantidad, @detalle, @ejercicio, @costoU, @costoTotal, @existencia, @FechaUltimaEntrada,@departamento)";
                         query += " SELECT SCOPE_IDENTITY()";
                         using (SqlCommand cmd = new SqlCommand(query))
                         {
@@ -119,6 +119,7 @@ namespace AplicacionWebMVC.Controllers
                             cmd.Parameters.AddWithValue("@material", Int32.Parse(value.Clave));
                             cmd.Parameters.AddWithValue("@cantidad", float.Parse(value.Cantidad));
                             cmd.Parameters.AddWithValue("@detalle", value.Detalle);
+                            cmd.Parameters.AddWithValue("@descripcion", value.Descripcion);
                             cmd.Parameters.AddWithValue("@ejercicio", solicitud.ejercicio);
                             cmd.Parameters.AddWithValue("@costoU", float.Parse(value.PrecioU));
                             cmd.Parameters.AddWithValue("@costoTotal", float.Parse(value.PrecioU)*float.Parse(value.Cantidad));

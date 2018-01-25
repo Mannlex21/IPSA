@@ -17,8 +17,8 @@ namespace AplicacionWebMVC.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Solicitud_Requisiciones()
         {
-            this.DetalleRequisicion = new HashSet<DetalleRequisicion>();
             this.DetalleRequisicion2 = new HashSet<DetalleRequisicion2>();
+            this.DetalleRequisicion = new HashSet<DetalleRequisicion>();
         }
     
         public int preRequisicion { get; set; }
@@ -42,8 +42,8 @@ namespace AplicacionWebMVC.Models
     
         public virtual Departamentos Departamentos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleRequisicion> DetalleRequisicion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleRequisicion2> DetalleRequisicion2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetalleRequisicion> DetalleRequisicion { get; set; }
     }
 }

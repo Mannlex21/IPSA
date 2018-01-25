@@ -45,6 +45,7 @@
           <Property Name="costoTotal" Type="money" />
           <Property Name="existencia" Type="money" />
           <Property Name="FechaUltimaEntrada" Type="datetime" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="DetalleRequisicion2">
           <Key>
@@ -120,7 +121,6 @@
             <PropertyRef Name="idMaterial" />
           </Key>
           <Property Name="idMaterial" Type="int" Nullable="false" />
-          <Property Name="materialesCont" Type="int" Nullable="false" />
           <Property Name="uMedida" Type="nvarchar" MaxLength="255" />
           <Property Name="descripcion" Type="nvarchar" MaxLength="255" />
           <Property Name="maximo" Type="money" />
@@ -138,18 +138,46 @@
           <Property Name="pedidoEstandar" Type="money" />
           <Property Name="herramienta" Type="bit" Nullable="false" />
           <Property Name="marca" Type="nvarchar" MaxLength="255" />
+          <Property Name="materialReferencia" Type="nchar" MaxLength="8" />
         </EntityType>
         <EntityType Name="MaterialesContable">
           <Key>
             <PropertyRef Name="idMaterialesCont" />
           </Key>
-          <Property Name="idMaterialesCont" Type="int" Nullable="false" />
-          <Property Name="lugar" Type="nvarchar" MaxLength="50" />
-          <Property Name="tipo" Type="nvarchar" MaxLength="30" />
-          <Property Name="cuenta" Type="int" />
-          <Property Name="aplicaCentCostob" Type="bit" />
-          <Property Name="subCuenta" Type="int" />
-          <Property Name="subSubCuenta" Type="int" />
+          <Property Name="idMaterialesCont" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idMaterial" Type="int" />
+          <Property Name="cuenta_F_Z" Type="int" />
+          <Property Name="aplicaCentCost_F_Z" Type="bit" />
+          <Property Name="subCuenta_F_Z" Type="int" />
+          <Property Name="subSubCuenta_F_Z" Type="int" />
+          <Property Name="cuenta_A_Z" Type="int" />
+          <Property Name="aplicaCentCost_A_Z" Type="bit" />
+          <Property Name="subCuenta_A_Z" Type="int" />
+          <Property Name="subSubCuenta_A_Z" Type="int" />
+          <Property Name="cuenta_C_Z" Type="int" />
+          <Property Name="aplicaCentCost_C_Z" Type="bit" />
+          <Property Name="subCuenta_C_Z" Type="int" />
+          <Property Name="subSubCuenta_C_Z" Type="int" />
+          <Property Name="cuenta_D_Z" Type="int" />
+          <Property Name="aplicaCentCost_D_Z" Type="bit" />
+          <Property Name="subCuenta_D_Z" Type="int" />
+          <Property Name="subSubCuenta_D_Z" Type="int" />
+          <Property Name="cuenta_F_R" Type="int" />
+          <Property Name="aplicaCentCost_F_R" Type="bit" />
+          <Property Name="subCuenta_F_R" Type="int" />
+          <Property Name="subSubCuenta_F_R" Type="int" />
+          <Property Name="cuenta_A_R" Type="int" />
+          <Property Name="aplicaCentCost_A_R" Type="bit" />
+          <Property Name="subCuenta_A_R" Type="int" />
+          <Property Name="subSubCuenta_A_R" Type="int" />
+          <Property Name="cuenta_C_R" Type="int" />
+          <Property Name="aplicaCentCost_C_R" Type="bit" />
+          <Property Name="subCuenta_C_R" Type="int" />
+          <Property Name="subSubCuenta_C_R" Type="int" />
+          <Property Name="cuenta_D_R" Type="int" />
+          <Property Name="aplicaCentCost_D_R" Type="bit" />
+          <Property Name="subCuenta_D_R" Type="int" />
+          <Property Name="subSubCuenta_D_R" Type="int" />
         </EntityType>
         <EntityType Name="Solicitud_Requisiciones">
           <Key>
@@ -207,18 +235,6 @@
           <Property Name="Role" Type="nvarchar" MaxLength="100" />
           <Property Name="departamento" Type="int" />
         </EntityType>
-        <Association Name="FK_DetalleRequisicion_Materiales">
-          <End Role="Materiales" Type="Self.Materiales" Multiplicity="0..1" />
-          <End Role="DetalleRequisicion" Type="Self.DetalleRequisicion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Materiales">
-              <PropertyRef Name="idMaterial" />
-            </Principal>
-            <Dependent Role="DetalleRequisicion">
-              <PropertyRef Name="material" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DetalleRequisicion_Solicitud">
           <End Role="Solicitud_Requisiciones" Type="Self.Solicitud_Requisiciones" Multiplicity="1" />
           <End Role="DetalleRequisicion2" Type="Self.DetalleRequisicion2" Multiplicity="*" />
@@ -263,15 +279,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Materiales_MaContables">
-          <End Role="MaterialesContable" Type="Self.MaterialesContable" Multiplicity="1" />
-          <End Role="Materiales" Type="Self.Materiales" Multiplicity="*" />
+        <Association Name="FK_MaterialesContable_Materiales">
+          <End Role="Materiales" Type="Self.Materiales" Multiplicity="0..1" />
+          <End Role="MaterialesContable" Type="Self.MaterialesContable" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MaterialesContable">
-              <PropertyRef Name="idMaterialesCont" />
+            <Principal Role="Materiales">
+              <PropertyRef Name="idMaterial" />
             </Principal>
-            <Dependent Role="Materiales">
-              <PropertyRef Name="materialesCont" />
+            <Dependent Role="MaterialesContable">
+              <PropertyRef Name="idMaterial" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -284,6 +300,18 @@
             </Principal>
             <Dependent Role="Solicitud_Requisiciones">
               <PropertyRef Name="departamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubGrupos_Grupos">
+          <End Role="GpoMateriales" Type="Self.GpoMateriales" Multiplicity="1" />
+          <End Role="SubGrupos" Type="Self.SubGrupos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GpoMateriales">
+              <PropertyRef Name="numGpo" />
+            </Principal>
+            <Dependent Role="SubGrupos">
+              <PropertyRef Name="grupo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -300,10 +328,6 @@
           <EntitySet Name="SubGrupos" EntityType="Self.SubGrupos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_DetalleRequisicion_Materiales" Association="Self.FK_DetalleRequisicion_Materiales">
-            <End Role="Materiales" EntitySet="Materiales" />
-            <End Role="DetalleRequisicion" EntitySet="DetalleRequisicion" />
-          </AssociationSet>
           <AssociationSet Name="FK_DetalleRequisicion_Solicitud" Association="Self.FK_DetalleRequisicion_Solicitud">
             <End Role="Solicitud_Requisiciones" EntitySet="Solicitud_Requisiciones" />
             <End Role="DetalleRequisicion2" EntitySet="DetalleRequisicion2" />
@@ -316,13 +340,17 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
           </AssociationSet>
-          <AssociationSet Name="FK_Materiales_MaContables" Association="Self.FK_Materiales_MaContables">
-            <End Role="MaterialesContable" EntitySet="MaterialesContable" />
+          <AssociationSet Name="FK_MaterialesContable_Materiales" Association="Self.FK_MaterialesContable_Materiales">
             <End Role="Materiales" EntitySet="Materiales" />
+            <End Role="MaterialesContable" EntitySet="MaterialesContable" />
           </AssociationSet>
           <AssociationSet Name="FK_SolicitudRequisiciones_Departamento" Association="Self.FK_SolicitudRequisiciones_Departamento">
             <End Role="Departamentos" EntitySet="Departamentos" />
             <End Role="Solicitud_Requisiciones" EntitySet="Solicitud_Requisiciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubGrupos_Grupos" Association="Self.FK_SubGrupos_Grupos">
+            <End Role="GpoMateriales" EntitySet="GpoMateriales" />
+            <End Role="SubGrupos" EntitySet="SubGrupos" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -332,12 +360,9 @@
         <EntityContainer Name="AlmacenEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Configuracion" EntityType="bdAdquisicionMaterialModel.Configuracion" />
           <EntitySet Name="Departamentos" EntityType="bdAdquisicionMaterialModel.Departamentos" />
-          <EntitySet Name="DetalleRequisicion" EntityType="bdAdquisicionMaterialModel.DetalleRequisicion" />
           <EntitySet Name="DetalleRequisicion2" EntityType="bdAdquisicionMaterialModel.DetalleRequisicion2" />
           <EntitySet Name="DetallesUsuarios" EntityType="bdAdquisicionMaterialModel.DetallesUsuarios" />
           <EntitySet Name="GpoMateriales" EntityType="bdAdquisicionMaterialModel.GpoMateriales" />
-          <EntitySet Name="Materiales" EntityType="bdAdquisicionMaterialModel.Materiales" />
-          <EntitySet Name="MaterialesContable" EntityType="bdAdquisicionMaterialModel.MaterialesContable" />
           <EntitySet Name="Solicitud_Requisiciones" EntityType="bdAdquisicionMaterialModel.Solicitud_Requisiciones" />
           <EntitySet Name="SubGrupos" EntityType="bdAdquisicionMaterialModel.SubGrupos" />
           <EntitySet Name="sysdiagrams" EntityType="bdAdquisicionMaterialModel.sysdiagrams" />
@@ -345,14 +370,6 @@
           <AssociationSet Name="FK_SolicitudRequisiciones_Departamento" Association="bdAdquisicionMaterialModel.FK_SolicitudRequisiciones_Departamento">
             <End Role="Departamentos" EntitySet="Departamentos" />
             <End Role="Solicitud_Requisiciones" EntitySet="Solicitud_Requisiciones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleRequisicion_Materiales" Association="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Materiales">
-            <End Role="Materiales" EntitySet="Materiales" />
-            <End Role="DetalleRequisicion" EntitySet="DetalleRequisicion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleRequisicion_Solicitud2" Association="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud2">
-            <End Role="Solicitud_Requisiciones" EntitySet="Solicitud_Requisiciones" />
-            <End Role="DetalleRequisicion" EntitySet="DetalleRequisicion" />
           </AssociationSet>
           <AssociationSet Name="FK_DetalleRequisicion_Solicitud" Association="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud">
             <End Role="Solicitud_Requisiciones" EntitySet="Solicitud_Requisiciones" />
@@ -362,9 +379,20 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="DetallesUsuarios" EntitySet="DetallesUsuarios" />
           </AssociationSet>
-          <AssociationSet Name="FK_Materiales_MaContables" Association="bdAdquisicionMaterialModel.FK_Materiales_MaContables">
-            <End Role="MaterialesContable" EntitySet="MaterialesContable" />
+          <AssociationSet Name="FK_SubGrupos_Grupos" Association="bdAdquisicionMaterialModel.FK_SubGrupos_Grupos">
+            <End Role="GpoMateriales" EntitySet="GpoMateriales" />
+            <End Role="SubGrupos" EntitySet="SubGrupos" />
+          </AssociationSet>
+          <EntitySet Name="Materiales" EntityType="bdAdquisicionMaterialModel.Materiales" />
+          <EntitySet Name="MaterialesContable" EntityType="bdAdquisicionMaterialModel.MaterialesContable" />
+          <AssociationSet Name="FK_MaterialesContable_Materiales" Association="bdAdquisicionMaterialModel.FK_MaterialesContable_Materiales">
             <End Role="Materiales" EntitySet="Materiales" />
+            <End Role="MaterialesContable" EntitySet="MaterialesContable" />
+          </AssociationSet>
+          <EntitySet Name="DetalleRequisicion" EntityType="bdAdquisicionMaterialModel.DetalleRequisicion" />
+          <AssociationSet Name="FK_DetalleRequisicion_Solicitud2" Association="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud2">
+            <End Role="Solicitud_Requisiciones" EntitySet="Solicitud_Requisiciones" />
+            <End Role="DetalleRequisicion" EntitySet="DetalleRequisicion" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Configuracion">
@@ -390,26 +418,6 @@
           <Property Name="area" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
           <Property Name="descripcion" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Solicitud_Requisiciones" Relationship="bdAdquisicionMaterialModel.FK_SolicitudRequisiciones_Departamento" FromRole="Departamentos" ToRole="Solicitud_Requisiciones" />
-        </EntityType>
-        <EntityType Name="DetalleRequisicion">
-          <Key>
-            <PropertyRef Name="idDReq" />
-          </Key>
-          <Property Name="idDReq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="preRequisicion" Type="Int32" />
-          <Property Name="requisicion" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="partida" Type="Int16" />
-          <Property Name="departamento" Type="Int16" />
-          <Property Name="material" Type="Int32" />
-          <Property Name="cantidad" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="detalle" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ejercicio" Type="Int32" />
-          <Property Name="costoU" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="costoTotal" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="existencia" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="FechaUltimaEntrada" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Materiales" Relationship="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Materiales" FromRole="DetalleRequisicion" ToRole="Materiales" />
-          <NavigationProperty Name="Solicitud_Requisiciones" Relationship="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud2" FromRole="DetalleRequisicion" ToRole="Solicitud_Requisiciones" />
         </EntityType>
         <EntityType Name="DetalleRequisicion2">
           <Key>
@@ -481,45 +489,7 @@
           <Property Name="subSubCuenta_D_R" Type="Int32" />
           <Property Name="cantidad" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="importe" Type="Decimal" Precision="19" Scale="4" />
-        </EntityType>
-        <EntityType Name="Materiales">
-          <Key>
-            <PropertyRef Name="idMaterial" />
-          </Key>
-          <Property Name="idMaterial" Type="Int32" Nullable="false" />
-          <Property Name="materialesCont" Type="Int32" Nullable="false" />
-          <Property Name="uMedida" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="maximo" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="minimo" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="costoProm" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="costoPromAnt" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="importe" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="existencia" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="localizacion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="cantIni" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="importeIni" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="fechaUltimoMov" Type="DateTime" Precision="3" />
-          <Property Name="seguridadInd" Type="Boolean" Nullable="false" />
-          <Property Name="puntoPedido" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="pedidoEstandar" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="herramienta" Type="Boolean" Nullable="false" />
-          <Property Name="marca" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="DetalleRequisicion" Relationship="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Materiales" FromRole="Materiales" ToRole="DetalleRequisicion" />
-          <NavigationProperty Name="MaterialesContable" Relationship="bdAdquisicionMaterialModel.FK_Materiales_MaContables" FromRole="Materiales" ToRole="MaterialesContable" />
-        </EntityType>
-        <EntityType Name="MaterialesContable">
-          <Key>
-            <PropertyRef Name="idMaterialesCont" />
-          </Key>
-          <Property Name="idMaterialesCont" Type="Int32" Nullable="false" />
-          <Property Name="lugar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="tipo" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="cuenta" Type="Int32" />
-          <Property Name="aplicaCentCostob" Type="Boolean" />
-          <Property Name="subCuenta" Type="Int32" />
-          <Property Name="subSubCuenta" Type="Int32" />
-          <NavigationProperty Name="Materiales" Relationship="bdAdquisicionMaterialModel.FK_Materiales_MaContables" FromRole="MaterialesContable" ToRole="Materiales" />
+          <NavigationProperty Name="SubGrupos" Relationship="bdAdquisicionMaterialModel.FK_SubGrupos_Grupos" FromRole="GpoMateriales" ToRole="SubGrupos" />
         </EntityType>
         <EntityType Name="Solicitud_Requisiciones">
           <Key>
@@ -546,8 +516,8 @@
           <Property Name="liberaElectrico" Type="Boolean" />
           <Property Name="liberaAlmacen" Type="Boolean" />
           <NavigationProperty Name="Departamentos" Relationship="bdAdquisicionMaterialModel.FK_SolicitudRequisiciones_Departamento" FromRole="Solicitud_Requisiciones" ToRole="Departamentos" />
-          <NavigationProperty Name="DetalleRequisicion" Relationship="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud2" FromRole="Solicitud_Requisiciones" ToRole="DetalleRequisicion" />
           <NavigationProperty Name="DetalleRequisicion2" Relationship="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud" FromRole="Solicitud_Requisiciones" ToRole="DetalleRequisicion2" />
+          <NavigationProperty Name="DetalleRequisicion" Relationship="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud2" FromRole="Solicitud_Requisiciones" ToRole="DetalleRequisicion" />
         </EntityType>
         <EntityType Name="SubGrupos">
           <Key>
@@ -557,6 +527,7 @@
           <Property Name="grupo" Type="Int16" Nullable="false" />
           <Property Name="subGrupo" Type="Int16" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GpoMateriales" Relationship="bdAdquisicionMaterialModel.FK_SubGrupos_Grupos" FromRole="SubGrupos" ToRole="GpoMateriales" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -593,34 +564,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DetalleRequisicion_Materiales">
-          <End Type="bdAdquisicionMaterialModel.Materiales" Role="Materiales" Multiplicity="0..1" />
-          <End Type="bdAdquisicionMaterialModel.DetalleRequisicion" Role="DetalleRequisicion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Materiales">
-              <PropertyRef Name="idMaterial" />
-            </Principal>
-            <Dependent Role="DetalleRequisicion">
-              <PropertyRef Name="material" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleRequisicion_Solicitud2">
-          <End Type="bdAdquisicionMaterialModel.Solicitud_Requisiciones" Role="Solicitud_Requisiciones" Multiplicity="0..1" />
-          <End Type="bdAdquisicionMaterialModel.DetalleRequisicion" Role="DetalleRequisicion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Solicitud_Requisiciones">
-              <PropertyRef Name="preRequisicion" />
-              <PropertyRef Name="departamento" />
-              <PropertyRef Name="ejercicio" />
-            </Principal>
-            <Dependent Role="DetalleRequisicion">
-              <PropertyRef Name="preRequisicion" />
-              <PropertyRef Name="departamento" />
-              <PropertyRef Name="ejercicio" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DetalleRequisicion_Solicitud">
           <End Type="bdAdquisicionMaterialModel.Solicitud_Requisiciones" Role="Solicitud_Requisiciones" Multiplicity="1" />
           <End Type="bdAdquisicionMaterialModel.DetalleRequisicion2" Role="DetalleRequisicion2" Multiplicity="*" />
@@ -649,15 +592,128 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Materiales_MaContables">
-          <End Type="bdAdquisicionMaterialModel.MaterialesContable" Role="MaterialesContable" Multiplicity="1" />
-          <End Type="bdAdquisicionMaterialModel.Materiales" Role="Materiales" Multiplicity="*" />
+        <Association Name="FK_SubGrupos_Grupos">
+          <End Type="bdAdquisicionMaterialModel.GpoMateriales" Role="GpoMateriales" Multiplicity="1" />
+          <End Type="bdAdquisicionMaterialModel.SubGrupos" Role="SubGrupos" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MaterialesContable">
-              <PropertyRef Name="idMaterialesCont" />
+            <Principal Role="GpoMateriales">
+              <PropertyRef Name="numGpo" />
             </Principal>
-            <Dependent Role="Materiales">
-              <PropertyRef Name="materialesCont" />
+            <Dependent Role="SubGrupos">
+              <PropertyRef Name="grupo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Materiales">
+          <Key>
+            <PropertyRef Name="idMaterial" />
+          </Key>
+          <Property Name="idMaterial" Type="Int32" Nullable="false" />
+          <Property Name="uMedida" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="maximo" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="minimo" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="costoProm" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="costoPromAnt" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="importe" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="existencia" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="localizacion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="cantIni" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="importeIni" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="fechaUltimoMov" Type="DateTime" Precision="3" />
+          <Property Name="seguridadInd" Type="Boolean" Nullable="false" />
+          <Property Name="puntoPedido" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="pedidoEstandar" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="herramienta" Type="Boolean" Nullable="false" />
+          <Property Name="marca" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="materialReferencia" Type="String" MaxLength="8" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="MaterialesContable" Relationship="bdAdquisicionMaterialModel.FK_MaterialesContable_Materiales" FromRole="Materiales" ToRole="MaterialesContable" />
+        </EntityType>
+        <EntityType Name="MaterialesContable">
+          <Key>
+            <PropertyRef Name="idMaterialesCont" />
+          </Key>
+          <Property Name="idMaterialesCont" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idMaterial" Type="Int32" />
+          <Property Name="cuenta_F_Z" Type="Int32" />
+          <Property Name="aplicaCentCost_F_Z" Type="Boolean" />
+          <Property Name="subCuenta_F_Z" Type="Int32" />
+          <Property Name="subSubCuenta_F_Z" Type="Int32" />
+          <Property Name="cuenta_A_Z" Type="Int32" />
+          <Property Name="aplicaCentCost_A_Z" Type="Boolean" />
+          <Property Name="subCuenta_A_Z" Type="Int32" />
+          <Property Name="subSubCuenta_A_Z" Type="Int32" />
+          <Property Name="cuenta_C_Z" Type="Int32" />
+          <Property Name="aplicaCentCost_C_Z" Type="Boolean" />
+          <Property Name="subCuenta_C_Z" Type="Int32" />
+          <Property Name="subSubCuenta_C_Z" Type="Int32" />
+          <Property Name="cuenta_D_Z" Type="Int32" />
+          <Property Name="aplicaCentCost_D_Z" Type="Boolean" />
+          <Property Name="subCuenta_D_Z" Type="Int32" />
+          <Property Name="subSubCuenta_D_Z" Type="Int32" />
+          <Property Name="cuenta_F_R" Type="Int32" />
+          <Property Name="aplicaCentCost_F_R" Type="Boolean" />
+          <Property Name="subCuenta_F_R" Type="Int32" />
+          <Property Name="subSubCuenta_F_R" Type="Int32" />
+          <Property Name="cuenta_A_R" Type="Int32" />
+          <Property Name="aplicaCentCost_A_R" Type="Boolean" />
+          <Property Name="subCuenta_A_R" Type="Int32" />
+          <Property Name="subSubCuenta_A_R" Type="Int32" />
+          <Property Name="cuenta_C_R" Type="Int32" />
+          <Property Name="aplicaCentCost_C_R" Type="Boolean" />
+          <Property Name="subCuenta_C_R" Type="Int32" />
+          <Property Name="subSubCuenta_C_R" Type="Int32" />
+          <Property Name="cuenta_D_R" Type="Int32" />
+          <Property Name="aplicaCentCost_D_R" Type="Boolean" />
+          <Property Name="subCuenta_D_R" Type="Int32" />
+          <Property Name="subSubCuenta_D_R" Type="Int32" />
+          <NavigationProperty Name="Materiales" Relationship="bdAdquisicionMaterialModel.FK_MaterialesContable_Materiales" FromRole="MaterialesContable" ToRole="Materiales" />
+        </EntityType>
+        <Association Name="FK_MaterialesContable_Materiales">
+          <End Type="bdAdquisicionMaterialModel.Materiales" Role="Materiales" Multiplicity="0..1" />
+          <End Type="bdAdquisicionMaterialModel.MaterialesContable" Role="MaterialesContable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materiales">
+              <PropertyRef Name="idMaterial" />
+            </Principal>
+            <Dependent Role="MaterialesContable">
+              <PropertyRef Name="idMaterial" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DetalleRequisicion">
+          <Key>
+            <PropertyRef Name="idDReq" />
+          </Key>
+          <Property Name="idDReq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="preRequisicion" Type="Int32" />
+          <Property Name="requisicion" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="partida" Type="Int16" />
+          <Property Name="departamento" Type="Int16" />
+          <Property Name="material" Type="Int32" />
+          <Property Name="cantidad" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="detalle" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ejercicio" Type="Int32" />
+          <Property Name="costoU" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="costoTotal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="existencia" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="FechaUltimaEntrada" Type="DateTime" Precision="3" />
+          <Property Name="descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Solicitud_Requisiciones" Relationship="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud2" FromRole="DetalleRequisicion" ToRole="Solicitud_Requisiciones" />
+        </EntityType>
+        <Association Name="FK_DetalleRequisicion_Solicitud2">
+          <End Type="bdAdquisicionMaterialModel.Solicitud_Requisiciones" Role="Solicitud_Requisiciones" Multiplicity="0..1" />
+          <End Type="bdAdquisicionMaterialModel.DetalleRequisicion" Role="DetalleRequisicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solicitud_Requisiciones">
+              <PropertyRef Name="preRequisicion" />
+              <PropertyRef Name="departamento" />
+              <PropertyRef Name="ejercicio" />
+            </Principal>
+            <Dependent Role="DetalleRequisicion">
+              <PropertyRef Name="preRequisicion" />
+              <PropertyRef Name="departamento" />
+              <PropertyRef Name="ejercicio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -689,25 +745,6 @@
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="area" ColumnName="area" />
                 <ScalarProperty Name="idDepartamento" ColumnName="idDepartamento" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DetalleRequisicion">
-            <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.DetalleRequisicion">
-              <MappingFragment StoreEntitySet="DetalleRequisicion">
-                <ScalarProperty Name="FechaUltimaEntrada" ColumnName="FechaUltimaEntrada" />
-                <ScalarProperty Name="existencia" ColumnName="existencia" />
-                <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
-                <ScalarProperty Name="costoU" ColumnName="costoU" />
-                <ScalarProperty Name="ejercicio" ColumnName="ejercicio" />
-                <ScalarProperty Name="detalle" ColumnName="detalle" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="material" ColumnName="material" />
-                <ScalarProperty Name="departamento" ColumnName="departamento" />
-                <ScalarProperty Name="partida" ColumnName="partida" />
-                <ScalarProperty Name="requisicion" ColumnName="requisicion" />
-                <ScalarProperty Name="preRequisicion" ColumnName="preRequisicion" />
-                <ScalarProperty Name="idDReq" ColumnName="idDReq" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -783,44 +820,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Materiales">
-            <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.Materiales">
-              <MappingFragment StoreEntitySet="Materiales">
-                <ScalarProperty Name="marca" ColumnName="marca" />
-                <ScalarProperty Name="herramienta" ColumnName="herramienta" />
-                <ScalarProperty Name="pedidoEstandar" ColumnName="pedidoEstandar" />
-                <ScalarProperty Name="puntoPedido" ColumnName="puntoPedido" />
-                <ScalarProperty Name="seguridadInd" ColumnName="seguridadInd" />
-                <ScalarProperty Name="fechaUltimoMov" ColumnName="fechaUltimoMov" />
-                <ScalarProperty Name="importeIni" ColumnName="importeIni" />
-                <ScalarProperty Name="cantIni" ColumnName="cantIni" />
-                <ScalarProperty Name="localizacion" ColumnName="localizacion" />
-                <ScalarProperty Name="existencia" ColumnName="existencia" />
-                <ScalarProperty Name="importe" ColumnName="importe" />
-                <ScalarProperty Name="costoPromAnt" ColumnName="costoPromAnt" />
-                <ScalarProperty Name="costoProm" ColumnName="costoProm" />
-                <ScalarProperty Name="minimo" ColumnName="minimo" />
-                <ScalarProperty Name="maximo" ColumnName="maximo" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="uMedida" ColumnName="uMedida" />
-                <ScalarProperty Name="materialesCont" ColumnName="materialesCont" />
-                <ScalarProperty Name="idMaterial" ColumnName="idMaterial" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MaterialesContable">
-            <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.MaterialesContable">
-              <MappingFragment StoreEntitySet="MaterialesContable">
-                <ScalarProperty Name="subSubCuenta" ColumnName="subSubCuenta" />
-                <ScalarProperty Name="subCuenta" ColumnName="subCuenta" />
-                <ScalarProperty Name="aplicaCentCostob" ColumnName="aplicaCentCostob" />
-                <ScalarProperty Name="cuenta" ColumnName="cuenta" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="lugar" ColumnName="lugar" />
-                <ScalarProperty Name="idMaterialesCont" ColumnName="idMaterialesCont" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Solicitud_Requisiciones">
             <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.Solicitud_Requisiciones">
               <MappingFragment StoreEntitySet="Solicitud_Requisiciones">
@@ -875,6 +874,91 @@
                 <ScalarProperty Name="contrasena" ColumnName="contrasena" />
                 <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materiales">
+            <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.Materiales">
+              <MappingFragment StoreEntitySet="Materiales">
+                <ScalarProperty Name="materialReferencia" ColumnName="materialReferencia" />
+                <ScalarProperty Name="marca" ColumnName="marca" />
+                <ScalarProperty Name="herramienta" ColumnName="herramienta" />
+                <ScalarProperty Name="pedidoEstandar" ColumnName="pedidoEstandar" />
+                <ScalarProperty Name="puntoPedido" ColumnName="puntoPedido" />
+                <ScalarProperty Name="seguridadInd" ColumnName="seguridadInd" />
+                <ScalarProperty Name="fechaUltimoMov" ColumnName="fechaUltimoMov" />
+                <ScalarProperty Name="importeIni" ColumnName="importeIni" />
+                <ScalarProperty Name="cantIni" ColumnName="cantIni" />
+                <ScalarProperty Name="localizacion" ColumnName="localizacion" />
+                <ScalarProperty Name="existencia" ColumnName="existencia" />
+                <ScalarProperty Name="importe" ColumnName="importe" />
+                <ScalarProperty Name="costoPromAnt" ColumnName="costoPromAnt" />
+                <ScalarProperty Name="costoProm" ColumnName="costoProm" />
+                <ScalarProperty Name="minimo" ColumnName="minimo" />
+                <ScalarProperty Name="maximo" ColumnName="maximo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="uMedida" ColumnName="uMedida" />
+                <ScalarProperty Name="idMaterial" ColumnName="idMaterial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialesContable">
+            <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.MaterialesContable">
+              <MappingFragment StoreEntitySet="MaterialesContable">
+                <ScalarProperty Name="subSubCuenta_D_R" ColumnName="subSubCuenta_D_R" />
+                <ScalarProperty Name="subCuenta_D_R" ColumnName="subCuenta_D_R" />
+                <ScalarProperty Name="aplicaCentCost_D_R" ColumnName="aplicaCentCost_D_R" />
+                <ScalarProperty Name="cuenta_D_R" ColumnName="cuenta_D_R" />
+                <ScalarProperty Name="subSubCuenta_C_R" ColumnName="subSubCuenta_C_R" />
+                <ScalarProperty Name="subCuenta_C_R" ColumnName="subCuenta_C_R" />
+                <ScalarProperty Name="aplicaCentCost_C_R" ColumnName="aplicaCentCost_C_R" />
+                <ScalarProperty Name="cuenta_C_R" ColumnName="cuenta_C_R" />
+                <ScalarProperty Name="subSubCuenta_A_R" ColumnName="subSubCuenta_A_R" />
+                <ScalarProperty Name="subCuenta_A_R" ColumnName="subCuenta_A_R" />
+                <ScalarProperty Name="aplicaCentCost_A_R" ColumnName="aplicaCentCost_A_R" />
+                <ScalarProperty Name="cuenta_A_R" ColumnName="cuenta_A_R" />
+                <ScalarProperty Name="subSubCuenta_F_R" ColumnName="subSubCuenta_F_R" />
+                <ScalarProperty Name="subCuenta_F_R" ColumnName="subCuenta_F_R" />
+                <ScalarProperty Name="aplicaCentCost_F_R" ColumnName="aplicaCentCost_F_R" />
+                <ScalarProperty Name="cuenta_F_R" ColumnName="cuenta_F_R" />
+                <ScalarProperty Name="subSubCuenta_D_Z" ColumnName="subSubCuenta_D_Z" />
+                <ScalarProperty Name="subCuenta_D_Z" ColumnName="subCuenta_D_Z" />
+                <ScalarProperty Name="aplicaCentCost_D_Z" ColumnName="aplicaCentCost_D_Z" />
+                <ScalarProperty Name="cuenta_D_Z" ColumnName="cuenta_D_Z" />
+                <ScalarProperty Name="subSubCuenta_C_Z" ColumnName="subSubCuenta_C_Z" />
+                <ScalarProperty Name="subCuenta_C_Z" ColumnName="subCuenta_C_Z" />
+                <ScalarProperty Name="aplicaCentCost_C_Z" ColumnName="aplicaCentCost_C_Z" />
+                <ScalarProperty Name="cuenta_C_Z" ColumnName="cuenta_C_Z" />
+                <ScalarProperty Name="subSubCuenta_A_Z" ColumnName="subSubCuenta_A_Z" />
+                <ScalarProperty Name="subCuenta_A_Z" ColumnName="subCuenta_A_Z" />
+                <ScalarProperty Name="aplicaCentCost_A_Z" ColumnName="aplicaCentCost_A_Z" />
+                <ScalarProperty Name="cuenta_A_Z" ColumnName="cuenta_A_Z" />
+                <ScalarProperty Name="subSubCuenta_F_Z" ColumnName="subSubCuenta_F_Z" />
+                <ScalarProperty Name="subCuenta_F_Z" ColumnName="subCuenta_F_Z" />
+                <ScalarProperty Name="aplicaCentCost_F_Z" ColumnName="aplicaCentCost_F_Z" />
+                <ScalarProperty Name="cuenta_F_Z" ColumnName="cuenta_F_Z" />
+                <ScalarProperty Name="idMaterial" ColumnName="idMaterial" />
+                <ScalarProperty Name="idMaterialesCont" ColumnName="idMaterialesCont" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleRequisicion">
+            <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.DetalleRequisicion">
+              <MappingFragment StoreEntitySet="DetalleRequisicion">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="FechaUltimaEntrada" ColumnName="FechaUltimaEntrada" />
+                <ScalarProperty Name="existencia" ColumnName="existencia" />
+                <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+                <ScalarProperty Name="costoU" ColumnName="costoU" />
+                <ScalarProperty Name="ejercicio" ColumnName="ejercicio" />
+                <ScalarProperty Name="detalle" ColumnName="detalle" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="material" ColumnName="material" />
+                <ScalarProperty Name="departamento" ColumnName="departamento" />
+                <ScalarProperty Name="partida" ColumnName="partida" />
+                <ScalarProperty Name="requisicion" ColumnName="requisicion" />
+                <ScalarProperty Name="preRequisicion" ColumnName="preRequisicion" />
+                <ScalarProperty Name="idDReq" ColumnName="idDReq" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
