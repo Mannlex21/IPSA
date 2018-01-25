@@ -12,9 +12,15 @@ namespace AplicacionWebMVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class ContactoProveedores
     {
-        public int idUsuarios { get; set; }
-        public Nullable<int> Proveedor { get; set; }
+        public int idContactos { get; set; }
+        public Nullable<int> proveedor { get; set; }
+        public string nombre { get; set; }
+        public string correo1 { get; set; }
+        public string correo2 { get; set; }
+        public string telefono { get; set; }
+    
+        public virtual Proveedores Proveedores { get; set; }
     }
 }

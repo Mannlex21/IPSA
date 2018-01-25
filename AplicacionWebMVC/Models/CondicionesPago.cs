@@ -12,9 +12,12 @@ namespace AplicacionWebMVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class CondicionesPago
     {
-        public int idUsuarios { get; set; }
-        public Nullable<int> Proveedor { get; set; }
+        public short codigo { get; set; }
+        public string descripcion { get; set; }
+        public Nullable<short> dias { get; set; }
+        public Nullable<bool> anticipo { get; set; }
+        public Nullable<short> porcentaje { get; set; }
     }
 }

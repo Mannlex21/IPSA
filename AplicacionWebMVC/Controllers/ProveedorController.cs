@@ -16,6 +16,7 @@ namespace AplicacionWebMVC.Controllers
     public class ProveedorController : Controller
     {
         AlmacenEntities DB = new AlmacenEntities();
+        ComprasEntities DBC = new ComprasEntities();
         // GET: Proveedor
         [Authorize(Roles = "Admin, Proveedor")]
         public ActionResult Cotizacion()
@@ -45,7 +46,7 @@ namespace AplicacionWebMVC.Controllers
         [HttpPost]
         public ActionResult RegistroProveedor(Usuarios usuario, string user, FormCollection frm)
         {
-            String f = frm["tipo"];
+            int idProveedor = Int32.Parse(frm["proveedor"]);
             usuario.registradoPor = user;
             int idUsuario = 0;
             System.Console.WriteLine(usuario);
@@ -62,8 +63,17 @@ namespace AplicacionWebMVC.Controllers
                             db.SaveChanges();
                             idUsuario = usuario.idUsuario;
                             String s;
+                            Usuario up = new Usuario();
+                            up.idUsuarios = idUsuario;
+                            up.Proveedor = idProveedor;
                             
-                            ModelState.Clear();
+                            using (ComprasEntities dbc = new ComprasEntities())
+                            {
+                                dbc.Usuario.Add(up);
+                                dbc.SaveChanges();
+                            }
+
+                                ModelState.Clear();
                             ViewBag.Message = "";
                             return RedirectToAction("ListaUsuarios");
                         }
@@ -94,6 +104,85 @@ namespace AplicacionWebMVC.Controllers
 
             }
             return View();
+        }
+        public ActionResult DeleteUsuarioP(int id, string username)
+        {
+            try
+            {
+                var context = new ComprasEntities();
+                var connection = context.Database.Connection;
+                if (DB.Usuarios.Find(id).nombreUsuario.ToString() == username)
+                {
+                    Usuario usuarioPConex = DBC.Usuario.Find(id);
+                    if (usuarioPConex != null)
+                    {
+                        DBC.Usuario.Remove(usuarioPConex);
+                        DBC.SaveChanges();
+                    }
+                    Usuarios usuarioP = DB.Usuarios.Find(id);
+                    if (usuarioP != null)
+                    {
+                        DB.Usuarios.Remove(usuarioP);
+                        DB.SaveChanges();
+                    }
+                    return RedirectToAction("SignOut");
+                }
+                else
+                {
+                    Usuario usuarioPConex = DBC.Usuario.Find(id);
+                    if (usuarioPConex!=null)
+                    {
+                        DBC.Usuario.Remove(usuarioPConex);
+                        DBC.SaveChanges();
+                    }
+                    Usuarios usuarioP = DB.Usuarios.Find(id);
+                    if (usuarioP != null)
+                    {
+                        DB.Usuarios.Remove(usuarioP);
+                        DB.SaveChanges();
+                    }
+                    return RedirectToAction("ListaUsuarios");
+                }
+            }
+            catch (DataException/* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                return RedirectToAction("ListaUsuarios", new { id = id, saveChangesError = true });
+            }
+
+        }
+        public JsonResult GetProveedores(string sidx, string sord, int page, int rows) //Gets the todo Lists.  
+        {
+            int pageIndex = Convert.ToInt32(page) - 1;
+            int pageSize = rows;
+            var Results = DBC.Proveedores.Select(
+                a => new
+                {
+                    a.proveedor,
+                    a.razSoc,
+                    a.razSoc2
+                });
+            int totalRecords = Results.Count();
+            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
+
+            if (sord.ToUpper() == "DESC")
+            {
+                Results = Results.OrderByDescending(s => s.proveedor);
+                Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+            else
+            {
+                Results = Results.OrderBy(s => s.proveedor);
+                Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
+            }
+            var jsonData = new
+            {
+                total = totalPages,
+                page = page,
+                records = totalRecords,
+                rows = Results
+            };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
     }
 }

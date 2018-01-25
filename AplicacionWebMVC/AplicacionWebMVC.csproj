@@ -192,8 +192,29 @@
       <DependentUpon>Almacen.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Checks.cs" />
+    <Compile Include="Models\Compras.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Compras.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Compras.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Compras.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Compras.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Compras.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CondicionesPago.cs">
+      <DependentUpon>Compras.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Configuracion.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContactoProveedores.cs">
+      <DependentUpon>Compras.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Departamentos.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
@@ -219,6 +240,9 @@
     </Compile>
     <Compile Include="Models\OurDbContext.cs" />
     <Compile Include="Models\Partidas.cs" />
+    <Compile Include="Models\Proveedores.cs">
+      <DependentUpon>Compras.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\Solicitud_Requisiciones.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
@@ -227,9 +251,11 @@
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>Almacen.tt</DependentUpon>
+      <DependentUpon>Compras.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Usuario.cs">
+      <DependentUpon>Compras.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Usuarios.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -239,6 +265,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cssP\registroProveedores.css" />
     <Content Include="Content\css\cargando.css" />
     <Content Include="Content\css\checkbox.css" />
     <Content Include="Content\css\grid.css" />
@@ -341,6 +368,16 @@
       <DependentUpon>Almacen.edmx</DependentUpon>
       <LastGenOutput>Almacen.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\Compras.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Compras.edmx</DependentUpon>
+      <LastGenOutput>Compras.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Compras.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Compras.edmx</DependentUpon>
+      <LastGenOutput>Compras.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -359,6 +396,13 @@
     </EntityDeploy>
     <Content Include="Models\Almacen.edmx.diagram">
       <DependentUpon>Almacen.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Compras.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Compras.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Compras.edmx.diagram">
+      <DependentUpon>Compras.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -417,6 +461,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsP\proveedores.js" />
+    <Content Include="Scripts\jsP\registroProveedor.js" />
     <Content Include="Scripts\js\add.png" />
     <Content Include="Scripts\js\departamento.js" />
     <Content Include="Scripts\js\detalleRequisicion.js" />

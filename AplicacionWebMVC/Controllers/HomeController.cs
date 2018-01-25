@@ -68,6 +68,7 @@ namespace AplicacionWebMVC.Controllers
                 try { 
                     using (AlmacenEntities db = new AlmacenEntities())
                     {
+                        
                         var count = DB.Usuarios.Count(u => u.nombreUsuario== usuario.nombreUsuario);
                         if (count == 0)
                         {

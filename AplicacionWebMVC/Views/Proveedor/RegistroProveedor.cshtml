@@ -11,68 +11,113 @@
         var username = "@HttpContext.Current.User.Identity.Name";
         console.log(username);
 </script>
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/datatables.min.css")" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.jqGrid/ui.jqgrid.css")" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/cssP/registroProveedores.css")" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/datatables.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/notify.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/js/vfs_fonts.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.0.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")"></script>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jsP/registroproveedor.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jsP/proveedores.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/js/departamento.js")"></script>
 @if (!User.Identity.IsAuthenticated)
 {
     Response.Redirect("~/Home/Index");
 }
 <div class="loader"></div>
+<div id="ProveedorURL" data-request-url="@Url.Action("GetProveedores", "Proveedor")"></div>
 <h2>Registro de proveedor</h2>
 
 @using (Html.BeginForm("RegistroProveedor", "Proveedor", new { user = HttpContext.Current.User.Identity.Name }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.nombreUsuario, "Usuario", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.nombreUsuario, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.nombreUsuario, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombreUsuario, "Usuario", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombreUsuario, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombreUsuario, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group" style="display:none;">
-        @Html.LabelFor(model => model.idEmpleado, "ID del Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.idEmpleado, new { htmlAttributes = new { @class = "form-control", @Value="0"} })
-            @Html.ValidationMessageFor(model => model.idEmpleado, "", new { @class = "text-danger" })
+        <div class="form-group" style="display:none;">
+            @Html.LabelFor(model => model.idEmpleado, "ID del Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.idEmpleado, new { htmlAttributes = new { @class = "form-control", @Value = "0" } })
+                @Html.ValidationMessageFor(model => model.idEmpleado, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.contrasena, "Contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.contrasena, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.contrasena, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.contrasena, "Contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.contrasena, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.contrasena, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.registradoPor, "Registrado por", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.registradoPor, new { htmlAttributes = new { @class = "form-control", @Value = HttpContext.Current.User.Identity.Name, @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.registradoPor, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.registradoPor, "Registrado por", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.registradoPor, new { htmlAttributes = new { @class = "form-control", @Value = HttpContext.Current.User.Identity.Name, @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.registradoPor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            @Html.LabelFor(model => model.departamento, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.departamento, new { htmlAttributes = new { @class = "form-control", @Value = "0", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.departamento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Role, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control", @Value = "Proveedor", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Proveedor</label>
+            <div class="col-md-10">
+                <input id="idProvNom" type="text" class="form-control" />
+                @Html.TextBox("proveedor", "", new { @Style = "display:none;" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-default" id="guardarRegistro" />
+            </div>
         </div>
     </div>
-    <div class="form-group" style="display:none;">
-        @Html.LabelFor(model => model.departamento, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.departamento, new { htmlAttributes = new { @class = "form-control", @Value = "0", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.departamento, "", new { @class = "text-danger" })
+}
+<div id="modalProveedores" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Proveedores</h4>
+            </div>
+            <div class="modal-body modalP">
+                <div class="loaderP"></div>
+                <div id="div">
+                    <table id="grid"></table>
+                    <div id="pager"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Role, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control", @Value = "Proveedor", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Guardar" class="btn btn-default" id="guardarRegistro" />
-        </div>
+
     </div>
 </div>
-}
