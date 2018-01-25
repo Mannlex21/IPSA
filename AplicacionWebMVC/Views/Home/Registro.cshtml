@@ -21,13 +21,14 @@
     Response.Redirect("~/Home/Index");
 }
     <div class="loader"></div>
+    <h2>Registro de usuario</h2>
     <div id="departamentos2URL" data-request-url="@Url.Action("GetDepartamentos2", "Departamentos")"></div>
     @using (Html.BeginForm("Registro", "Home", new { user = HttpContext.Current.User.Identity.Name}, FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <h4>Registro de usuario</h4>
+            
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">

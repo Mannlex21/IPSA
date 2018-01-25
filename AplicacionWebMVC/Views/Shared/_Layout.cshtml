@@ -53,6 +53,16 @@
                                         <li id="barRegistro2">@Html.ActionLink("Registrar", "Registro", "Home")</li>
                                     </ul>
                                 </li>
+                                <li id="barProveedor" class="dropdown barElem">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Proveedor <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li id="barProveedor1">@Html.ActionLink("Cotizacion", "Cotizacion", "Proveedor")</li>
+                                        <li id="barProveedor2">@Html.ActionLink("Invitaciones", "Invitacion", "Proveedor")</li>
+                                        <li id="barProveedor3">@Html.ActionLink("Perfil", "Perfil", "Proveedor")</li>
+                                        <li id="barProveedor4">@Html.ActionLink("Registrar", "RegistroProveedor", "Proveedor")</li>
+                                        <li id="barProveedor5">@Html.ActionLink("Lista proveedores", "ListaProveedor", "Proveedor")</li>
+                                    </ul>
+                                </li>
                             }
                             else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Empleado"))
                             {
@@ -81,6 +91,12 @@
                                         <li id="barRevision2" class="barElem">@Html.ActionLink("Lista", "RevisionTotal", "Home")</li>
                                     </ul>
                                 </li>
+                            }
+                            else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Proveedor"))
+                            {
+                                <li id="barCotizacion" class="barElem">@Html.ActionLink("Cotizacion", "Cotizacion", "Proveedor")</li>
+                                <li id="barInvitacion" class="barElem">@Html.ActionLink("Invitaciones", "Invitacion", "Proveedor")</li>
+                                <li id="barPerfil" class="barElem">@Html.ActionLink("Perfil", "Perfil", "Proveedor")</li>
                             }
                             <li id="barLogOut" class="barElem"><a href="@Url.Action("SignOut","Home")">Cerrar Sesión (@(User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Visitante"))</a></li>
                         }
@@ -120,6 +136,7 @@
             if (r == null || r == undefined || r == "Index" || r=="") {
                 var d = document.getElementById("barHome");
             } else {
+                console.log(res);
                 if (res.indexOf("ListaUsuarios") > -1) {
                     var d = document.getElementById("barRegistro");
                     document.getElementById("barRegistro1").className += ' active';
@@ -134,10 +151,26 @@
                 } else if (res.indexOf("RevisionTotal") > -1) {
                     var d = document.getElementById("barRevision");
                     document.getElementById("barRevision2").className += ' active';
-                 } else if (res.indexOf("RevisionExterna") > -1) {
+                } else if (res.indexOf("RevisionExterna") > -1) {
                     var d = document.getElementById("barRevision");
                     document.getElementById("barRevision3").className += ' active';
-                } else {
+                }else if (res.indexOf("Cotizacion") > -1) {
+                    var d = (document.getElementById("barCotizacion") == null) ? document.getElementById("barProveedor") : document.getElementById("barCotizacion");
+                    (document.getElementById("barProveedor1") == null) ?null: document.getElementById("barProveedor1").className += ' active';
+                } else if (res.indexOf("Perfil") > -1) {
+                    var d = (document.getElementById("barPerfil") == null) ? document.getElementById("barProveedor") : document.getElementById("barPerfil");
+                    (document.getElementById("barProveedor3") == null) ? null : document.getElementById("barProveedor3").className += ' active';
+                } else if (res.indexOf("Invitacion") > -1) {
+                    var d = (document.getElementById("barInvitacion") == null) ? document.getElementById("barProveedor") : document.getElementById("barInvitacion");
+                    (document.getElementById("barProveedor2") == null) ? null : document.getElementById("barProveedor2").className += ' active';
+                } else if (res.indexOf("ListaProveedor") > -1) {
+                    var d = (document.getElementById("barInvitacion") == null) ? document.getElementById("barProveedor") : document.getElementById("barInvitacion");
+                    (document.getElementById("barProveedor5") == null) ? null : document.getElementById("barProveedor5").className += ' active';
+                } else if (res.indexOf("RegistroProveedor") > -1) {
+                    var d = (document.getElementById("barInvitacion") == null) ? document.getElementById("barProveedor") : document.getElementById("barInvitacion");
+                    (document.getElementById("barProveedor4") == null) ? null : document.getElementById("barProveedor4").className += ' active';
+                }  
+                else {
                     var d = document.getElementById("bar" + r);
                 }
             }

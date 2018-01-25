@@ -1,0 +1,71 @@
+﻿@model IEnumerable<AplicacionWebMVC.Models.Usuarios>
+@{
+    ViewBag.Title = "Lista";
+}
+<script type="text/javascript">
+        $(window).load(function () {
+            setTimeout(function () {
+                $(".loader").fadeOut(100);
+            }, 1000);
+        });
+        var username = "@HttpContext.Current.User.Identity.Name";
+        console.log(username);
+</script>
+@if (!User.Identity.IsAuthenticated)
+{
+    Response.Redirect("~/Home/Index");
+}
+<div class="loader"></div>
+<h2>Lista</h2>
+<table class="table">
+    <tr>
+        <th>
+            Nombre de usuario
+        </th>
+        <th>
+            Contraseña
+        </th>
+        <th>
+            Id de empleado
+        </th>
+        <th>
+            Departamento
+        </th>
+        <th>
+            Registrado por
+        </th>
+        <th>
+            Rol
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Where(u=>u.Role=="Proveedor"))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombreUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.contrasena)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idEmpleado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.departamento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.registradoPor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "UpdateUsuarios", new { id = item.idUsuario, username = item.nombreUsuario, usernameA = HttpContext.Current.User.Identity.Name }) |
+                @Html.ActionLink("Borrar", "DeleteUsuarios", new { id = item.idUsuario, username = HttpContext.Current.User.Identity.Name })
+            </td>
+        </tr>
+    }
+
+</table>
