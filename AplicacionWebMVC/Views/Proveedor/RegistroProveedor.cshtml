@@ -109,6 +109,15 @@
             <div class="modal-body modalP">
                 <div class="loaderP"></div>
                 <div id="div">
+                    <div>
+                        @Html.TextBox("id","", new { @class = "filterItem", placeholder = "Id Proveedor" })
+
+                        @Html.TextBox("razsoc","", new { @class = "filterItem", placeholder = "Razón Social" })
+
+                        @Html.TextBox("rfc","", new { @class = "filterItem", placeholder = "RFC" })
+
+                        <button id="filterButton" name="search" class="btn btn-success btn-sm glyphicon glyphicon-search" />
+                    </div>
                     <table id="grid"></table>
                     <div id="pager"></div>
                 </div>

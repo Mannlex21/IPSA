@@ -141,7 +141,7 @@
         if ($th.hasClass('processing'))
             return;
         $th.addClass('processing');
-        
+
         filterGrid();
         setTimeout(function () {
             filterGrid();
@@ -150,8 +150,8 @@
             filterGrid();
             $th.removeClass('processing');
         }, 1000);
-        
-    })
+
+    });
     $(document).on('click', '.btnAgregarM', function (e) {
         var id = e.target.id.replace("btnC", "");
         for (var i = 0; i < objM.length; i++) {
