@@ -23,140 +23,72 @@ namespace AplicacionWebMVC.Controllers
             try
             {
                 string s;
+                AlmacenEntities db = new AlmacenEntities();
                 var context = new AlmacenEntities();
                 var connection = context.Database.Connection;
-                int preReq = 0;
-                using (SqlConnection con = new SqlConnection(connection.ConnectionString))
-                {
-                    string query = "SELECT COUNT(*) FROM Solicitud_Requisiciones WHERE departamento=" + solicitud.departamento;
-                    using (SqlCommand cmd = new SqlCommand(query))
-                    {
-                        cmd.Connection = con;
-                        con.Open();
-                        preReq = Convert.ToInt32(cmd.ExecuteScalar());
-                        con.Close();
-                    }
-                }
-                using (SqlConnection con = new SqlConnection(connection.ConnectionString))
-                {
-                    string query = "INSERT INTO Solicitud_Requisiciones(preRequisicion,preRequisicionAnt,requisicion,fechaRequisicion,fechaNecesitar,uso,departamento,ciclo,area,fechaRecepcion,ejercicio,solicitante,observaciones,liberaLocal,liberaSeguridad,liberaElectrico,liberaCapitalHumano,liberaAlmacen) " +
-                        "VALUES(@preRequisicion,@preRequisicionAnt,@requisicion,@fechaRequisicion,@fechaNecesitar,@uso,@departamento,@ciclo,@area,@fechaRecepcion,@ejercicio,@solicitante,@observaciones,@liberaLocal,@liberaSeguridad,@liberaElectrico,@liberaCapitalHumano,@liberaAlmacen)";
-                    query += " SELECT SCOPE_IDENTITY()";
-                    using (SqlCommand cmd = new SqlCommand(query))
-                    {
-                        cmd.Connection = con;
-                        con.Open();
-                        cmd.Parameters.AddWithValue("@preRequisicion", preReq+1);
-                        cmd.Parameters.AddWithValue("@preRequisicionAnt", 0);
-                        cmd.Parameters.AddWithValue("@requisicion", solicitud.idRequisicion);
-                        cmd.Parameters.AddWithValue("@fechaNecesitar", Convert.ToDateTime(solicitud.fechaNecesitar));
-                        cmd.Parameters.AddWithValue("@fechaRequisicion", Convert.ToDateTime(solicitud.fechaRequisicion));
-                        cmd.Parameters.AddWithValue("@uso", solicitud.uso);
-                        cmd.Parameters.AddWithValue("@departamento", solicitud.departamento);
-                        cmd.Parameters.AddWithValue("@ciclo", solicitud.ciclo);
-                        cmd.Parameters.AddWithValue("@area", solicitud.area);
-                        cmd.Parameters.AddWithValue("@fechaRecepcion", Convert.ToDateTime(solicitud.fechaRecepcion));
-                        cmd.Parameters.AddWithValue("@ejercicio", solicitud.ejercicio);
-                        cmd.Parameters.AddWithValue("@solicitante", solicitud.solicitante);
-                        if (solicitud.observaciones == null)
-                        {
-                            cmd.Parameters.AddWithValue("@observaciones", "---");
-                        }
-                        else
-                        {
-                            cmd.Parameters.AddWithValue("@observaciones", solicitud.observaciones);
-                        }
-                        if ( checks.electrico == false ) {
-                            cmd.Parameters.AddWithValue("@liberaElectrico", true);
-                        }
-                        else
-                        {
-                            cmd.Parameters.AddWithValue("@liberaElectrico", false);
-                        }
-                        if (checks.soldadura == false && checks.altura==false 
-                            && checks.espaciosConfinados == false && checks.izajes == false && checks.montacarga == false)
-                        {
-                            cmd.Parameters.AddWithValue("@liberaSeguridad", true);
-                        }
-                        else
-                        {
-                            cmd.Parameters.AddWithValue("@liberaSeguridad", false);
-                        }
-                        if (checks.trabajoSindicato == false && checks.retencionImpuesto== false)
-                        {
-                            cmd.Parameters.AddWithValue("@liberaCapitalHumano", true);
-                        }
-                        else
-                        {
-                            cmd.Parameters.AddWithValue("@liberaCapitalHumano", false);
-                        }
-                        cmd.Parameters.AddWithValue("@liberaLocal", false);
-                        cmd.Parameters.AddWithValue("@liberaAlmacen", false);
-                        s = cmd.ExecuteScalar().ToString();
-                        con.Close();
-                    }
-                }
-                int cont=0;
-                string r="";
+                int preReq = db.Solicitud_Requisiciones.Where(s2=>s2.departamento==solicitud.departamento).Count();
+
+               
+                Solicitud_Requisiciones soli= new Solicitud_Requisiciones();
+                soli.preRequisicion = preReq + 1;
+                soli.preRequisicionAnt = 0;
+                soli.requisicion = solicitud.idRequisicion;
+                soli.fechaNecesitar = Convert.ToDateTime(solicitud.fechaNecesitar);
+                soli.fechaRequisicion = Convert.ToDateTime(solicitud.fechaRequisicion);
+                soli.uso = solicitud.uso;
+                soli.departamento = (Int16)solicitud.departamento;
+                soli.ciclo = solicitud.ciclo.ToString();
+                soli.area = solicitud.area.ToString();
+                soli.fechaRecepcion = Convert.ToDateTime(solicitud.fechaRecepcion);
+                soli.ejercicio = solicitud.ejercicio;
+                soli.solicitante = solicitud.solicitante;
+                soli.observaciones = (solicitud.observaciones == null) ? "---" :solicitud.observaciones;
+                soli.liberaElectrico = (checks.electrico == false) ? true : false;
+                soli.liberaCapitalHumano = (checks.trabajoSindicato == false && checks.retencionImpuesto == false) ? true : false;
+                soli.liberaSeguridad = (checks.soldadura == false && checks.altura == false
+                            && checks.espaciosConfinados == false && checks.izajes == false && checks.montacarga == false) ? true : false;
+                soli.liberaLocal = false;
+                soli.liberaAlmacen = false;
+                db.Solicitud_Requisiciones.Add(soli);
+                
+                int cont = 0;
+                string r = "";
                 foreach (var value in partidas)
                 {
-
-                    
-                    using (SqlConnection con = new SqlConnection(connection.ConnectionString))
-                    {
-                        string query = "INSERT INTO DetalleRequisicion (preRequisicion,requisicion,partida,material,cantidad,detalle,ejercicio,costoU,costoTotal,existencia,FechaUltimaEntrada,departamento,descripcion) " +
-                            "VALUES(@preRequisicion, @requisicion, @partida, @material, @cantidad, @detalle, @ejercicio, @costoU, @costoTotal, @existencia, @FechaUltimaEntrada,@departamento,@descripcion)";
-
-                        query += " SELECT SCOPE_IDENTITY()";
-                        using (SqlCommand cmd = new SqlCommand(query))
-                        {
-                            cmd.Connection = con;
-                            con.Open();
-                            cmd.Parameters.AddWithValue("@preRequisicion", preReq+1);
-                            cmd.Parameters.AddWithValue("@requisicion", solicitud.idRequisicion);
-                            cmd.Parameters.AddWithValue("@partida", cont++);
-                            cmd.Parameters.AddWithValue("@material", Int32.Parse(value.Clave));
-                            cmd.Parameters.AddWithValue("@cantidad", float.Parse(value.Cantidad));
-                            cmd.Parameters.AddWithValue("@detalle", value.Detalle);
-                            cmd.Parameters.AddWithValue("@descripcion", value.Descripcion);
-                            cmd.Parameters.AddWithValue("@ejercicio", solicitud.ejercicio);
-                            cmd.Parameters.AddWithValue("@costoU", float.Parse(value.PrecioU));
-                            cmd.Parameters.AddWithValue("@costoTotal", float.Parse(value.PrecioU)*float.Parse(value.Cantidad));
-                            cmd.Parameters.AddWithValue("@existencia", float.Parse(value.Existencia));
-                            cmd.Parameters.AddWithValue("@FechaUltimaEntrada", Convert.ToDateTime("01/01/2017"));
-                            cmd.Parameters.AddWithValue("@departamento", solicitud.departamento);
-                            cmd.Parameters.AddWithValue("@descripcion", value.Descripcion);
-                            r =r+cmd.ExecuteScalar().ToString()+",";
-                            con.Close();
-                        }
-                    }
+                    DetalleRequisicion detR = new DetalleRequisicion();
+                    detR.preRequisicion = preReq + 1;
+                    detR.requisicion = solicitud.idRequisicion;
+                    detR.partida = (Int16)cont++;
+                    detR.material = Int32.Parse(value.Clave);
+                    detR.cantidad = Decimal.Parse(value.Cantidad);
+                    detR.detalle = value.Detalle;
+                    detR.descripcion = value.Descripcion;
+                    detR.ejercicio = solicitud.ejercicio;
+                    detR.costoU = Decimal.Parse(value.PrecioU);
+                    detR.costoTotal = Decimal.Parse(value.PrecioU) * Decimal.Parse(value.Cantidad);
+                    detR.existencia = Decimal.Parse(value.Existencia);
+                    detR.FechaUltimaEntrada = Convert.ToDateTime("01/01/2017");
+                    detR.departamento = Int16.Parse(solicitud.departamento.ToString());
+                    db.DetalleRequisicion.Add(detR);
                 }
-                using (SqlConnection con = new SqlConnection(connection.ConnectionString))
-                {
-                    string query = "INSERT INTO DetalleRequisicion2 (trabajoSindicato,retencionImpuesto,altura,espaciosConfinados,electrico,corte,soldadura,operacionMontacargas,izajesCarga,preRequisicion,departamento,ejercicio) " +
-                        "VALUES(@trabajoSindicato, @retencionImpuesto, @altura, @espaciosConfinados, @electrico, @corte, @soldadura, @operacionMontacargas, @izajesCarga, @preRequisicion, @departamento, @ejercicio)";
-                    query += " SELECT SCOPE_IDENTITY()";
-                    using (SqlCommand cmd = new SqlCommand(query))
-                    {
-                        cmd.Connection = con;
-                        con.Open();
-                        cmd.Parameters.AddWithValue("@preRequisicion", preReq + 1);
-                        cmd.Parameters.AddWithValue("@departamento", solicitud.departamento);
-                        cmd.Parameters.AddWithValue("@ejercicio", solicitud.ejercicio);
-                        cmd.Parameters.AddWithValue("@trabajoSindicato", checks.trabajoSindicato);
-                        cmd.Parameters.AddWithValue("@retencionImpuesto", checks.retencionImpuesto);
-                        cmd.Parameters.AddWithValue("@altura", checks.altura);
-                        cmd.Parameters.AddWithValue("@espaciosConfinados", checks.espaciosConfinados);
-                        cmd.Parameters.AddWithValue("@electrico", checks.electrico);
-                        cmd.Parameters.AddWithValue("@corte", checks.corte);
-                        cmd.Parameters.AddWithValue("@soldadura", checks.soldadura);
-                        cmd.Parameters.AddWithValue("@operacionMontacargas", checks.montacarga);
-                        cmd.Parameters.AddWithValue("@izajesCarga", checks.izajes);
-                        s = cmd.ExecuteScalar().ToString();
-                        con.Close();
-                    }
-                }
-                var jsonData = new { code = "OK",resultSol=s,resultPar=r, partidas=partidas,solicitud=solicitud, preRequisicion= preReq + 1 };
+                DetalleRequisicion2 detR2 = new DetalleRequisicion2();
+                detR2.preRequisicion = preReq + 1;
+                detR2.departamento = (Int16)solicitud.departamento;
+                detR2.ejercicio = (Int16)solicitud.ejercicio;
+                detR2.trabajoSindicato = checks.trabajoSindicato;
+                detR2.retencionImpuesto = checks.retencionImpuesto;
+                detR2.altura = checks.altura;
+                detR2.espaciosConfinados = checks.espaciosConfinados;
+                detR2.electrico = checks.electrico;
+                detR2.corte = checks.corte;
+                detR2.corte = checks.corte;
+                detR2.soldadura = checks.soldadura;
+                detR2.operacionMontacargas = checks.montacarga;
+                detR2.izajesCarga = checks.izajes;
+                db.DetalleRequisicion2.Add(detR2);
+                db.SaveChanges();
+                
+                var jsonData = new { code = "OK",resultSol=0,resultPar=r, partidas=partidas,solicitud=solicitud, preRequisicion= preReq + 1 };
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             catch (SqlException odbcEx)

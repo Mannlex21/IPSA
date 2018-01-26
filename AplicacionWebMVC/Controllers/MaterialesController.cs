@@ -16,7 +16,7 @@ namespace AplicacionWebMVC.Controllers
             return View();
         }
         AlmacenEntities DB = new AlmacenEntities();
-        public JsonResult GetMateriales(string sidx, string sord, int page, int rows, string descripcion, string marca, string idMaterial, string consecutivo) //Gets the todo Lists.  
+        public JsonResult GetMateriales(string sidx, string sord, int page, int rows, string descripcionF, string marca, string idMaterial, string consecutivo) //Gets the todo Lists.  
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
@@ -34,9 +34,9 @@ namespace AplicacionWebMVC.Controllers
             {
                 Results = Results.Where(s => s.marca.Contains(marca));
             }
-            if (!string.IsNullOrEmpty(descripcion))
+            if (!string.IsNullOrEmpty(descripcionF))
             {
-                Results = Results.Where(s => s.descripcion.Contains(descripcion));
+                Results = Results.Where(s => s.descripcion.Contains(descripcionF));
             }
             if (!string.IsNullOrEmpty(idMaterial))
             {

@@ -290,12 +290,11 @@ namespace AplicacionWebMVC.Controllers
         [Authorize(Roles = "Admin, Revisor1, Revisor2")]
         public ActionResult Revision(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var usuario = from u in DB.Usuarios select u;
-            usuario = usuario.Where(u => u.nombreUsuario == User.Identity.Name);
+            var usuario = DB.Usuarios.Where(u => u.nombreUsuario == User.Identity.Name);
             var solicitud = from s in DB.Solicitud_Requisiciones select s;
             if (usuario.FirstOrDefault().Role.Equals("Admin"))
             {
-                solicitud = solicitud.Where(s => s.liberaLocal == true);
+                solicitud = solicitud.Where(s => s.liberaLocal == false);
             }
             else
             {
@@ -311,12 +310,12 @@ namespace AplicacionWebMVC.Controllers
         [Authorize(Roles = "Admin, Revisor2")]
         public ActionResult RevisionExterna(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var usuario = from u in DB.Usuarios select u;
-            usuario = usuario.Where(u => u.nombreUsuario == User.Identity.Name);
+            var usuario = DB.Usuarios.Where(u => u.nombreUsuario == User.Identity.Name);
             var solicitud = from s in DB.Solicitud_Requisiciones select s;
             if (usuario.FirstOrDefault().Role.Equals("Admin"))
             {
-                solicitud = solicitud.Where(s => s.liberaLocal == false);
+                solicitud = solicitud.Where(s => s.liberaLocal == true && (s.liberaCapitalHumano==false || s.liberaElectrico==false ||
+                                            s.liberaSeguridad==false));
             }
             else
             {
@@ -343,7 +342,7 @@ namespace AplicacionWebMVC.Controllers
             return View(solicitud.OrderBy(i => i.preRequisicion).ToPagedList(page ?? 1, pageSize));
         }
         [Authorize(Roles = "Admin, Revisor1, Revisor2")]
-        public ActionResult RevisionTotal(string sortOrder, string currentFilter, string searchString, int? page, string fechaInicial, string fechaFinal)
+        public ActionResult RevisionTotal(string sortOrder, string currentFilter, string searchString, int? page, string fechaInicial, string fechaFinal,string departamentoS,string cicloS,string ejercicioS)
         {
             var usuario = from u in DB.Usuarios select u;
             usuario = usuario.Where(u => u.nombreUsuario == User.Identity.Name);
@@ -367,7 +366,18 @@ namespace AplicacionWebMVC.Controllers
                 DateTime ff = Convert.ToDateTime(Convert.ToDateTime(fechaFinal).ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 solicitud = solicitud.Where(s => s.fechaRequisicion >=fi && s.fechaRequisicion <= ff);
             }
-
+            if (!string.IsNullOrEmpty(departamentoS))
+            {
+                solicitud= solicitud.Where(s => s.departamento.Equals(departamentoS));
+            }
+            if (!string.IsNullOrEmpty(cicloS))
+            {
+                solicitud = solicitud.Where(s => s.ciclo.Equals(cicloS));
+            }
+            if (!string.IsNullOrEmpty(ejercicioS))
+            {
+                solicitud = solicitud.Where(s => s.ejercicio.Equals(ejercicioS));
+            }
             int pageSize = 10;
             int pageNumber = (page ?? 1);
 

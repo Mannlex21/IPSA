@@ -151,7 +151,7 @@ namespace AplicacionWebMVC.Controllers
             }
 
         }
-        public JsonResult GetProveedores(string sidx, string sord, int page, int rows) //Gets the todo Lists.  
+        public JsonResult GetProveedores(string sidx, string sord, int page, int rows,string idProveedor, string razsoc,string rfc ) //Gets the todo Lists.  
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
@@ -160,11 +160,27 @@ namespace AplicacionWebMVC.Controllers
                 {
                     a.proveedor,
                     a.razSoc,
-                    a.razSoc2
+                    a.razSoc2,
+                    a.RFC
                 });
+            
+            if (!string.IsNullOrEmpty(idProveedor))
+            {
+                int idp = Int32.Parse(idProveedor);
+                Results = Results.Where(s => s.proveedor==idp);
+            }
+            if (!string.IsNullOrEmpty(razsoc))
+            {
+                //int idp = Int32.Parse(idProveedor);
+                Results = Results.Where(s => s.razSoc.Contains(razsoc) || s.razSoc2.Contains(razsoc));
+            }
+            if (!string.IsNullOrEmpty(rfc))
+            {
+                //int idp = Int32.Parse(idProveedor);
+                Results = Results.Where(s => s.RFC.Contains(rfc));
+            }
             int totalRecords = Results.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-
             if (sord.ToUpper() == "DESC")
             {
                 Results = Results.OrderByDescending(s => s.proveedor);

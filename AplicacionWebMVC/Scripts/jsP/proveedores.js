@@ -1,16 +1,17 @@
 ﻿$(function () {
     var objM = [];
-    var idProveedor, razSoc;
+    var idProveedor, razSoc,rfc;
     document.getElementById("div").style.display = "none";
     var proveedor = document.getElementById("proveedor");
     var nombreProv = document.getElementById("idProvNom");
+    var rfc = document.getElementById("rfc");
     var url = $('#ProveedorURL').data('request-url');
     $("#grid").jqGrid({
         url: url,
         datatype: 'json',
         mtype: 'Get',
         //table header name   
-        colNames: ['Id','RazSoc','RazSoc2','Control'],
+        colNames: ['Id','RFC','RazSoc','RazSoc2','Control'],
         //colModel takes the data from controller and binds to grid  
         colModel: [
             {
@@ -21,6 +22,16 @@
                 width: 30,
                 resizable: true,
                 sorttype: "int"
+            }, {
+                key: false,
+                name: 'RFC',
+                index: 'RFC',
+                editable: false,
+                width: 200,
+                resizable: true, formatter: function (cellvalue, rowObject) {
+                    rfc = cellvalue;
+                    return cellvalue;
+                }
             }, {
                 key: false,
                 name: 'razSoc',
@@ -50,7 +61,8 @@
                 formatter: function (cellvalue, rowObject) {
                     var a = {
                         "proveedor": rowObject.rowId,
-                        "razSoc": razSoc
+                        "razSoc": razSoc,
+                        "RFC":rfc
                     };
                     objM.push(a);
                     return "<button id=btnP" + rowObject.rowId + " class='btn btn-success glyphicon glyphicon-plus btnAgregarP' />";
@@ -118,13 +130,32 @@
             $th.removeClass('processing');
         }, 1000);
 
-    })
+    });
+    $('#refreshButton').click(function (event) {
+        document.getElementById("rfc").value = "";
+        document.getElementById("idProveedor").value = "";
+        document.getElementById("razsoc").value = "";
+        var $th = $(this);
+        if ($th.hasClass('processing'))
+            return;
+        $th.addClass('processing');
+
+        filterGrid();
+        setTimeout(function () {
+            filterGrid();
+        }, 500);
+        setTimeout(function () {
+            filterGrid();
+            $th.removeClass('processing');
+        }, 1000);
+    });
     $(document).on('click', '.btnAgregarP', function (e) {
         var id = e.target.id.replace("btnP", "");
         for (var i = 0; i < objM.length; i++) {
             if (objM[i]['proveedor'] === id) {
                 proveedor.value = objM[i]['proveedor'];
                 nombreProv.value = objM[i]['razSoc'];
+                rfc.value = objM[i]['RFC'];
                 $('#modalProveedores').modal('hide');
                 $.notify("Se agrego material", "success");
                 return;

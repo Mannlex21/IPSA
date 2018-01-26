@@ -3,7 +3,7 @@
 }
 #modalProveedores .modal-body {
     overflow: auto;
-    height: 356px;
+    height: 396px;
 }
 
 .modalP {
@@ -39,4 +39,13 @@
 }
 #pager {
     height: 100%;
+}
+#refreshButton {
+    display: inline-block;
+    margin: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding-bottom: 6px;
+    margin-top: 4px;
+    margin-left: 0;
 }

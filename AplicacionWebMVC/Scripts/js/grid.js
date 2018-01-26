@@ -152,6 +152,26 @@
         }, 1000);
 
     });
+    $('#refreshButton').click(function (event) {
+        console.log(document.getElementById("descripcion"))
+        document.getElementById("idMaterial").value = "";
+        document.getElementById("descripcionF").value = "";
+        document.getElementById("marca").value = "";
+        var $th = $(this);
+        if ($th.hasClass('processing'))
+            return;
+        $th.addClass('processing');
+
+        filterGrid();
+        setTimeout(function () {
+            filterGrid();
+        }, 500);
+        setTimeout(function () {
+            filterGrid();
+            $th.removeClass('processing');
+        }, 1000);
+
+    });
     $(document).on('click', '.btnAgregarM', function (e) {
         var id = e.target.id.replace("btnC", "");
         for (var i = 0; i < objM.length; i++) {
