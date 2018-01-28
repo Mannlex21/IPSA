@@ -355,11 +355,6 @@ namespace AplicacionWebMVC.Controllers
             {
                 solicitud = solicitud.Where(s => s.departamento == usuario.FirstOrDefault().departamento && s.liberaLocal == true);
             }
-            
-            /*if (usuario.FirstOrDefault().Role!="Admin")
-            {
-                solicitud = solicitud.Where(s => s.departamento == usuario.FirstOrDefault().departamento);
-            }*/
             if (!String.IsNullOrEmpty(fechaInicial) && !String.IsNullOrEmpty(fechaFinal))
             {
                 DateTime fi = Convert.ToDateTime(Convert.ToDateTime(fechaInicial).ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -368,7 +363,8 @@ namespace AplicacionWebMVC.Controllers
             }
             if (!string.IsNullOrEmpty(departamentoS))
             {
-                solicitud= solicitud.Where(s => s.departamento.Equals(departamentoS));
+                int dep = Int32.Parse(departamentoS);
+                solicitud = solicitud.Where(s => s.departamento==dep);
             }
             if (!string.IsNullOrEmpty(cicloS))
             {
@@ -376,7 +372,8 @@ namespace AplicacionWebMVC.Controllers
             }
             if (!string.IsNullOrEmpty(ejercicioS))
             {
-                solicitud = solicitud.Where(s => s.ejercicio.Equals(ejercicioS));
+                int ej = Int32.Parse(ejercicioS);
+                solicitud = solicitud.Where(s => s.ejercicio ==ej );
             }
             int pageSize = 10;
             int pageNumber = (page ?? 1);

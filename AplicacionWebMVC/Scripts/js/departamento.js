@@ -1,5 +1,5 @@
 ﻿$(function () {
-    if (document.getElementById('departamento').tagName == "SELECT") {
+    
         var url = $('#departamentos2URL').data('request-url');
         $.ajax({
             type: "GET",
@@ -9,17 +9,22 @@
             async: false,
             success: function (r) {
                 for (var obj in r) {
-                    $('#departamento').append($('<option>', {
-                        value: r[obj].idDepartamento,
-                        text: r[obj].descripcion
-                    }));
+                    if (document.getElementById('departamento') != null){
+                        $('#departamento').append($('<option>', {
+                            value: r[obj].idDepartamento,
+                            text: r[obj].descripcion
+                        }));
+                    }
+                    
+                    if (document.getElementById('departamentoS')!=null) {
+                        $('#departamentoS').append($('<option>', {
+                            value: r[obj].idDepartamento,
+                            text: r[obj].descripcion
+                        }));
+                    }
                 }
             }, error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log("No se encontro");
             }
         });
-    } else if (document.getElementById('departamento').tagName == "INPUT") {
-        
-    }
-    
 });

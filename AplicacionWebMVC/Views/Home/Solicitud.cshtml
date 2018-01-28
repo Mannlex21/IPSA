@@ -6,7 +6,7 @@
 }
 @section Scripts
 {
-    
+
     <script type="text/javascript">
         $(window).load(function () {
             setTimeout(function () {
@@ -22,25 +22,26 @@
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.jqGrid/ui.jqgrid.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/grid.css")" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/Main.css")"/>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/Main.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/validacion.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/checkbox.css")" />
     <script type="text/javascript" src="@Url.Content("~/Scripts/datatables.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/notify.min.js")"></script>  
+    <script type="text/javascript" src="@Url.Content("~/Scripts/notify.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/sweetalert.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/pdfmake.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/js/vfs_fonts.js")"></script>   
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/vfs_fonts.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.0.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/js/Main.js")" ></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/js/grid.js")"></script> 
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/Main.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/grid.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/validacion.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/gridDepartamentos.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/js/datePicker.js")"></script> 
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/datePicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/imprimirPDF.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/divExpandir.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/archivos.js")"></script>
 
 }
 @if (!User.Identity.IsAuthenticated)
@@ -55,6 +56,7 @@
 <div id="materialesURL" data-request-url="@Url.Action("GetMateriales", "Materiales")"></div>
 <div id="requisicionURL" data-request-url="@Url.Action("setRequisicion", "Requisicion")"></div>
 <div id="emailURL" data-request-url="@Url.Action("sendEmailAsync", "Email")"></div>
+<div id="UploadFileURL" data-request-url="@Url.Action("UploadFiles", "Requisicion")"></div>
 <div class="jumbotron row">
     <h1>Solicitante</h1>
     <form action="" name="infoSol" id="infoSol">
@@ -137,10 +139,10 @@
         </div>
     </form>
 </div>
-<div class="jumbotron row" >
+<div class="jumbotron row">
     <div>
         <h1>Datos adicionales <a id="abrirCerrar" data-target="#fm1" class="tabs glyphicon glyphicon-plus" data-group="footer-blocks" data-toggle="collapse"></a></h1>
-        
+
     </div>
     <div id="fm1" class="collapse show-in-md">
         <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB1" id="chkB1" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Trabajo sindicato</label></div>
@@ -153,9 +155,24 @@
         <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB8" id="chkB8" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Izajes de carga</label></div>
         <div class="checkbox"><label class="chkBox"><input type="checkbox" name="chkB9" id="chkB9" value=""><span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Operaciones montacarga</label></div>
     </div>
-    
+
 </div>
-<div class="jumbotron row" >
+<div class="jumbotron row">
+    <div>
+        <h1>Archivos <a id="abrirCerrar2" data-target="#fm2" class="tabs glyphicon glyphicon-plus" data-group="footer-blocks" data-toggle="collapse"></a></h1>
+
+    </div>
+    <div id="fm2" class="collapse show-in-md">
+        <form id="formm"  enctype="multipart/form-data">
+            <div class="form-control divFile">
+                <input type="file" id="file1" name="file" multiple />
+            </div>
+            
+        </form>
+    </div>
+
+</div>
+<div class="jumbotron row">
     <div id="tabla" class="table-responsive">
         <h1>Partidas <span id="errTablaP" class="errorPersonalizado"></span></h1>
         <table id="tablaPartida" style="width:100%; background:white;" class="table table-condensed table-striped table-bordered table-hover dt-responsive">
@@ -188,9 +205,7 @@
                     <th class="noBorde"></th>
                 </tr>
             </tfoot>
-            <tbody id="tbody">
-
-            </tbody>
+            <tbody id="tbody"></tbody>
 
         </table>
 
@@ -211,12 +226,12 @@
             </div>
             <div class="modal-body modalB">
                 <div class="loaderM"></div>
-                <div id="divM" >
+                <div id="divM">
                     <div>
                         @Html.TextBoxFor(model => model.idMaterial, new { @class = "filterItem", placeholder = "Id Material" })
                         @Html.ValidationMessageFor(model => model.idMaterial)
 
-                        @Html.TextBox("descripcionF","", new { @class = "filterItem", placeholder = "Descripcion" })
+                        @Html.TextBox("descripcionF", "", new { @class = "filterItem", placeholder = "Descripcion" })
                         @Html.ValidationMessageFor(model => model.descripcion)
 
                         @Html.TextBoxFor(model => model.marca, new { @class = "filterItem", placeholder = "Marca" })

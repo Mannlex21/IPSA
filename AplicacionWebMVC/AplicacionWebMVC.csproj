@@ -251,7 +251,7 @@
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>Compras.tt</DependentUpon>
+      <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>Compras.tt</DependentUpon>
@@ -464,6 +464,7 @@
     <Content Include="Scripts\jsP\proveedores.js" />
     <Content Include="Scripts\jsP\registroProveedor.js" />
     <Content Include="Scripts\js\add.png" />
+    <Content Include="Scripts\js\archivos.js" />
     <Content Include="Scripts\js\departamento.js" />
     <Content Include="Scripts\js\detalleRequisicion.js" />
     <Content Include="Scripts\js\divExpandir.js" />
@@ -516,6 +517,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Archivos\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

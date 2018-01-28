@@ -139,6 +139,8 @@
           <Property Name="herramienta" Type="bit" Nullable="false" />
           <Property Name="marca" Type="nvarchar" MaxLength="255" />
           <Property Name="materialReferencia" Type="nchar" MaxLength="8" />
+          <Property Name="imagen" Type="nvarchar" MaxLength="255" />
+          <Property Name="adjunto" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="MaterialesContable">
           <Key>
@@ -203,6 +205,7 @@
           <Property Name="liberaCapitalHumano" Type="bit" />
           <Property Name="liberaElectrico" Type="bit" />
           <Property Name="liberaAlmacen" Type="bit" />
+          <Property Name="anexo" Type="nchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="SubGrupos">
           <Key>
@@ -518,6 +521,7 @@
           <NavigationProperty Name="Departamentos" Relationship="bdAdquisicionMaterialModel.FK_SolicitudRequisiciones_Departamento" FromRole="Solicitud_Requisiciones" ToRole="Departamentos" />
           <NavigationProperty Name="DetalleRequisicion2" Relationship="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud" FromRole="Solicitud_Requisiciones" ToRole="DetalleRequisicion2" />
           <NavigationProperty Name="DetalleRequisicion" Relationship="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud2" FromRole="Solicitud_Requisiciones" ToRole="DetalleRequisicion" />
+          <Property Name="anexo" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="SubGrupos">
           <Key>
@@ -628,6 +632,8 @@
           <Property Name="marca" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="materialReferencia" Type="String" MaxLength="8" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="MaterialesContable" Relationship="bdAdquisicionMaterialModel.FK_MaterialesContable_Materiales" FromRole="Materiales" ToRole="MaterialesContable" />
+          <Property Name="imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="adjunto" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MaterialesContable">
           <Key>
@@ -823,6 +829,7 @@
           <EntitySetMapping Name="Solicitud_Requisiciones">
             <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.Solicitud_Requisiciones">
               <MappingFragment StoreEntitySet="Solicitud_Requisiciones">
+                <ScalarProperty Name="anexo" ColumnName="anexo" />
                 <ScalarProperty Name="liberaAlmacen" ColumnName="liberaAlmacen" />
                 <ScalarProperty Name="liberaElectrico" ColumnName="liberaElectrico" />
                 <ScalarProperty Name="liberaCapitalHumano" ColumnName="liberaCapitalHumano" />
@@ -880,6 +887,8 @@
           <EntitySetMapping Name="Materiales">
             <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.Materiales">
               <MappingFragment StoreEntitySet="Materiales">
+                <ScalarProperty Name="adjunto" ColumnName="adjunto" />
+                <ScalarProperty Name="imagen" ColumnName="imagen" />
                 <ScalarProperty Name="materialReferencia" ColumnName="materialReferencia" />
                 <ScalarProperty Name="marca" ColumnName="marca" />
                 <ScalarProperty Name="herramienta" ColumnName="herramienta" />

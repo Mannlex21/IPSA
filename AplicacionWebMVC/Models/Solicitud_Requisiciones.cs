@@ -39,6 +39,7 @@ namespace AplicacionWebMVC.Models
         public Nullable<bool> liberaCapitalHumano { get; set; }
         public Nullable<bool> liberaElectrico { get; set; }
         public Nullable<bool> liberaAlmacen { get; set; }
+        public string anexo { get; set; }
     
         public virtual Departamentos Departamentos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

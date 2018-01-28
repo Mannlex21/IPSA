@@ -43,14 +43,14 @@
                                     <ul class="dropdown-menu">
                                         <li id="barRevision1" class="barElem">@Html.ActionLink("Revision", "Revision", "Home")</li>
                                         <li id="barRevision3" class="barElem">@Html.ActionLink("Revision externa", "RevisionExterna", "Home")</li>
-                                        <li id="barRevision2" class="barElem">@Html.ActionLink("Lista total", "RevisionTotal", "Home")</li>
+                                        <li id="barRevision2" class="barElem">@Html.ActionLink("Lista", "RevisionTotal", "Home")</li>
                                     </ul>
                                 </li>
                                 <li id="barRegistro" class="dropdown barElem">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li id="barRegistro1">@Html.ActionLink("Lista", "ListaUsuarios", "Home")</li>
                                         <li id="barRegistro2">@Html.ActionLink("Registrar", "Registro", "Home")</li>
+                                        <li id="barRegistro1">@Html.ActionLink("Lista", "ListaUsuarios", "Home")</li>
                                     </ul>
                                 </li>
                                 <li id="barProveedor" class="dropdown barElem">
@@ -60,7 +60,7 @@
                                         <li id="barProveedor2">@Html.ActionLink("Invitaciones", "Invitacion", "Proveedor")</li>
                                         <li id="barProveedor3">@Html.ActionLink("Perfil", "Perfil", "Proveedor")</li>
                                         <li id="barProveedor4">@Html.ActionLink("Registrar", "RegistroProveedor", "Proveedor")</li>
-                                        <li id="barProveedor5">@Html.ActionLink("Lista proveedores", "ListaProveedor", "Proveedor")</li>
+                                        <li id="barProveedor5">@Html.ActionLink("Lista", "ListaProveedor", "Proveedor")</li>
                                     </ul>
                                 </li>
                             }
@@ -136,7 +136,6 @@
             if (r == null || r == undefined || r == "Index" || r=="") {
                 var d = document.getElementById("barHome");
             } else {
-                console.log(res);
                 if (res.indexOf("ListaUsuarios") > -1) {
                     var d = document.getElementById("barRegistro");
                     document.getElementById("barRegistro1").className += ' active';

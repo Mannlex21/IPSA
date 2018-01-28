@@ -24,23 +24,33 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/datePicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/revisionTotal.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/detalleRequisicion.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/departamento.js")"></script>
 }
 <div class="loader"></div>
 <div id="solicitudURL" data-request-url="@Url.Action("GetSolicitud", "Home")"></div>
+<div id="departamentos2URL" data-request-url="@Url.Action("GetDepartamentos2", "Departamentos")"></div>
 <h2>Revision total de solicitudes</h2>
 
 @using (Html.BeginForm())
 {
     <label for="departamentos" style="margin-right:5px;">Departamento</label>
-    @Html.TextBox("departamentoS", null, new { @class = "inputBox", @id = "departamentoS" })
+
+    <select id="departamentoS" class="form-control inputBox" name="departamentoS">
+        <option value=""></option>
+    </select>
     <label for="cicloS" style="margin-right:5px;">Ciclo</label>
-    @Html.TextBox("cicloS", null, new { @class = "inputBox", @id = "cicloS" })
+    <select id="cicloS" class="form-control inputBox" name="cicloS">
+        <option value=""></option>
+        <option value="Z">Zafra</option>
+        <option value="R">Reparacion</option>
+        <option value="W">Proyecto</option>
+    </select>
     <label for="ejercicioS" style="margin-right:5px;">Ejercicio</label>
-    @Html.TextBox("ejercicioS", null, new { @class = "inputBox", @id = "ejercicioS" })
+    @Html.TextBox("ejercicioS", null, new { @class = "form-control inputBox", @id = "ejercicioS", @type = "number", @step = "1", @min="0"})
     <label for="fechaInicial" style="margin-right:5px;">Fecha inicial</label>
-    @Html.TextBox("fechaInicial", null, new { @class = "inputBox", @id = "fechaInicial", @readonly = "readonly" })
+    @Html.TextBox("fechaInicial", null, new { @class = "form-control inputBox", @id = "fechaInicial", @readonly = "readonly" })
     <label for="fechaFinal" style="margin-right:5px;">Fecha final</label>
-    @Html.TextBox("fechaFinal", null, new { @class = "inputBox", @id = "fechaFinal", @readonly = "readonly" })
+    @Html.TextBox("fechaFinal", null, new { @class = "form-control inputBox", @id = "fechaFinal", @readonly = "readonly" })
     <button id="btnLimpiarSearch" class="btn btn-danger btn-sm glyphicon glyphicon-trash"></button>
     <button type="submit" id="filterButton" name="search" class="btn btn-success btn-sm glyphicon glyphicon-search"></button>
 }

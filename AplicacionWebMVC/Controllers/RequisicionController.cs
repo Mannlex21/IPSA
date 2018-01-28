@@ -7,11 +7,15 @@ using AplicacionWebMVC.Models;
 using System.Web.Script.Serialization;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Net;
+using System.IO;
+using System.Web.Services;
 
 namespace AplicacionWebMVC.Controllers
 {
     public class RequisicionController : Controller
     {
+        public static string carpetaAnexosSol = @"E:\Documentos\SolicitudesAnexos\";
         // GET: Requisicion
         public ActionResult Index()
         {
@@ -88,7 +92,9 @@ namespace AplicacionWebMVC.Controllers
                 db.DetalleRequisicion2.Add(detR2);
                 db.SaveChanges();
                 
-                var jsonData = new { code = "OK",resultSol=0,resultPar=r, partidas=partidas,solicitud=solicitud, preRequisicion= preReq + 1 };
+                var jsonData = new { code = "OK", preRequisicion= preReq + 1,departamento= (Int16)solicitud.departamento,
+                    ejercicio= solicitud.ejercicio
+                };
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             catch (SqlException odbcEx)
@@ -97,11 +103,14 @@ namespace AplicacionWebMVC.Controllers
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex){
-                var jsonData = new{code = ex};
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                List<string> errors = new List<string>();
+                errors.Add(ex.Message);
+                return Json(errors);
+                //var jsonData = new{code = ex};
+                //return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
         }
-       
         public JsonResult GetReq()
         {
             var json = new
@@ -110,5 +119,127 @@ namespace AplicacionWebMVC.Controllers
             };
             return Json(json,JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public ActionResult UploadFiles()
+        {
+            try
+            {
+                var files = Request.Files;
+                var req = Request;
+                var id = Request.Form[0];
+                var departamento= Request.Form[1];
+                var ejercicio = Request.Form[2];
+                var url="";
+                if (files.Count>0)
+                {
+                    var carpeta = "SolicitudReq-" + id+"-"+departamento+"-"+ejercicio;
+                    url = carpetaAnexosSol + carpeta;
+                    crearCarpetaAdjunto(carpeta);
+
+                    var context = new AlmacenEntities();
+                    var connection = context.Database.Connection;
+                    using (SqlConnection con = new SqlConnection(connection.ConnectionString))
+                    {
+                        string query = "UPDATE Solicitud_Requisiciones SET anexo = '"+ url + "' " +
+                            "WHERE departamento ="+departamento+" and ejercicio="+ejercicio+ " and preRequisicion="+ id;
+                        using (SqlCommand cmd = new SqlCommand(query))
+                        {
+                            cmd.Connection = con;
+                            con.Open();
+                            cmd.ExecuteScalar();
+                            con.Close();
+                        }
+                    }
+                }
+                for (int i = 0; i < files.Count; i++)
+                {
+                    var file = Request.Files[i];
+                    string fileName = Path.GetFileName(file.FileName);
+                    string[] ext = fileName.Split('.');
+                    string[] archivos = Directory.GetFiles(url);
+                    int fc = archivos.Length + 1;
+
+                    var nuevoNombre = "S-" + fc + "." + ext[1];
+                    var path = Path.Combine(url, nuevoNombre);
+                    file.SaveAs(path);
+                }
+                return Json(new { IsSucccess = true, ServerMessage = "Se subio correctamente",}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex) {
+                return Json(new { IsSucccess = false, ServerMessage = "Error: "+ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+        /*public String crearImagen(String url, String primero, String id)
+        {
+            try
+            {
+                url = url.ToLower();
+
+                String ext = (url.EndsWith(".png")) ? ".png" : ".jpg";
+                try
+                {
+                    String nuevo = carpetaImagen + primero + "-" + id + ext;
+                    File.Copy(url, nuevo, true);
+                    return nuevo;
+                }
+                catch (FileNotFoundException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e);
+            }
+            return "";
+        }*/
+        public string crearCarpetaAdjunto(string dir)
+        {
+            try
+            {
+                if (Directory.Exists(carpetaAnexosSol + dir))
+                {
+                    Console.WriteLine("That path exists already.");
+                    return carpetaAnexosSol + dir;
+                }
+                else
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(carpetaAnexosSol + dir);
+                    return carpetaAnexosSol + dir;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
+                return "";
+            }
+        }
+        /*public void crearImagenes(string url, string primero, string id, string urlN)
+        {
+            try
+            {
+                url = url.ToLower();
+                String[] urlA = url.Split(',');
+                for (int i = 0; i < urlA.Length; i++)
+                {
+                    string nuevo = "";
+                    if (urlA[i] != "")
+                    {
+                        string[] parts = urlA[i].Split('\\');
+                        string[] ext = parts[parts.Length - 1].Split('.');
+                        string[] files = Directory.GetFiles(urlN);
+                        int fc = files.Length + 1;
+
+                        nuevo = "M-" + fc + "." + ext[1];
+                        File.Copy(urlA[i], urlN + "\\" + nuevo, true);
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e);
+            }
+        }*/
     }
 }

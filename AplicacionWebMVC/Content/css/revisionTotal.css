@@ -2,10 +2,27 @@
     display: inline-block !important;
 }
 .inputBox {
-    margin-bottom: 10px;
     margin-right: 5px;
     width: 10%;
 }
 #filterButton, #btnLimpiarSearch{
     margin-bottom:5px;
+}
+.table {
+    margin-top: 15px;
+}
+#btnLimpiarSearch, #filterButton {
+    font-size: 20px;
+    top: 3px;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+#fechaInicial, #fechaFinal {
+    cursor: pointer;
 }

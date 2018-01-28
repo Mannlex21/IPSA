@@ -91,7 +91,7 @@ namespace AplicacionWebMVC.Controllers
                     using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                     {
                         string query = "DELETE FROM Usuarios WHERE idUsuario" + idUsuario
-                            + "DELETE FROM DetallesUsuarios WHERE idUsuario" + idUsuario; ;
+                            + "DELETE FROM DetallesUsuarios WHERE idUsuario" + idUsuario;
                         using (SqlCommand cmd = new SqlCommand(query))
                         {
                             cmd.Connection = con;
