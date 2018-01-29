@@ -404,7 +404,8 @@
     <Content Include="Models\Compras.edmx.diagram">
       <DependentUpon>Compras.edmx</DependentUpon>
     </Content>
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <None Include="Properties\PublishProfiles\Servidor.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />

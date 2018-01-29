@@ -15,7 +15,9 @@ namespace AplicacionWebMVC.Controllers
 {
     public class RequisicionController : Controller
     {
-        public static string carpetaAnexosSol = @"E:\Documentos\SolicitudesAnexos\";
+        public static string carpetaAnexosSol = "/WebAdProveedores/";
+        //public static string carpetaAnexosSol = @"E:\Documentos\SolicitudesAnexos\";
+
         // GET: Requisicion
         public ActionResult Index()
         {
@@ -122,8 +124,10 @@ namespace AplicacionWebMVC.Controllers
         [HttpPost]
         public ActionResult UploadFiles()
         {
+            string root = Server.MapPath("/WebAdProveedores/");
             try
             {
+               
                 var files = Request.Files;
                 var req = Request;
                 var id = Request.Form[0];
@@ -133,8 +137,8 @@ namespace AplicacionWebMVC.Controllers
                 if (files.Count>0)
                 {
                     var carpeta = "SolicitudReq-" + id+"-"+departamento+"-"+ejercicio;
-                    url = carpetaAnexosSol + carpeta;
-                    crearCarpetaAdjunto(carpeta);
+                    url = root + carpeta;
+                    crearCarpetaAdjunto(url);
 
                     var context = new AlmacenEntities();
                     var connection = context.Database.Connection;
@@ -163,10 +167,10 @@ namespace AplicacionWebMVC.Controllers
                     var path = Path.Combine(url, nuevoNombre);
                     file.SaveAs(path);
                 }
-                return Json(new { IsSucccess = true, ServerMessage = "Se subio correctamente",}, JsonRequestBehavior.AllowGet);
+                return Json(new { IsSucccess = true, ServerMessage = "Se subio correctamente"}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex) {
-                return Json(new { IsSucccess = false, ServerMessage = "Error: "+ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { IsSucccess = false, ServerMessage = "Error: "+ex.Message}, JsonRequestBehavior.AllowGet);
             }
             
         }
@@ -198,15 +202,15 @@ namespace AplicacionWebMVC.Controllers
         {
             try
             {
-                if (Directory.Exists(carpetaAnexosSol + dir))
+                if (Directory.Exists(dir))
                 {
                     Console.WriteLine("That path exists already.");
-                    return carpetaAnexosSol + dir;
+                    return dir;
                 }
                 else
                 {
-                    DirectoryInfo di = Directory.CreateDirectory(carpetaAnexosSol + dir);
-                    return carpetaAnexosSol + dir;
+                    DirectoryInfo di = Directory.CreateDirectory(dir);
+                    return dir;
                 }
             }
             catch (Exception e)

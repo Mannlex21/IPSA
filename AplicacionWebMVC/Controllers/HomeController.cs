@@ -31,7 +31,9 @@ namespace AplicacionWebMVC.Controllers
         [HttpPost]
         public ActionResult Login(Usuarios usuario, string returnUrl)
         {
-            var Result = DB.Usuarios.Where(u => u.nombreUsuario == usuario.nombreUsuario && u.contrasena == usuario.contrasena).FirstOrDefault();
+            try
+            {
+                var Result = DB.Usuarios.Where(u => u.nombreUsuario == usuario.nombreUsuario && u.contrasena == usuario.contrasena).FirstOrDefault();
             if (Result != null)
             {
                 FormsAuthentication.SetAuthCookie(Result.nombreUsuario, false);
@@ -48,6 +50,11 @@ namespace AplicacionWebMVC.Controllers
             else
             {
                 ModelState.AddModelError("", "");
+                return View();
+            }
+            }
+            catch (EntityException ex)
+            {
                 return View();
             }
         }
@@ -290,95 +297,122 @@ namespace AplicacionWebMVC.Controllers
         [Authorize(Roles = "Admin, Revisor1, Revisor2")]
         public ActionResult Revision(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var usuario = DB.Usuarios.Where(u => u.nombreUsuario == User.Identity.Name);
-            var solicitud = from s in DB.Solicitud_Requisiciones select s;
-            if (usuario.FirstOrDefault().Role.Equals("Admin"))
+            try
             {
-                solicitud = solicitud.Where(s => s.liberaLocal == false);
-            }
-            else
-            {
-                solicitud = solicitud.Where(s => s.liberaLocal == false && s.departamento == usuario.FirstOrDefault().departamento);
-            }
-           //solicitud = solicitud.Where(s => s.libera == false && s.departamento==usuario.FirstOrDefault().departamento);
+                var usuario = DB.Usuarios.Where(u => u.nombreUsuario == User.Identity.Name);
+                var solicitud = from s in DB.Solicitud_Requisiciones select s;
+                if (usuario.FirstOrDefault().Role.Equals("Admin"))
+                {
+                    solicitud = solicitud.Where(s => s.liberaLocal == false);
+                }
+                else
+                {
+                    solicitud = solicitud.Where(s => s.liberaLocal == false && s.departamento == usuario.FirstOrDefault().departamento);
+                }
+                //solicitud = solicitud.Where(s => s.libera == false && s.departamento==usuario.FirstOrDefault().departamento);
 
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+
+                return View(solicitud.OrderBy(i => i.preRequisicion).ToPagedList(page ?? 1, pageSize));
+            }
+            catch (Exception ex)
+            {
+                var e=ex;
+                return View(e.Message);
+            }
             
-            return View(solicitud.OrderBy(i => i.preRequisicion).ToPagedList(page ?? 1, pageSize));
         }
         [Authorize(Roles = "Admin, Revisor2")]
         public ActionResult RevisionExterna(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var usuario = DB.Usuarios.Where(u => u.nombreUsuario == User.Identity.Name);
-            var solicitud = from s in DB.Solicitud_Requisiciones select s;
-            if (usuario.FirstOrDefault().Role.Equals("Admin"))
+            try
             {
-                solicitud = solicitud.Where(s => s.liberaLocal == true && (s.liberaCapitalHumano==false || s.liberaElectrico==false ||
-                                            s.liberaSeguridad==false));
+                var usuario = DB.Usuarios.Where(u => u.nombreUsuario == User.Identity.Name);
+                var solicitud = from s in DB.Solicitud_Requisiciones select s;
+                if (usuario.FirstOrDefault().Role.Equals("Admin"))
+                {
+                    solicitud = solicitud.Where(s => s.liberaLocal == true && (s.liberaCapitalHumano == false || s.liberaElectrico == false ||
+                                                s.liberaSeguridad == false));
+                }
+                else
+                {
+                    var detUsuario = from u in DB.DetallesUsuarios select u;
+                    detUsuario = detUsuario.Where(u => u.idUsuario == usuario.FirstOrDefault().idUsuario);
+                    if (detUsuario.FirstOrDefault().seguridad == true)
+                    {
+                        solicitud = solicitud.Where(s => s.liberaLocal == true && s.liberaSeguridad == false);
+                    }
+                    if (detUsuario.FirstOrDefault().electricos == true)
+                    {
+                        solicitud = solicitud.Where(s => s.liberaLocal == true && s.liberaElectrico == false);
+                    }
+                    if (detUsuario.FirstOrDefault().capitalHumano == true)
+                    {
+                        solicitud = solicitud.Where(s => s.liberaLocal == true && s.liberaCapitalHumano == false);
+                    }
+
+                }
+
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+
+                return View(solicitud.OrderBy(i => i.preRequisicion).ToPagedList(page ?? 1, pageSize));
             }
-            else
+            catch (Exception ex)
             {
-                var detUsuario = from u in DB.DetallesUsuarios select u;
-                detUsuario = detUsuario.Where(u => u.idUsuario == usuario.FirstOrDefault().idUsuario);
-                if (detUsuario.FirstOrDefault().seguridad==true)
-                {
-                    solicitud = solicitud.Where(s => s.liberaLocal == true && s.liberaSeguridad == false);
-                }
-                if (detUsuario.FirstOrDefault().electricos == true)
-                {
-                    solicitud = solicitud.Where(s => s.liberaLocal == true && s.liberaElectrico == false);
-                }
-                if (detUsuario.FirstOrDefault().capitalHumano == true)
-                {
-                    solicitud = solicitud.Where(s => s.liberaLocal == true &&  s.liberaCapitalHumano == false);
-                }
-                
+                var e = ex;
+                return View(e.Message);
             }
-
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-
-            return View(solicitud.OrderBy(i => i.preRequisicion).ToPagedList(page ?? 1, pageSize));
+            
         }
         [Authorize(Roles = "Admin, Revisor1, Revisor2")]
         public ActionResult RevisionTotal(string sortOrder, string currentFilter, string searchString, int? page, string fechaInicial, string fechaFinal,string departamentoS,string cicloS,string ejercicioS)
         {
-            var usuario = from u in DB.Usuarios select u;
-            usuario = usuario.Where(u => u.nombreUsuario == User.Identity.Name);
-            var solicitud = from s in DB.Solicitud_Requisiciones select s;
-            if (usuario.FirstOrDefault().Role.Equals("Admin"))
+            try
             {
-                solicitud = solicitud.Where(s => s.liberaLocal == true);
-            }
-            else
-            {
-                solicitud = solicitud.Where(s => s.departamento == usuario.FirstOrDefault().departamento && s.liberaLocal == true);
-            }
-            if (!String.IsNullOrEmpty(fechaInicial) && !String.IsNullOrEmpty(fechaFinal))
-            {
-                DateTime fi = Convert.ToDateTime(Convert.ToDateTime(fechaInicial).ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                DateTime ff = Convert.ToDateTime(Convert.ToDateTime(fechaFinal).ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                solicitud = solicitud.Where(s => s.fechaRequisicion >=fi && s.fechaRequisicion <= ff);
-            }
-            if (!string.IsNullOrEmpty(departamentoS))
-            {
-                int dep = Int32.Parse(departamentoS);
-                solicitud = solicitud.Where(s => s.departamento==dep);
-            }
-            if (!string.IsNullOrEmpty(cicloS))
-            {
-                solicitud = solicitud.Where(s => s.ciclo.Equals(cicloS));
-            }
-            if (!string.IsNullOrEmpty(ejercicioS))
-            {
-                int ej = Int32.Parse(ejercicioS);
-                solicitud = solicitud.Where(s => s.ejercicio ==ej );
-            }
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
+                var usuario = from u in DB.Usuarios select u;
+                usuario = usuario.Where(u => u.nombreUsuario == User.Identity.Name);
+                var solicitud = from s in DB.Solicitud_Requisiciones select s;
+                if (usuario.FirstOrDefault().Role.Equals("Admin"))
+                {
+                    solicitud = solicitud.Where(s => s.liberaLocal == true);
+                }
+                else
+                {
+                    solicitud = solicitud.Where(s => s.departamento == usuario.FirstOrDefault().departamento && s.liberaLocal == true);
+                }
+                if (!String.IsNullOrEmpty(fechaInicial) && !String.IsNullOrEmpty(fechaFinal))
+                {
+                    DateTime fi = Convert.ToDateTime(Convert.ToDateTime(fechaInicial).ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                    DateTime ff = Convert.ToDateTime(Convert.ToDateTime(fechaFinal).ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                    solicitud = solicitud.Where(s => s.fechaRequisicion >= fi && s.fechaRequisicion <= ff);
+                }
+                if (!string.IsNullOrEmpty(departamentoS))
+                {
+                    int dep = Int32.Parse(departamentoS);
+                    solicitud = solicitud.Where(s => s.departamento == dep);
+                }
+                if (!string.IsNullOrEmpty(cicloS))
+                {
+                    solicitud = solicitud.Where(s => s.ciclo.Equals(cicloS));
+                }
+                if (!string.IsNullOrEmpty(ejercicioS))
+                {
+                    int ej = Int32.Parse(ejercicioS);
+                    solicitud = solicitud.Where(s => s.ejercicio == ej);
+                }
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
 
-            return View(solicitud.OrderBy(i => i.preRequisicion).ToPagedList(page ?? 1, pageSize));
+                return View(solicitud.OrderBy(i => i.preRequisicion).ToPagedList(page ?? 1, pageSize));
+            }
+            catch (Exception ex)
+            {
+                var e = ex;
+                return View(e.Message);
+            }
+            
         }
         public ActionResult LiberarSolicitud(int preRequisicion)
         {
@@ -468,46 +502,56 @@ namespace AplicacionWebMVC.Controllers
         }
         public JsonResult GetSolicitud(string sidx, string sord, int page, int rows,int preRequisicion,int departamento,int ejercicio)
         {
-            int pageIndex = Convert.ToInt32(page) - 1;
-            int pageSize = rows;
-            var Results = from d in DB.DetalleRequisicion select d;
-            Results = Results.Where(d => d.departamento == departamento && d.ejercicio == ejercicio && d.preRequisicion == preRequisicion);
-
-            int totalRecords = Results.Count();
-            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-
-            if (sord.ToUpper() == "DESC")
+            try
             {
-                Results = Results.OrderByDescending(s => s.detalle);
-                Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
-            }
-            else
-            {
-                Results = Results.OrderBy(s => s.detalle);
-                Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
-            }
-            var r = Results.Select(
-                a => new
+                int pageIndex = Convert.ToInt32(page) - 1;
+                int pageSize = rows;
+                var Results = from d in DB.DetalleRequisicion select d;
+                Results = Results.Where(d => d.departamento == departamento && d.ejercicio == ejercicio && d.preRequisicion == preRequisicion);
+
+                int totalRecords = Results.Count();
+                var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
+
+                if (sord.ToUpper() == "DESC")
                 {
-                    a.idDReq,
-                    a.detalle,
-                    a.partida,
-                    a.cantidad,
-                    a.costoU,
-                    a.departamento,
-                    descripcion = (DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().descripcion == null) ? a.descripcion : DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().descripcion,
-                    idMaterial = (DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().idMaterial == null) ? a.material : DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().idMaterial
-                });
-            var jsonData = new
+                    Results = Results.OrderByDescending(s => s.detalle);
+                    Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
+                }
+                else
+                {
+                    Results = Results.OrderBy(s => s.detalle);
+                    Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
+                }
+                var r = Results.Select(
+                    a => new
+                    {
+                        a.idDReq,
+                        a.detalle,
+                        a.partida,
+                        a.cantidad,
+                        a.costoU,
+                        a.departamento,
+                        descripcion = (DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().descripcion == null) ? a.descripcion : DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().descripcion,
+                        idMaterial = (DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().idMaterial == null) ? a.material : DB.Materiales.Where(s => s.idMaterial == a.material).FirstOrDefault().idMaterial
+                    });
+                var jsonData = new
+                {
+                    total = totalPages,
+                    page = page,
+                    records = totalRecords,
+                    rows = r
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
             {
-                total = totalPages,
-                page = page,
-                records = totalRecords,
-                rows = r
-            };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
-            
-            
+                var jsonData = new
+                {
+                    error=ex.Message
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
