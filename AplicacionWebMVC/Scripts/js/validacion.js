@@ -114,6 +114,7 @@ $(function () {
                 swal("Error!", "Ocurrio el siguiente error: " + errorData[0], "error");
             },
             success: function (result) {
+                prerequisicionG = result.preRequisicion;
                 var files = $("#file1");
                 var totalFiles = files[0].files.length;
                 var data = new FormData();

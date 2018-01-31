@@ -25,27 +25,27 @@
         },
         errorPlacement: function (error, element) {
             //Custom position: first name
-            if (element.attr("name") == "departamento") {
+            if (element.attr("name") === "departamento") {
                 $("#errDepartamento").text("*Es requerido");
             }
-            if (element.attr("name") == "uso") {
+            if (element.attr("name") === "uso") {
                 $("#errUso").text("*Es requerido");
             }
-            if (element.attr("name") == "fechaNecesitar") {
+            if (element.attr("name") === "fechaNecesitar") {
                 $("#errFechaN").text("*Es requerido");
             }
-            if (element.attr("name") == "fechaActual") {
+            if (element.attr("name") === "fechaActual") {
                 $("#errFechaA").text("*Es requerido");
             }
-            if (element.attr("name") == "ejercicio") {
-                if (error.text().indexOf("number") != -1) {
+            if (element.attr("name") === "ejercicio") {
+                if (error.text().indexOf("number") !== -1) {
                     $("#errEjercicio").text("*Debe ser año en numero");
                 }
-                if (error.text().indexOf("required") != -1) {
+                if (error.text().indexOf("required") !== -1) {
                     $("#errEjercicio").text("*Es requerido");
                 }
             }
-            if (element.attr("name") == "partidaPrep") {
+            if (element.attr("name") === "partidaPrep") {
                 $("#errPartidaPrep").text("*Es requerido");
             }
             // Default position: if no match is met (other fields)
@@ -63,33 +63,17 @@
         reestablecerInputsError();
         if ($("form[name='infoSol']").valid()) {
             if (!$.isEmptyObject(obj)) {
-                swal("¿Desea imprimir con detalle o sin detalle?", {
-                    buttons: {
-                        cancel: "Cancelar!",
-                        defeat: {
-                            text: "Con detalle",
-                            value: "conDetalle",
-                        },
-                        catch: {
-                            text: "Sin detalle",
-                            value: "sinDetalle",
-                        }
-
-                    },
+                swal({
+                    title: "¿Desea imprimir?",
+                    text: "",
+                    icon: "info",
+                    buttons: true,
                 })
-                    .then((value) => {
-                        switch (value) {
-                            case "conDetalle":
-                                imprimirConnDetalle();
-                                break;
-                            case "sinDetalle":
-                                imprimirSinDetalle();
-                                break;
-                            default:
-                                break;
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            imprimir();
                         }
                     });
-                
             } else {
                 $("#errTablaP").text("*Se necesita al menos una partida");
                 swal("Faltan datos", "Se necesita al menos una partida!", "error");
@@ -98,7 +82,7 @@
             swal("Faltan datos", "Debe llenar los campos requeridos para poder imprimir!", "error");
         } 
     });
-    function imprimirSinDetalle() {
+    function imprimir () {
         var externalDataRetrievedFromServer = [];
         var i = 1;
 
@@ -108,7 +92,7 @@
                 Partida: i,
                 Cantidad: value.Cantidad,
                 Unidad: value.Unidad,
-                'Descripcion del articulo': value.Descripcion,
+                'Descripcion del articulo': value.Descripcion + ':\n' + value.Detalle,
                 Clave: value.Clave, Existencia: value.Existencia,
                 'Precio unitario': value.PrecioU,
                 'Precio total': parseFloat(value.PrecioU) * parseFloat(value.Cantidad)
@@ -138,7 +122,7 @@
                                 widths: [45, '*', '*', '*', '*'],
                                 headerRows: 1,
                                 body: [
-                                    [{ image:img, width: 45, height: 45, rowSpan: 3, style: 'tableHeader', alignment: 'center' },
+                                    [{ image: img, width: 45, height: 45, rowSpan: 3, style: 'tableHeader', alignment: 'center' },
                                     { text: 'Identificacion', style: 'tableHeader', alignment: 'center' },
                                     { text: 'Version', style: 'tableHeader', alignment: 'center' },
                                     { text: 'Fecha', style: 'tableHeader', alignment: 'center' },
@@ -152,13 +136,16 @@
                             }
                         },
                         {
-                            margin: [480, 10, 0, 0],
+                            margin: [530, 10, 0, 0],
                             table: {
-                                widths: ['auto', 100,100],
+                                widths: ['auto', 100, 100],
                                 headerRows: 2,
                                 body: [
-                                    [{ text: 'Fecha', style: 'tableHeader', alignment: 'center' }, { text: 'Numero', style: 'tableHeader', alignment: 'center' }, { text: 'Pre-Requisición', style: 'tableHeader', alignment: 'center' }],
-                                    ['' + document.getElementById('fechaActual').value, '', { text: prerequisicionG, alignment:'center'}]
+                                    [{ text: 'Fecha', style: 'tableHeader', alignment: 'center' },
+                                    { text: 'Numero', style: 'tableHeader', alignment: 'center' },
+                                    { text: 'Pre-Requisición', style: 'tableHeader', alignment: 'center' }],
+                                    ['' + document.getElementById('fechaActual').value, '',
+                                    { text: ''+prerequisicionG, alignment: 'center' }]
                                 ]
                             }
                         }
@@ -192,9 +179,9 @@
             content: [
                 table(externalDataRetrievedFromServer, [{ text: 'Partida', alignment: 'center' }, { text: 'Cantidad', alignment: 'center' }, { text: 'Unidad', alignment: 'center' }, { text: 'Descripcion del articulo', alignment: 'center' }, { text: 'Clave', alignment: 'center' }, { text: 'Existencia', alignment: 'center' }, { text: 'Precio unitario', alignment: 'center' }, { text: 'Precio total', alignment: 'center' }]),
                 {
-                    margin: [-110, 1, 0, 0],
+                    margin: [-110, 2, 0, 0],
                     table: {
-                        widths: ['95.1%', '12.3%', '10%'],
+                        widths: ['95.5%', '11.5%', '9%'],
                         body: [
                             [{ text: '', alignment: 'center' },
                             { text: 'Total', alignment: 'center' },
@@ -205,7 +192,7 @@
                 {
                     margin: [-110, 2, 0, 0],
                     table: {
-                        widths: ['59%', '58%'],
+                        widths: ['59%', '57%'],
                         headerRows: 2,
                         body: [
                             [{ text: 'Departamento: ' + document.getElementById("departamento").value, style: 'tableHeader', alignment: 'left' },
@@ -215,48 +202,95 @@
                             [{ text: 'Partida presupuestal: ' + document.getElementById("partidaPrep").value, style: 'tableHeader', alignment: 'left' }, '']
                         ]
                     }
-                }
+                }/*,
+                {
+                    margin: [0, 30, 0, 0],
+                    table: {
+                        widths: ['*', '*', '*', '*', '*', '*'],
+                        headerRows: 2,
+                        body: [
+                            [{ text: 'Departamento Solicitante', style: 'tableHeader', alignment: 'center' },
+                            { text: 'Almacen', style: 'tableHeader', alignment: 'center' },
+                            { text: 'Superintendente', style: 'tableHeader', alignment: 'center' },
+                            { text: 'Director general', style: 'tableHeader', alignment: 'center' },
+                            { text: 'Compras', style: 'tableHeader', alignment: 'center' },
+                            { text: 'Proveedor', style: 'tableHeader', alignment: 'center' }],
+                            ['\n\n\n', '', '', '', '', '']
+                        ]
+                    }
+                }*/
 
 
-            ], pageSize: 'LETTER',
+            ],
             pageMargins: 120,
             styles: {
                 personal: {
                     fontSize: 9,
                 }
-            }
-        };
+            }};
         pdfMake.createPdf(docDefinition).open();
     }
+    function buildTableBody(data, columns) {
+        var body = [];
+        body.push(columns);
+
+        data.forEach(function (row) {
+            var dataRow = [];
+
+            columns.forEach(function (column) {
+                if (column.text === "Descripcion del articulo") {
+                    dataRow.push({ text: row[column.text].toString(), alignment: 'justify' });
+                } else {
+                    dataRow.push({ text: row[column.text].toString(), alignment: 'center' });
+                }
+
+            })
+
+            body.push(dataRow);
+        });
+
+        return body;
+    }
+    function table(data, columns) {
+        return {
+            margin: [-110, 5, -110, 0],
+            table: {
+                headerRows: 1,
+                widths: [39, 48, 45, '*', 43, 58, 78, 63],
+                body: buildTableBody(data, columns)
+            }
+        };
+    }
+    
     function imprimirConnDetalle() {
         var externalDataRetrievedFromServer = [], detallesTable = [];
         var c1='\n', c2='\n', c3='\n', c4='\n', c5='\n', c6='\n', c7='\n', c8='\n', c9='\n';
         var i = 1;
-        if (chkBox.trabajoSindicato == true) {
+        if (chkBox.trabajoSindicato === true) {
             c1 = 'X';
         }
-        if (chkBox.retencionImpuesto == true) {
+        if (chkBox.retencionImpuesto === true) {
             c2 = 'X';
         }
-        if (chkBox.altura == true) {
+        if (chkBox.altura === true) {
             c3 = 'X';
         }
-        if (chkBox.espaciosConfinados == true) {
+        if (chkBox.espaciosConfinados === true) {
             c4 = 'X';
         }
-        if (chkBox.electrico == true) {
+        if (chkBox.electrico === true) {
             c5 = 'X';
         }
-        if (chkBox.corte == true) {
+        if (chkBox.corte === true) {
             c6 = 'X';
         }
-        if (chkBox.soldadura == true) {
+        if (chkBox.soldadura === true) {
             c7 = 'X';
         }
-        if (chkBox.izajes == true) {
+        if (chkBox.izajes === true) {
             c8 = 'X';
         }
-        if (chkBox.montacarga == true) {
+        if (chkBox.montacarga === true) {
             c9 = 'X';
         }
         obj.forEach(function (value) {
@@ -438,38 +472,6 @@
             }
         };
         pdfMake.createPdf(docDefinition).open();
-    }
-    function buildTableBody(data, columns) {
-        var body = [];
-        body.push(columns);
-
-        data.forEach(function (row) {
-            var dataRow = [];
-
-            columns.forEach(function (column) {
-                if (column.text =="Descripcion del articulo") {
-                    dataRow.push({ text: row[column.text].toString(), alignment: 'justify' });
-                } else {
-                    dataRow.push({ text: row[column.text].toString(), alignment: 'center' });
-                }
-                
-            })
-
-            body.push(dataRow);
-        });
-
-        return body;
-    }
-
-    function table(data, columns) {
-        return {
-            margin: [-110, 5, -110, 0],
-            table: {
-                headerRows: 1,
-                widths: [39, 48, 45, '*', 43, 58, 78, 63],
-                body: buildTableBody(data, columns)
-            }
-        };
     }
     function tableDetalle(data, columns) {
         return {

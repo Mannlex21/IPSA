@@ -68,8 +68,8 @@ namespace AplicacionWebMVC.Controllers
                     detR.partida = (Int16)cont++;
                     detR.material = Int32.Parse(value.Clave);
                     detR.cantidad = Decimal.Parse(value.Cantidad);
-                    detR.detalle = value.Detalle;
-                    detR.descripcion = value.Descripcion;
+                    detR.detalle = value.Descripcion;
+                    detR.descripcion =  value.Detalle;
                     detR.ejercicio = solicitud.ejercicio;
                     detR.costoU = Decimal.Parse(value.PrecioU);
                     detR.costoTotal = Decimal.Parse(value.PrecioU) * Decimal.Parse(value.Cantidad);
@@ -144,8 +144,8 @@ namespace AplicacionWebMVC.Controllers
                     var connection = context.Database.Connection;
                     using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                     {
-                        string query = "UPDATE Solicitud_Requisiciones SET anexo = '"+ carpeta + "' " +
-                            "WHERE departamento ="+departamento+" and ejercicio="+ejercicio+ " and preRequisicion="+ id;
+                        string query = "UPDATE Solicitud_Requisiciones SET anexo = '" + carpeta + "' " +
+                            "WHERE departamento =" + departamento + " and ejercicio=" + ejercicio + " and preRequisicion=" + id;
                         using (SqlCommand cmd = new SqlCommand(query))
                         {
                             cmd.Connection = con;
@@ -155,6 +155,24 @@ namespace AplicacionWebMVC.Controllers
                         }
                     }
                 }
+                else
+                {
+                    var context = new AlmacenEntities();
+                    var connection = context.Database.Connection;
+                    using (SqlConnection con = new SqlConnection(connection.ConnectionString))
+                    {
+                        string query = "UPDATE Solicitud_Requisiciones SET anexo = '---' " +
+                            "WHERE departamento =" + departamento + " and ejercicio=" + ejercicio + " and preRequisicion=" + id;
+                        using (SqlCommand cmd = new SqlCommand(query))
+                        {
+                            cmd.Connection = con;
+                            con.Open();
+                            cmd.ExecuteScalar();
+                            con.Close();
+                        }
+                    }
+                }
+                
                 for (int i = 0; i < files.Count; i++)
                 {
                     var file = Request.Files[i];

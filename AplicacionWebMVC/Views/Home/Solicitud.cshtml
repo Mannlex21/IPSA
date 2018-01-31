@@ -111,7 +111,7 @@
     <form action="" name="infoPar" id="infoPar">
         <div class="div1 col-md-6">
             <label for="descripcion">Decripción <span id="errDescripcion" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="descripcion" id="descripcion">
+            <input type="text" class="inputBox2" name="descripcion" id="descripcion" maxlength="255">
 
             <label for="cantidad">Cantidad <span id="errCantidad" class="errorPersonalizado"></span></label>
             <input type="text" class="inputBox2" name="cantidad" id="cantidad">
@@ -131,7 +131,7 @@
             <input type="text" class="inputBox2" name="precioU" id="precioU">
 
             <label for="detalle">Detalle <span id="errDetalle" class="errorPersonalizado"></span></label>
-            <textarea name="detalle" class="inputBox2" id="detalle" cols="30" rows="4"></textarea>
+            <textarea name="detalle" class="inputBox2" id="detalle" cols="30" rows="4" maxlength="255"></textarea>
 
             <button type="button" id="btnAgregarI" class="btn btn-success btn-lg">Agregar</button>
             <button type="button" id="btnLimpiarI" class="btn btn-danger btn-lg">Limpiar</button>
