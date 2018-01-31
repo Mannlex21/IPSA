@@ -173,6 +173,7 @@
     <Compile Include="Controllers\MaterialesController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\RequisicionController.cs" />
+    <Compile Include="Controllers\RutasGenerales.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

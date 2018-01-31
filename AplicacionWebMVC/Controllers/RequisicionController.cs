@@ -15,8 +15,8 @@ namespace AplicacionWebMVC.Controllers
 {
     public class RequisicionController : Controller
     {
+
         public static string carpetaAnexosSol = "/WebSolicitudesAnexos/";
-        
         //public static string carpetaAnexosSol = @"E:\Documentos\SolicitudesAnexos\";
 
         // GET: Requisicion
@@ -125,8 +125,7 @@ namespace AplicacionWebMVC.Controllers
         [HttpPost]
         public ActionResult UploadFiles()
         {
-            string root = Server.MapPath("/WebSolicitudesAnexos/");
-            //string root = @"\\\\172.16.0.5\\SolicitudesAnexos\\";
+
             try
             {
                 var files = Request.Files;
@@ -138,7 +137,7 @@ namespace AplicacionWebMVC.Controllers
                 if (files.Count>0)
                 {
                     var carpeta = "SolicitudReq-" + id+"-"+departamento+"-"+ejercicio;
-                    url = root + carpeta;
+                    url = RutasGenerales.root + carpeta;
                     crearCarpetaAdjunto(url);
 
                     var context = new AlmacenEntities();
