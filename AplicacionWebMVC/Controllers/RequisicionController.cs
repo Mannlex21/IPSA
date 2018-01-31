@@ -15,7 +15,8 @@ namespace AplicacionWebMVC.Controllers
 {
     public class RequisicionController : Controller
     {
-        public static string carpetaAnexosSol = "/WebAdProveedores/";
+        public static string carpetaAnexosSol = "/WebSolicitudesAnexos/";
+        
         //public static string carpetaAnexosSol = @"E:\Documentos\SolicitudesAnexos\";
 
         // GET: Requisicion
@@ -124,10 +125,10 @@ namespace AplicacionWebMVC.Controllers
         [HttpPost]
         public ActionResult UploadFiles()
         {
-            string root = Server.MapPath("/WebAdProveedores/");
+            string root = Server.MapPath("/WebSolicitudesAnexos/");
+            //string root = @"\\\\172.16.0.5\\SolicitudesAnexos\\";
             try
             {
-               
                 var files = Request.Files;
                 var req = Request;
                 var id = Request.Form[0];
@@ -144,7 +145,7 @@ namespace AplicacionWebMVC.Controllers
                     var connection = context.Database.Connection;
                     using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                     {
-                        string query = "UPDATE Solicitud_Requisiciones SET anexo = '"+ url + "' " +
+                        string query = "UPDATE Solicitud_Requisiciones SET anexo = '"+ carpeta + "' " +
                             "WHERE departamento ="+departamento+" and ejercicio="+ejercicio+ " and preRequisicion="+ id;
                         using (SqlCommand cmd = new SqlCommand(query))
                         {
