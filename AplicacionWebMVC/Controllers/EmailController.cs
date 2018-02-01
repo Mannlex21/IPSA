@@ -23,28 +23,43 @@ namespace AplicacionWebMVC.Controllers
         {
             try
             {
-                var Results = DB.Configuracion.Select(
-                a => new
-                {
-                    a.contrasenaCorreoE,
-                    a.correoEnvia,
-                    a.correoRecibe,
-                    a.host,
-                    a.puerto
-                }).FirstOrDefault();
-                string Host = "mail.ingeniopuga.com.mx";
-                int Puerto = 465;
+                var Results = DB.Configuracion.FirstOrDefault();
+                string Host = Results.host;//"mail.ingeniopuga.com.mx";
+                int Puerto = Int32.Parse(Results.puerto.ToString());//26
                 string fromCorreo = Results.correoEnvia;
                 var toCorreo = Results.correoRecibe;
                 var passCorreo = Results.contrasenaCorreoE;
                 System.Diagnostics.Debug.WriteLine(Results);
+                
                 var body = 
-                    "<h1 style='color: #5e9ca0; text-align: center;'>Se registro una pre-requisicion!</h1>" +
-                    "<h2><span style = 'color: #000000;'> Departamento: {0}</span></h2>" +
-                    "<h2><span style = 'color: #000000;'> Uso: {1}</span></h2>" +
-                    "<h2><span style = 'color: #000000;'> Fecha a necesitar: {2}</span></h2>" +
-                    "<h2><span style = 'color: #000000;'> Fecha de requisicion: {3}</span></h2>" +
-                    "<h2><span style = 'color: #000000;'> Observaciones: {4}</span></h2>";
+                    "<div class='col-md-6' style='margin:auto;'>" +
+                        "<div style='background-color: #fff;  border: 1px solid transparent; border-radius: 4px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); margin-bottom: 20px; border-color: #428bca;' class='preferred-selection panel panel-primary'>" +
+                        "<div style='text-align:center;border-top-left-radius: 3px; border-top-right-radius: 3px; padding: 10px 15px; background-color: #428bca; border-color: #428bca; color: #fff;'>Se registro una pre-requisicion!</div>" +
+                            "<table class='table manual_settings_table' style='border-collapse: collapse; border-spacing: 0; margin-bottom: 0; width: 100%; background-color: transparent; max-width: 100%;'>" +
+                                "<tbody>" +
+                                    "<tr>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;width: 240px;'>Departamento: </td>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;text-align:center;'>{0}</td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;width: 240px;' >Uso: </td>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;text-align:center;' > {1}</td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;width: 240px;' >Fecha a necesitar: </td>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;text-align:center;' > {2}</td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;width: 240px;' >Fecha de requisicion: </td>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;text-align:center;' > {3}</td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;width: 240px;' >Observaciones: </td>" +
+                                        "<td style='border-top: 1px solid #ddd; padding: 8px;text-align:center;' > {4}</td>" +
+                                    "</tr>" +
+                                "</tbody>" +
+                            "</table>" +
+                    "</div>";
 
                 var smtp = new SmtpClient
                 {

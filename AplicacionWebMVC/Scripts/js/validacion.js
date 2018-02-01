@@ -158,23 +158,22 @@ $(function () {
                                 data: JSON.stringify(d),
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
-                                async: true,
+                                async: false,
                                 success: function (result) {
-                                    
+                                    $(".loader").fadeOut(100);
+                                    swal("Guardado!", "Se ha guardado la solicitud correctamente", "success");
                                     console.log("Se envio mail");
                                 }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    console.log(XMLHttpRequest);
-                                    console.log(errorThrown)
+                                    $(".loader").fadeOut(100);
+                                    swal("Aviso!", "Se ha guardado la solicitud, pero no se ha enviado el correo. Error:" + errorThrown, "warning");
                                     console.log("No se envio mail");
                                 }
                             });
-                            $(".loader").fadeOut(100);
-                            swal("Guardado!", "Se ha guardado la solicitud correctamente", "success");
                         },
                         error: function (error) {
                             console.log(error);
                             $(".loader").fadeOut(100);
-                            swal("Error: " + error.status + " " + error.statusText, "Ocurrio el siguiente error: No se pudo subir los adjuntos ", "error");
+                            swal("Aviso!", "Se ha guardado la solicitud, pero no se pudieron subir los adjuntos. Error: " + error.statusText, "warning");
                         }
                     });
                 }

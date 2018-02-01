@@ -17,6 +17,7 @@ namespace AplicacionWebMVC.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Materiales()
         {
+            this.AdjuntoMateriales = new HashSet<AdjuntoMateriales>();
             this.MaterialesContable = new HashSet<MaterialesContable>();
         }
     
@@ -42,6 +43,8 @@ namespace AplicacionWebMVC.Models
         public string imagen { get; set; }
         public string adjunto { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AdjuntoMateriales> AdjuntoMateriales { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialesContable> MaterialesContable { get; set; }
     }

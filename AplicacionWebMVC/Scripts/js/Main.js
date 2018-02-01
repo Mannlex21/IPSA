@@ -112,32 +112,7 @@ $(document).ready(function () {
         bloquearBoton();
     });
     $(document).on('click', '#btnLimpiarFile', function (e) {
-        var url = $('#emailURL').data('request-url');
-        var d = {
-            Subject: "Se agrego una pre-requisicion",
-            fechaNecesitar: document.getElementById("fechaNecesitar").value,
-            fechaRequisicion: document.getElementById("fechaActual").value,
-            uso: document.getElementById("uso").value,
-            observaciones: document.getElementById("observaciones").value,
-            departamento: document.getElementById("departamento").value
-        };
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: JSON.stringify(d),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: true,
-            success: function (result) {
-
-                console.log("Se envio mail");
-            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log(XMLHttpRequest);
-                console.log(errorThrown)
-                console.log("No se envio mail");
-            }
-        });
-        //document.getElementById("file1").value = "";
+        document.getElementById("file1").value = "";
     });
     
     $(document).on("click", "#btnLimpiarP", function () {
