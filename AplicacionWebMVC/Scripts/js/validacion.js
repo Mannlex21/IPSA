@@ -95,75 +95,92 @@ $(function () {
             checks: chkBox
         }
         var url = $('#requisicionURL').data('request-url');
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: JSON.stringify(d),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            cache: false,
-            beforeSend: function () {
-                $(".loader").fadeIn(1);
-            },
-            complete: function () {
-                
-            }, error: function (xhr, textStatus, exceptionThrown) {
-                var errorData = $.parseJSON(xhr.responseText);
-                $(".loader").fadeOut(100);
-                swal("Error!", "Ocurrio el siguiente error: " + errorData[0], "error");
-            },
-            success: function (result) {
-                prerequisicionG = result.preRequisicion;
-                var files = $("#file1");
-                var totalFiles = files[0].files.length;
-                var data = new FormData();
-                data.append("id", result.preRequisicion);
-                data.append("dep", document.getElementById("departamentoD").value);
-                data.append("ejercicio", document.getElementById("ejercicio").value);
-                for (var i = 0; i < totalFiles; i++) {
-                    data.append("Foto", files[0].files[i]);
-                }
-                var fileUploadUrl = $('#UploadFileURL').data('request-url');
-                $.ajax({
-                    url: fileUploadUrl,
-                    data: data,
-                    type: 'POST',
-                    contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
-                    processData: false, // NEEDED
-                    success: function (response) {
-                        document.getElementById("btnImprimir").disabled = false;
-                        var d = {
-                            Subject: "Se agrego una pre-requisicion",
-                            fechaNecesitar: document.getElementById("fechaNecesitar").value,
-                            fechaRequisicion: document.getElementById("fechaActual").value,
-                            uso: document.getElementById("uso").value,
-                            observaciones: document.getElementById("observaciones").value,
-                            departamento: document.getElementById("departamento").value
-                        };
-                        var url = $('#emailURL').data('request-url');
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            data: JSON.stringify(d),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            async: true,
-                            success: function (result) {
-                                console.log("Se envio mail");
-                            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                console.log("No se envio mail");
-                            }
-                        });
-                        $(".loader").fadeOut(100);
-                        swal("Guardado!", "Se ha guardado la solicitud correctamente", "success");  
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                }); 
+        var bandera = 0;
+        if ($("#file1")[0].files.length != 0) {
+            if ($("#file1")[0].files[0].size > 150000000) {
+                bandera = 1;
+                swal("Error!", "Ocurrio el siguiente error: El archivo excede el limite permitido. Limite: 150 mb ", "error");
+            } else {
+                bandera = 0;
             }
-        });
+        } 
+        if (bandera===0) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify(d),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+                    $(".loader").fadeIn(1);
+                },
+                complete: function () {
+
+                }, error: function (xhr, textStatus, exceptionThrown) {
+                    var errorData = $.parseJSON(xhr.responseText);
+                    $(".loader").fadeOut(100);
+                    swal("Error!", "Ocurrio el siguiente error: " + errorData[0], "error");
+                },
+                success: function (result) {
+                    var files = $("#file1");
+                    document.getElementById("btnImprimir").disabled = false;
+                    prerequisicionG = result.preRequisicion;
+                    var totalFiles = files[0].files.length;
+                    var data = new FormData();
+                    data.append("id", result.preRequisicion);
+                    data.append("dep", document.getElementById("departamentoD").value);
+                    data.append("ejercicio", document.getElementById("ejercicio").value);
+                    for (var i = 0; i < totalFiles; i++) {
+                        data.append("Foto", files[0].files[i]);
+                    }
+                    var fileUploadUrl = $('#UploadFileURL').data('request-url');
+                    $.ajax({
+                        url: fileUploadUrl,
+                        data: data,
+                        type: 'POST',
+                        contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                        processData: false, // NEEDED
+                        success: function (response) {
+                            var d = {
+                                Subject: "Se agrego una pre-requisicion",
+                                fechaNecesitar: document.getElementById("fechaNecesitar").value,
+                                fechaRequisicion: document.getElementById("fechaActual").value,
+                                uso: document.getElementById("uso").value,
+                                observaciones: document.getElementById("observaciones").value,
+                                departamento: document.getElementById("departamento").value
+                            };
+                            var url = $('#emailURL').data('request-url');
+                            $.ajax({
+                                type: "POST",
+                                url: url,
+                                data: JSON.stringify(d),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                async: true,
+                                success: function (result) {
+                                    
+                                    console.log("Se envio mail");
+                                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    console.log(XMLHttpRequest);
+                                    console.log(errorThrown)
+                                    console.log("No se envio mail");
+                                }
+                            });
+                            $(".loader").fadeOut(100);
+                            swal("Guardado!", "Se ha guardado la solicitud correctamente", "success");
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            $(".loader").fadeOut(100);
+                            swal("Error: " + error.status + " " + error.statusText, "Ocurrio el siguiente error: No se pudo subir los adjuntos ", "error");
+                        }
+                    });
+                }
+            });
+        }
+        
        
     }
 });

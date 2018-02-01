@@ -31,13 +31,13 @@ namespace AplicacionWebMVC.Controllers
                     a.correoRecibe,
                     a.host,
                     a.puerto
-                });
-                string Host = Results.First().host;
-                int Puerto = Results.First().puerto ?? 26;
-                string fromCorreo = Results.First().correoEnvia;
-                var toCorreo = Results.First().correoRecibe;
-                var passCorreo = Results.First().contrasenaCorreoE;
-                System.Diagnostics.Debug.WriteLine(Results.First());
+                }).FirstOrDefault();
+                string Host = "mail.ingeniopuga.com.mx";
+                int Puerto = 465;
+                string fromCorreo = Results.correoEnvia;
+                var toCorreo = Results.correoRecibe;
+                var passCorreo = Results.contrasenaCorreoE;
+                System.Diagnostics.Debug.WriteLine(Results);
                 var body = 
                     "<h1 style='color: #5e9ca0; text-align: center;'>Se registro una pre-requisicion!</h1>" +
                     "<h2><span style = 'color: #000000;'> Departamento: {0}</span></h2>" +
