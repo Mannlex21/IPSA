@@ -111,6 +111,10 @@ $(document).ready(function () {
         agregarElem();
         bloquearBoton();
     });
+    $(document).on('click', '#btnLimpiarFile', function (e) {
+        document.getElementById("file1").value = "";
+    });
+    
     $(document).on("click", "#btnLimpiarP", function () {
         limpiarSolicitante();
     });

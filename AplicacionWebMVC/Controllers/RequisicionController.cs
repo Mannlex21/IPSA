@@ -29,7 +29,6 @@ namespace AplicacionWebMVC.Controllers
         {
             try
             {
-                string s;
                 AlmacenEntities db = new AlmacenEntities();
                 var context = new AlmacenEntities();
                 var connection = context.Database.Connection;
@@ -125,7 +124,8 @@ namespace AplicacionWebMVC.Controllers
         [HttpPost]
         public ActionResult UploadFiles()
         {
-
+            string root = Server.MapPath("/WebSolicitudesAnexos/");
+            //string root= "\\\\172.16.0.5\\WebSolicitudesAnexos\\";
             try
             {
                 var files = Request.Files;
@@ -136,24 +136,31 @@ namespace AplicacionWebMVC.Controllers
                 var url="";
                 if (files.Count>0)
                 {
-                    var carpeta = "SolicitudReq-" + id+"-"+departamento+"-"+ejercicio;
-                    url = RutasGenerales.root + carpeta;
-                    crearCarpetaAdjunto(url);
-
-                    var context = new AlmacenEntities();
-                    var connection = context.Database.Connection;
-                    using (SqlConnection con = new SqlConnection(connection.ConnectionString))
+                    if (req.ContentLength>1500)
                     {
-                        string query = "UPDATE Solicitud_Requisiciones SET anexo = '" + carpeta + "' " +
-                            "WHERE departamento =" + departamento + " and ejercicio=" + ejercicio + " and preRequisicion=" + id;
-                        using (SqlCommand cmd = new SqlCommand(query))
+                        var carpeta = "SolicitudReq-" + id + "-" + departamento + "-" + ejercicio;
+                        url = root + carpeta;
+                        crearCarpetaAdjunto(url);
+
+                        var context = new AlmacenEntities();
+                        var connection = context.Database.Connection;
+                        using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                         {
-                            cmd.Connection = con;
-                            con.Open();
-                            cmd.ExecuteScalar();
-                            con.Close();
+                            string query = "UPDATE Solicitud_Requisiciones SET anexo = '" + carpeta + "' " +
+                                "WHERE departamento =" + departamento + " and ejercicio=" + ejercicio + " and preRequisicion=" + id;
+                            using (SqlCommand cmd = new SqlCommand(query))
+                            {
+                                cmd.Connection = con;
+                                con.Open();
+                                cmd.ExecuteScalar();
+                                con.Close();
+                            }
                         }
                     }
+                    else
+                    {
+                        return Json(new { IsSucccess = true, ServerMessage = "El archivo excede el limite permitido. Limite: 150 mb" }, JsonRequestBehavior.AllowGet);
+                    } 
                 }
                 else
                 {
