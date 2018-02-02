@@ -84,7 +84,6 @@
         } 
     });
     function imprimir() {
-        console.log(img);
         var externalDataRetrievedFromServer = [];
         var i = 1;
 
