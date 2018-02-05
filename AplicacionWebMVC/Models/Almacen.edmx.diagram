@@ -27,6 +27,7 @@
         <AssociationConnector Association="bdAdquisicionMaterialModel.FK_SolicitudRequisiciones_Departamento" />
         <AssociationConnector Association="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud2" />
         <AssociationConnector Association="bdAdquisicionMaterialModel.FK_DetalleRequisicion_Solicitud" />
+        <EntityTypeShape EntityType="bdAdquisicionMaterialModel.DetallesUsuarios2" Width="1.5" PointX="12.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

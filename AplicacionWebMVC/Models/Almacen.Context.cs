@@ -18,9 +18,8 @@ namespace AplicacionWebMVC.Models
         public AlmacenEntities()
             : base("name=AlmacenEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -39,7 +38,7 @@ namespace AplicacionWebMVC.Models
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
         public virtual DbSet<UsuarioDepartamento> UsuarioDepartamento { get; set; }
-        
         public virtual DbSet<Solicitud_Requisiciones> Solicitud_Requisiciones { get; set; }
+        public virtual DbSet<DetallesUsuarios2> DetallesUsuarios2 { get; set; }
     }
 }

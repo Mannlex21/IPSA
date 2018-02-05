@@ -37,9 +37,10 @@
                         {
                             if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Admin"))
                             {
-                                
+
                                 <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
                                 <li id="barListaSolicitudes" class="barElem">@Html.ActionLink("Lista de solicitudes", "ListaSolicitudes", "Home")</li>
+                                <li id="barListaEmpleados" class="barElem">@Html.ActionLink("Lista de Empleados", "ListaEmpleados", "Home")</li>
                                 <li id="barRevision" class="dropdown barElem">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -65,29 +66,32 @@
                                         <li id="barProveedor5">@Html.ActionLink("Lista", "ListaProveedor", "Proveedor")</li>
                                     </ul>
                                 </li>
-                            }
-                            else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Empleado"))
-                            {
+                                        
+                        }
+                        else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Empleado"))
+                        {
                                 <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
                                 <li id="barListaSolicitudes" class="barElem">@Html.ActionLink("Lista de solicitudes", "ListaSolicitudes", "Home")</li>
-                            }
-                            else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Revisor1"))
-                            {
-                                <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>  
+                        }
+                        else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Revisor1"))
+                        {
+                                <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
                                 <li id="barListaSolicitudes" class="barElem">@Html.ActionLink("Lista de solicitudes", "ListaSolicitudes", "Home")</li>
+                                <li id="barListaEmpleados" class="barElem">@Html.ActionLink("Lista de Empleados", "ListaEmpleados", "Home")</li>
                                 <li id="barRevision" class="dropdown barElem">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li id="barRevision1" class="barElem">@Html.ActionLink("Revision", "Revision", "Home")</li>
                                         <li id="barRevision2" class="barElem">@Html.ActionLink("Lista", "RevisionTotal", "Home")</li>
-                                        
+
                                     </ul>
                                 </li>
-                            }
-                            else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Revisor2"))
-                            {
+                        }
+                        else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Revisor2"))
+                        {
                                 <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
                                 <li id="barListaSolicitudes" class="barElem">@Html.ActionLink("Lista de solicitudes", "ListaSolicitudes", "Home")</li>
+                                <li id="barListaEmpleados" class="barElem">@Html.ActionLink("Lista de Empleados", "ListaEmpleados", "Home")</li>
                                 <li id="barRevision" class="dropdown barElem">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -96,18 +100,18 @@
                                         <li id="barRevision2" class="barElem">@Html.ActionLink("Lista", "RevisionTotal", "Home")</li>
                                     </ul>
                                 </li>
-                            }
-                            else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Proveedor"))
-                            {
+                        }
+                        else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Proveedor"))
+                        {
                                 <li id="barCotizacion" class="barElem">@Html.ActionLink("Cotizacion", "Cotizacion", "Proveedor")</li>
                                 <li id="barInvitacion" class="barElem">@Html.ActionLink("Invitaciones", "Invitacion", "Proveedor")</li>
                                 <li id="barPerfil" class="barElem">@Html.ActionLink("Perfil", "Perfil", "Proveedor")</li>
-                            }
-                            <li id="barLogOut" class="barElem"><a href="@Url.Action("SignOut","Home")">Cerrar Sesión (@(User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Visitante"))</a></li>
+                        }
+                                <li id="barLogOut" class="barElem"><a href="@Url.Action("SignOut","Home")">Cerrar Sesión (@(User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Visitante"))</a></li>
                         }
                         else
                         {
-                            <li id="barLogin" class="barElem">@Html.ActionLink("Iniciar sesión", "Login", "Home")</li>
+                                <li id="barLogin" class="barElem">@Html.ActionLink("Iniciar sesión", "Login", "Home")</li>
                         }
                     </ul>
                 </div>

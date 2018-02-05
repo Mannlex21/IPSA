@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AplicacionWebMVC.Models.Usuarios>
+﻿@model PagedList.IPagedList<AplicacionWebMVC.Models.Usuarios>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "ListaUsuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,56 +19,60 @@
 {
     Response.Redirect("~/Home/Index");
 }
-    <div class="loader"></div>
+<div class="loader"></div>
 <h2>Lista de Usuarios</h2>
 <table class="table">
     <tr>
-        <th>
-           Nombre de usuario
+        <th style="text-align: center;">
+            Nombre de usuario
         </th>
-        <th>
+        <th style="text-align: center;">
             Contraseña
         </th>
-        <th>
+        <th style="text-align: center;">
             Id de empleado
         </th>
-        <th>
+        <th style="text-align: center;">
             Departamento
         </th>
-        <th>
+        <th style="text-align: center;">
             Registrado por
         </th>
-        <th>
+        <th style="text-align: center;">
             Rol
         </th>
-        <th></th>
+        <th style="text-align: center;"></th>
     </tr>
 
-@foreach (var item in Model.Where(u => u.Role != "Proveedor")) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.nombreUsuario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.contrasena)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.idEmpleado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.departamento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.registradoPor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Role)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "UpdateUsuarios", new { id=item.idUsuario,username=item.nombreUsuario,usernameA= HttpContext.Current.User.Identity.Name }) |
-            @Html.ActionLink("Borrar", "DeleteUsuarios", new { id=item.idUsuario,username = HttpContext.Current.User.Identity.Name })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.Where(u => u.Role != "Proveedor"))
+    {
+        <tr>
+            <td style="text-align: center;">
+                @Html.DisplayFor(modelItem => item.nombreUsuario)
+            </td>
+            <td style="text-align: center;">
+                @Html.DisplayFor(modelItem => item.contrasena)
+            </td>
+            <td style="text-align: center;">
+                @Html.DisplayFor(modelItem => item.idEmpleado)
+            </td>
+            <td style="text-align: center;">
+                @Html.DisplayFor(modelItem => item.departamento)
+            </td>
+            <td style="text-align: center;">
+                @Html.DisplayFor(modelItem => item.registradoPor)
+            </td>
+            <td style="text-align: center;">
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td style="text-align: center;">
+                @Html.ActionLink(" ", "UpdateUsuarios", new { id = item.idUsuario, username = item.nombreUsuario, usernameA = HttpContext.Current.User.Identity.Name }, new { @class = "btn btn-info glyphicon glyphicon-pencil" })
+                @Html.ActionLink(" ", "DeleteUsuarios", new { id = item.idUsuario, username = HttpContext.Current.User.Identity.Name }, new { @class = "btn btn-danger glyphicon glyphicon-remove" })
+            </td>
+        </tr>
+    }
 
 </table>
+Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("ListaUsuarios", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

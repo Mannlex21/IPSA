@@ -15,7 +15,6 @@ namespace AplicacionWebMVC.Models
     public partial class Solicitud_Requisiciones
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-
         public Solicitud_Requisiciones()
         {
             this.DetalleRequisicion = new HashSet<DetalleRequisicion>();

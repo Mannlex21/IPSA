@@ -84,6 +84,16 @@
           <Property Name="seguridad" Type="bit" />
           <Property Name="capitalHumano" Type="bit" />
         </EntityType>
+        <EntityType Name="DetallesUsuarios2">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idEmpleado" Type="nvarchar" MaxLength="100" />
+          <Property Name="username" Type="nvarchar" MaxLength="100" />
+          <Property Name="Role" Type="nvarchar" MaxLength="100" />
+          <Property Name="departamento" Type="int" />
+        </EntityType>
         <EntityType Name="GpoMateriales">
           <Key>
             <PropertyRef Name="numGpo" />
@@ -368,6 +378,7 @@
           <EntitySet Name="DetalleRequisicion" EntityType="Self.DetalleRequisicion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleRequisicion2" EntityType="Self.DetalleRequisicion2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetallesUsuarios" EntityType="Self.DetallesUsuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetallesUsuarios2" EntityType="Self.DetallesUsuarios2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GpoMateriales" EntityType="Self.GpoMateriales" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materiales" EntityType="Self.Materiales" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MaterialesContable" EntityType="Self.MaterialesContable" Schema="dbo" store:Type="Tables" />
@@ -460,6 +471,7 @@
             <End Role="Solicitud_Requisiciones" EntitySet="Solicitud_Requisiciones" />
             <End Role="DetalleRequisicion2" EntitySet="DetalleRequisicion2" />
           </AssociationSet>
+          <EntitySet Name="DetallesUsuarios2" EntityType="bdAdquisicionMaterialModel.DetallesUsuarios2" />
           </EntityContainer>
         <EntityType Name="AdjuntoMateriales">
           <Key>
@@ -833,6 +845,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DetallesUsuarios2">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idEmpleado" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="departamento" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1099,6 +1121,17 @@
                 <ScalarProperty Name="requisicion" ColumnName="requisicion" />
                 <ScalarProperty Name="preRequisicionAnt" ColumnName="preRequisicionAnt" />
                 <ScalarProperty Name="preRequisicion" ColumnName="preRequisicion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetallesUsuarios2">
+            <EntityTypeMapping TypeName="bdAdquisicionMaterialModel.DetallesUsuarios2">
+              <MappingFragment StoreEntitySet="DetallesUsuarios2">
+                <ScalarProperty Name="departamento" ColumnName="departamento" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

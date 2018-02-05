@@ -209,6 +209,16 @@ namespace AplicacionWebMVC.Controllers
                         }
                         else
                         {
+                            if (usuario.Role.Equals("Empleado"))
+                            {
+                                DetallesUsuarios2 detUs2 = new DetallesUsuarios2();
+                                detUs2.idEmpleado = usuario.idEmpleado;
+                                detUs2.Role = "Empleado";
+                                detUs2.username = usuario.nombreUsuario;
+                                detUs2.departamento = Int32.Parse(usuario.departamento);
+                                db.DetallesUsuarios2.Add(detUs2);
+                                db.SaveChanges();
+                            }
                             DetallesUsuarios detUs = new DetallesUsuarios();
                             detUs.idUsuario = idUsuario;
                             detUs.seguridad = false;
@@ -226,7 +236,6 @@ namespace AplicacionWebMVC.Controllers
                                 ud.idDepartamento = d.id;
                                 ud.idUsuario = idUsuario;
                                 db.UsuarioDepartamento.Add(ud);
-                                
                             }
                             db.SaveChanges();
                         }
@@ -257,6 +266,13 @@ namespace AplicacionWebMVC.Controllers
                     {
                         db.DetallesUsuarios.Attach(detU);
                         db.DetallesUsuarios.Remove(detU);
+                        db.SaveChanges();
+                    }
+                    var detU2 = db.DetallesUsuarios2.Where(s=>s.username.ToUpper().Equals(usuario.nombreUsuario.ToUpper())).FirstOrDefault();
+                    if (detU2 != null)
+                    {
+                        db.DetallesUsuarios2.Attach(detU2);
+                        db.DetallesUsuarios2.Remove(detU2);
                         db.SaveChanges();
                     }
                     var depU = db.UsuarioDepartamento.Find(idUsuario);
@@ -300,9 +316,12 @@ namespace AplicacionWebMVC.Controllers
             public string text { get; set; }
         }
         [Authorize(Roles = "Admin")]
-        public ActionResult ListaUsuarios()
+        public ActionResult ListaUsuarios(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(DB.Usuarios.ToList());
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            return View(DB.Usuarios.OrderBy(i => i.idUsuario).ToPagedList(page ?? 1, pageSize));
         }
         public ActionResult UpdateUsuarios(int id)
         {
@@ -870,6 +889,85 @@ namespace AplicacionWebMVC.Controllers
                     message = ex.Message
                 };
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [Authorize(Roles = "Admin, Revisor1, Revisor2")]
+        public ActionResult ListaEmpleados(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            try
+            {
+                var ud = User.Identity.Name;
+                var usuario = DB.Usuarios.Where(s => s.nombreUsuario.ToUpper().Equals(ud.ToUpper())).FirstOrDefault();
+                if (usuario.Role.Equals("Admin"))
+                {
+                    var lista = DB.DetallesUsuarios2;
+                    int pageSize = 10;
+                    int pageNumber = (page ?? 1);
+
+                    return View(lista.OrderBy(i => i.id).ToPagedList(page ?? 1, pageSize));
+                }
+                else
+                {
+
+                    var lista = DB.DetallesUsuarios2.Where(s => s.departamento == usuario.departamento);
+                    int pageSize = 10;
+                    int pageNumber = (page ?? 1);
+                    return View(lista.OrderBy(i => i.id).ToPagedList(page ?? 1, pageSize));
+                }
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+        public ActionResult Ascender(string id, string username)
+        {
+            try
+            {
+                var usuario = User.Identity.Name;
+                var u = DB.Usuarios.Where(s => s.nombreUsuario.ToUpper().Equals(usuario.ToUpper())).FirstOrDefault();
+                var u2 = DB.Usuarios.Where(s=>s.idEmpleado == id && s.nombreUsuario.ToUpper().Equals(username.ToUpper())).FirstOrDefault();
+                Usuarios detU = new Usuarios();
+                detU = u2;
+                if (u.Role.Equals("Revisor1"))
+                {
+                    detU.Role = "Revisor1";
+                }
+                else if (u.Role.Equals("Revisor2"))
+                {
+                    detU.Role = "Revisor2";
+                }
+                else if (u.Role.Equals("Admin"))
+                {
+                    detU.Role = "Revisor1";
+                }
+                DB.Entry(detU).State = System.Data.Entity.EntityState.Modified;
+                DB.SaveChanges();
+                return RedirectToAction("ListaEmpleados");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("ListaEmpleados");
+            }
+            
+        }
+        public ActionResult Descender(string id, string username)
+        {
+            try
+            {
+                var usuario = User.Identity.Name;
+                var u = DB.Usuarios.Where(s => s.nombreUsuario.ToUpper().Equals(usuario.ToUpper())).FirstOrDefault();
+                var u2 = DB.Usuarios.Where(s => s.idEmpleado == id && s.nombreUsuario.ToUpper().Equals(username.ToUpper())).FirstOrDefault();
+                Usuarios detU = new Usuarios();
+                detU = u2;
+                detU.Role = "Empleado";
+                DB.Entry(detU).State = System.Data.Entity.EntityState.Modified;
+                DB.SaveChanges();
+                return RedirectToAction("ListaEmpleados");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("ListaEmpleados");
             }
         }
     }

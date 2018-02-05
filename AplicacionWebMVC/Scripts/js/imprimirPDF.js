@@ -235,6 +235,8 @@ function ToJavaScriptDate(value) {
 }
 function ImprimirPDF(preReq, depa, ejer) {
     console.log(preReq)
+    console.log(depa)
+    console.log(ejer)
     var totalL = 0;
     var d={
         "preRequisicion": preReq,

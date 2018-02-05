@@ -62,8 +62,8 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>
             <td>
-                <!-- @Html.ActionLink("Editar", "UpdateUsuarios", new { id = item.idUsuario, username = item.nombreUsuario, usernameA = HttpContext.Current.User.Identity.Name })--> |
-                @Html.ActionLink("Borrar", "DeleteUsuarioP", new { id = item.idUsuario, username = HttpContext.Current.User.Identity.Name })
+                <!-- @Html.ActionLink("Editar", "UpdateUsuarios", new { id = item.idUsuario, username = item.nombreUsuario, usernameA = HttpContext.Current.User.Identity.Name })-->
+                @Html.ActionLink("Borrar", "DeleteUsuarioP", new { id = item.idUsuario, username = HttpContext.Current.User.Identity.Name }, new { @class = "btn btn-danger glyphicon glyphicon-remove" })
             </td>
         </tr>
     }

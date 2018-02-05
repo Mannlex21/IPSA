@@ -232,6 +232,9 @@
     <Compile Include="Models\DetallesUsuarios.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DetallesUsuarios2.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\GpoMateriales.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
@@ -524,6 +527,7 @@
     <Content Include="Views\Proveedor\ListaProveedor.cshtml" />
     <Content Include="Views\Proveedor\RegistroProveedor.cshtml" />
     <Content Include="Views\Home\ListaSolicitudes.cshtml" />
+    <Content Include="Views\Home\ListaEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
