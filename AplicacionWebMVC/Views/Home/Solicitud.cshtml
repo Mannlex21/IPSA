@@ -64,15 +64,15 @@
             <label for="departamento">Departamento <span id="errDepartamento" class="errorPersonalizado"></span></label>
             <input type="text" class="inputBox" name="departamentoD" id="departamentoD" readonly="readonly">
             <input type="text" class="inputBox" name="departamentoA" id="departamentoA" readonly="readonly">
-            @if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Admin"))
-            {
+            @*@if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Admin"))
+            {*@
                 <input type="text" class="inputBox" name="departamento" id="departamento" readonly="readonly">
                 <button type="button" id="agregarDepartamento" class="btn btn-info glyphicon glyphicon-search"></button>
-            }
+            @*}
             else
             {
                 <input type="text" class="inputBox" name="departamento" id="departamento" readonly="readonly" style="width: 77%;">
-            }
+            }*@
 
             <label for="uso">Uso <span id="errUso" class="errorPersonalizado"></span></label>
             <input type="text" class="inputBox" name="uso" id="uso" maxlength="255">

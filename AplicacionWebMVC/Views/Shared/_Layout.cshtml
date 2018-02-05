@@ -2,11 +2,11 @@
 <html>
 <head>
     <link rel="shortcut icon" type="image/ico" href="~/file/logo.gif">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitud y Requisición</title>
-    
+
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/cargando.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Site.css")" />
@@ -14,6 +14,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/modernizr-2.6.2.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/respond.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
 </head>
 <body>
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -38,6 +39,7 @@
                             {
                                 
                                 <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
+                                <li id="barListaSolicitudes" class="barElem">@Html.ActionLink("Lista de solicitudes", "ListaSolicitudes", "Home")</li>
                                 <li id="barRevision" class="dropdown barElem">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -67,10 +69,12 @@
                             else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Empleado"))
                             {
                                 <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
+                                <li id="barListaSolicitudes" class="barElem">@Html.ActionLink("Lista de solicitudes", "ListaSolicitudes", "Home")</li>
                             }
                             else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Revisor1"))
                             {
                                 <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>  
+                                <li id="barListaSolicitudes" class="barElem">@Html.ActionLink("Lista de solicitudes", "ListaSolicitudes", "Home")</li>
                                 <li id="barRevision" class="dropdown barElem">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -83,6 +87,7 @@
                             else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Revisor2"))
                             {
                                 <li id="barSolicitud" class="barElem">@Html.ActionLink("Solicitud", "Solicitud", "Home")</li>
+                                <li id="barListaSolicitudes" class="barElem">@Html.ActionLink("Lista de solicitudes", "ListaSolicitudes", "Home")</li>
                                 <li id="barRevision" class="dropdown barElem">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Revision <span class="caret"></span></a>
                                     <ul class="dropdown-menu">

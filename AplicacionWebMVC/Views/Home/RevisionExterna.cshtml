@@ -95,7 +95,8 @@
                 <button class="btn btn-success glyphicon glyphicon-info-sign" style="margin: auto;display: block;" onclick="@("abrirDetalle('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"','"+item.uso+ "','" + item.ciclo + "')")"></button>
             </td>
             <td>
-                @Html.ActionLink("Liberar", "LiberarSolicitudExterna", new { preRequisicion = item.preRequisicion })
+                @Html.ActionLink("Aprobar", "LiberarSolicitudExterna", new { preRequisicion = item.preRequisicion })
+                | @Html.ActionLink("Rechazar", "RechazarSolicitudExterna", new { preRequisicion = item.preRequisicion })
             </td>
         </tr>
     }

@@ -25,7 +25,7 @@ namespace AplicacionWebMVC.Controllers
             return View();
         }
         
-        public JsonResult setRequisicion(Solicitud solicitud, List<Partidas> partidas, Checks checks) //Gets the todo Lists.  
+        public JsonResult setRequisicion(Solicitud solicitud, List<Partidas> partidas, Checks checks,string username) //Gets the todo Lists.  
         {
             try
             {
@@ -34,7 +34,8 @@ namespace AplicacionWebMVC.Controllers
                 var connection = context.Database.Connection;
                 int preReq = db.Solicitud_Requisiciones.Where(s2=>s2.departamento==solicitud.departamento).Count();
 
-               
+                var usuario = db.Usuarios.Where(s => s.nombreUsuario.ToUpper().Equals(username.ToUpper())).FirstOrDefault();
+                    
                 Solicitud_Requisiciones soli= new Solicitud_Requisiciones();
                 soli.preRequisicion = preReq + 1;
                 soli.preRequisicionAnt = 0;
@@ -47,14 +48,16 @@ namespace AplicacionWebMVC.Controllers
                 soli.area = solicitud.area.ToString();
                 soli.fechaRecepcion = Convert.ToDateTime(solicitud.fechaRecepcion);
                 soli.ejercicio = solicitud.ejercicio;
-                soli.solicitante = solicitud.solicitante;
+                soli.solicitante = Int32.Parse(usuario.idEmpleado);
                 soli.observaciones = (solicitud.observaciones == null) ? "---" :solicitud.observaciones;
-                soli.liberaElectrico = (checks.electrico == false) ? true : false;
-                soli.liberaCapitalHumano = (checks.trabajoSindicato == false && checks.retencionImpuesto == false) ? true : false;
+                soli.liberaElectrico = (checks.electrico == false) ? "A" : "P";
+                soli.liberaCapitalHumano = (checks.trabajoSindicato == false && checks.retencionImpuesto == false) ? "A" : "P";
                 soli.liberaSeguridad = (checks.soldadura == false && checks.altura == false
-                            && checks.espaciosConfinados == false && checks.izajes == false && checks.montacarga == false) ? true : false;
-                soli.liberaLocal = false;
-                soli.liberaAlmacen = false;
+                            && checks.espaciosConfinados == false && checks.izajes == false && checks.montacarga == false) ? "A" : "P";
+                soli.liberaLocal = "P";
+                soli.liberaAlmacen = "P";
+                soli.departamentoSolicitante = (Int16)usuario.departamento;
+                soli.estatus = "P";
                 db.Solicitud_Requisiciones.Add(soli);
                 
                 int cont = 0;

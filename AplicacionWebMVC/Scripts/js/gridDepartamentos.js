@@ -17,7 +17,7 @@ $(function () {
     $("#gridDep").jqGrid({
         url: url,
         datatype: 'json',
-        mtype: 'Get',
+        mtype: 'POST',
         //table header name   
         colNames: ['Id', 'Descripcion','Area','Control'],
         //colModel takes the data from controller and binds to grid  
@@ -76,6 +76,7 @@ $(function () {
         caption: 'Tabla departamentos',
         loadtext: "Cargando...",
         emptyrecords: 'No se encontraron datos',
+        postData: { username: username},
         jsonReader:
         {
             root: "rows",
@@ -83,7 +84,8 @@ $(function () {
             total: "total",
             records: "records",
             repeatitems: false,
-            Id: "0"
+            Id: "0",
+            
         },
         fixed: true,
         autowidth: true,

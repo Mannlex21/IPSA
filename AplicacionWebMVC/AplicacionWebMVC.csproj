@@ -260,6 +260,9 @@
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>Compras.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UsuarioDepartamento.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Usuarios.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -272,6 +275,7 @@
     <Content Include="Content\cssP\registroProveedores.css" />
     <Content Include="Content\css\cargando.css" />
     <Content Include="Content\css\checkbox.css" />
+    <Content Include="Content\css\departamento.css" />
     <Content Include="Content\css\grid.css" />
     <Content Include="Content\css\gridDetalle.css" />
     <Content Include="Content\css\login.css" />
@@ -481,8 +485,8 @@
     <Content Include="Scripts\js\datePicker.js" />
     <Content Include="Scripts\js\grid.js" />
     <Content Include="Scripts\js\gridDepartamentos.js" />
-    <Content Include="Scripts\js\jquery-3.2.1.min.js" />
     <Content Include="Scripts\js\Main.js" />
+    <Content Include="Scripts\js\usuarios.js" />
     <Content Include="Scripts\js\validacion.js" />
     <Content Include="Scripts\js\vfs_fonts.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -519,6 +523,7 @@
     <Content Include="Views\Proveedor\Invitacion.cshtml" />
     <Content Include="Views\Proveedor\ListaProveedor.cshtml" />
     <Content Include="Views\Proveedor\RegistroProveedor.cshtml" />
+    <Content Include="Views\Home\ListaSolicitudes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -141,13 +141,13 @@ namespace AplicacionWebMVC.Controllers
                         DB.Usuarios.Remove(usuarioP);
                         DB.SaveChanges();
                     }
-                    return RedirectToAction("ListaUsuarios");
+                    return RedirectToAction("ListaProveedor");
                 }
             }
             catch (DataException/* dex */)
             {
                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                return RedirectToAction("ListaUsuarios", new { id = id, saveChangesError = true });
+                return RedirectToAction("ListaProveedor", new { id = id, saveChangesError = true });
             }
 
         }

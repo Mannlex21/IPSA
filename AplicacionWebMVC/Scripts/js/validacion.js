@@ -76,7 +76,7 @@ $(function () {
             fechaRecepcion: "01/01/2017",
             observaciones:obs,
             ejercicio: document.getElementById("ejercicio").value,
-            solicitante: 0
+            solicitante: 0,
         };
         chkBox= {
             trabajoSindicato: $("#chkB1").is(':checked'),
@@ -92,7 +92,8 @@ $(function () {
         var d = {
             solicitud: data,
             partidas: obj,
-            checks: chkBox
+            checks: chkBox,
+            username: username
         }
         var url = $('#requisicionURL').data('request-url');
         var bandera = 0;
