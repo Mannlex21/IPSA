@@ -19,5 +19,6 @@ namespace AplicacionWebMVC.Models
         public string fechaRecepcion { get; set; }
         public int ejercicio { get; set; }
         public int solicitante { get; set; }
+        public string partidaPresupuestal{ get; set; }
     }
 }

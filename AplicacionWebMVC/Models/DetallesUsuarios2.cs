@@ -15,9 +15,12 @@ namespace AplicacionWebMVC.Models
     public partial class DetallesUsuarios2
     {
         public int id { get; set; }
-        public string idEmpleado { get; set; }
+        public Nullable<int> idUsuario { get; set; }
         public string username { get; set; }
         public string Role { get; set; }
-        public Nullable<int> departamento { get; set; }
+        public int departamento { get; set; }
+        public string idEmpleado { get; set; }
+    
+        public virtual Usuarios Usuarios { get; set; }
     }
 }

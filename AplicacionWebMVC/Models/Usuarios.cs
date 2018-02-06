@@ -18,6 +18,7 @@ namespace AplicacionWebMVC.Models
         public Usuarios()
         {
             this.DetallesUsuarios = new HashSet<DetallesUsuarios>();
+            this.DetallesUsuarios2 = new HashSet<DetallesUsuarios2>();
             this.UsuarioDepartamento = new HashSet<UsuarioDepartamento>();
         }
     
@@ -31,6 +32,8 @@ namespace AplicacionWebMVC.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetallesUsuarios> DetallesUsuarios { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetallesUsuarios2> DetallesUsuarios2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UsuarioDepartamento> UsuarioDepartamento { get; set; }
     }

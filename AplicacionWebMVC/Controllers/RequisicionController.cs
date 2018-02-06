@@ -58,6 +58,7 @@ namespace AplicacionWebMVC.Controllers
                 soli.liberaAlmacen = "P";
                 soli.departamentoSolicitante = (Int16)usuario.departamento;
                 soli.estatus = "P";
+                soli.partidaPresupuestal = solicitud.partidaPresupuestal;
                 db.Solicitud_Requisiciones.Add(soli);
                 
                 int cont = 0;
@@ -78,6 +79,7 @@ namespace AplicacionWebMVC.Controllers
                     detR.existencia = Decimal.Parse(value.Existencia);
                     detR.FechaUltimaEntrada = Convert.ToDateTime("01/01/2017");
                     detR.departamento = Int16.Parse(solicitud.departamento.ToString());
+                    detR.uMedida = value.Unidad;
                     db.DetalleRequisicion.Add(detR);
                 }
                 DetalleRequisicion2 detR2 = new DetalleRequisicion2();

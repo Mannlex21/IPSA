@@ -76,6 +76,7 @@ $(function () {
             fechaRecepcion: "01/01/2017",
             observaciones:obs,
             ejercicio: document.getElementById("ejercicio").value,
+            partidaPresupuestal: document.getElementById("partidaPrep").value,
             solicitante: 0,
         };
         chkBox= {

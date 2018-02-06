@@ -35,29 +35,35 @@
         <th style="text-align: center;">
             Rol
         </th>
+        <th style="text-align: center;">
+            Rol actual
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td style="text-align: center;">
-                @Html.DisplayFor(modelItem => item.idEmpleado)
-            </td>
-            <td style="text-align: center;">
-                @Html.DisplayFor(modelItem => item.username)
-            </td>
-            <td style="text-align: center;">
-                @Html.DisplayFor(modelItem => item.departamento)
-            </td>
-            <td style="text-align: center;">
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td style="text-align: center;">
-                @Html.ActionLink(" ", "Ascender", new { id = item.idEmpleado, username = item.username}, new { @class = "btn btn-success glyphicon glyphicon-chevron-up" })
-                @Html.ActionLink(" ", "Descender", new { id = item.idEmpleado, username = item.username }, new { @class = "btn btn-danger glyphicon glyphicon-chevron-down" })
-            </td>
-        </tr>
+    <tr>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.idEmpleado)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.username)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.departamento)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.Role)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.Usuarios.Role)
+        </td>
+        <td style="text-align: center;">
+            @Html.ActionLink(" ", "Ascender", new { id = item.idEmpleado, username = item.username }, new { @class = "btn btn-success glyphicon glyphicon-chevron-up" })
+            @Html.ActionLink(" ", "Descender", new { id = item.idEmpleado, username = item.username }, new { @class = "btn btn-danger glyphicon glyphicon-chevron-down" })
+        </td>
+    </tr>
     }
 
 </table>

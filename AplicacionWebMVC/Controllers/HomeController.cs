@@ -213,6 +213,7 @@ namespace AplicacionWebMVC.Controllers
                             {
                                 DetallesUsuarios2 detUs2 = new DetallesUsuarios2();
                                 detUs2.idEmpleado = usuario.idEmpleado;
+                                detUs2.idUsuario = idUsuario;
                                 detUs2.Role = "Empleado";
                                 detUs2.username = usuario.nombreUsuario;
                                 detUs2.departamento = Int32.Parse(usuario.departamento);

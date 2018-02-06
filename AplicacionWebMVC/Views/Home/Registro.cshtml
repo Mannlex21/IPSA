@@ -12,11 +12,18 @@
             }, 1000);
         });
     </script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.jqGrid/ui.jqgrid.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/checkbox.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/departamento.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/registroUsuarios.css")" />
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/sweetalert.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.0.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/departamento.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/registro.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/empleado.js")"></script>
 
 }
 
@@ -28,6 +35,7 @@
 <h2>Registro de usuario</h2>
 <div id="departamentos2URL" data-request-url="@Url.Action("GetDepartamentos2", "Departamentos")"></div>
 <div id="registroURL" data-request-url="@Url.Action("Registro", "Home")"></div>
+<div id="empleadosURL" data-request-url="@Url.Action("GetEmpleados", "Empleados")"></div>
 <form id="myForm" action="" method="post">
     @Html.AntiForgeryToken()
 
@@ -45,7 +53,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.idEmpleado, "ID del Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.idEmpleado, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.idEmpleado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.idEmpleado, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -86,12 +94,12 @@
             @Html.LabelFor(model => model.Role, "Rol", htmlAttributes: new { @class = "control-label col-md-2", @id = "selectRole" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Role, new List<SelectListItem>
-                            {
-                                                new SelectListItem() {Text = "Administrador", Value="Admin"},
-                                                new SelectListItem() {Text = "Empleado", Value="Empleado"},
-                                                new SelectListItem() {Text = "Revisor 1", Value="Revisor1"},
-                                                new SelectListItem() {Text = "Revisor 2", Value="Revisor2"}
-                            }, new { @class = "form-control" })
+                                                {
+                                                                    new SelectListItem() {Text = "Administrador", Value="Admin"},
+                                                                    new SelectListItem() {Text = "Empleado", Value="Empleado"},
+                                                                    new SelectListItem() {Text = "Revisor 1", Value="Revisor1"},
+                                                                    new SelectListItem() {Text = "Revisor 2", Value="Revisor2"}
+                                                }, new { @class = "form-control" })
 
                 <!--@Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })-->
                 @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
@@ -115,3 +123,27 @@
         </div>
     </div>
 </form>
+<div id="modalEmpleados" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Empleados</h4>
+            </div>
+            <div class="modal-body modalE">
+                <div class="loaderE"></div>
+                <div id="divE">
+                    <table id="gridEmp"></table>
+                    <div id="pagerEmp"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>

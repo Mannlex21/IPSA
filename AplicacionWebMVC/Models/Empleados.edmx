@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bdRHModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="empleados">
+          <Key>
+            <PropertyRef Name="empleado" />
+          </Key>
+          <Property Name="empleado" Type="smallint" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="apellidoPaterno" Type="varchar" MaxLength="100" />
+          <Property Name="apellidoMaterno" Type="varchar" MaxLength="100" />
+          <Property Name="fechaNacimiento" Type="date" />
+          <Property Name="sexo" Type="char" MaxLength="1" />
+          <Property Name="curp" Type="varchar" MaxLength="18" />
+          <Property Name="rfc" Type="varchar" MaxLength="13" />
+          <Property Name="imss" Type="varchar" MaxLength="11" />
+          <Property Name="tipoSangre" Type="varchar" MaxLength="15" />
+          <Property Name="padecimientos" Type="varchar" MaxLength="200" />
+          <Property Name="eMail" Type="varchar" MaxLength="100" />
+          <Property Name="calle" Type="varchar" MaxLength="100" />
+          <Property Name="numeroExterior" Type="varchar" MaxLength="15" />
+          <Property Name="numeroInterior" Type="varchar" MaxLength="15" />
+          <Property Name="colonia" Type="varchar" MaxLength="100" />
+          <Property Name="cp" Type="varchar" MaxLength="10" />
+          <Property Name="localidad" Type="varchar" MaxLength="100" />
+          <Property Name="ciudad" Type="varchar" MaxLength="100" />
+          <Property Name="estado" Type="varchar" MaxLength="100" />
+          <Property Name="credencial" Type="bit" />
+          <Property Name="foto" Type="varchar" MaxLength="100" />
+          <Property Name="tipo" Type="char" MaxLength="1" />
+          <Property Name="contrasena" Type="varchar" MaxLength="100" />
+          <Property Name="verificado" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="bdRHModelStoreContainer">
+          <EntitySet Name="empleados" EntityType="Self.empleados" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bdRHModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="empleados">
+          <Key>
+            <PropertyRef Name="empleado" />
+          </Key>
+          <Property Name="empleado" Type="Int16" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="apellidoPaterno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="apellidoMaterno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fechaNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="curp" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="imss" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="tipoSangre" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="padecimientos" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="eMail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="calle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="numeroExterior" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="numeroInterior" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="colonia" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cp" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="localidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="credencial" Type="Boolean" />
+          <Property Name="foto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="contrasena" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="verificado" Type="Boolean" />
+        </EntityType>
+        <EntityContainer Name="EmpleadosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="empleados" EntityType="Self.empleados" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bdRHModelStoreContainer" CdmEntityContainer="EmpleadosEntities">
+          <EntitySetMapping Name="empleados">
+            <EntityTypeMapping TypeName="bdRHModel.empleados">
+              <MappingFragment StoreEntitySet="empleados">
+                <ScalarProperty Name="empleado" ColumnName="empleado" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellidoPaterno" ColumnName="apellidoPaterno" />
+                <ScalarProperty Name="apellidoMaterno" ColumnName="apellidoMaterno" />
+                <ScalarProperty Name="fechaNacimiento" ColumnName="fechaNacimiento" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="curp" ColumnName="curp" />
+                <ScalarProperty Name="rfc" ColumnName="rfc" />
+                <ScalarProperty Name="imss" ColumnName="imss" />
+                <ScalarProperty Name="tipoSangre" ColumnName="tipoSangre" />
+                <ScalarProperty Name="padecimientos" ColumnName="padecimientos" />
+                <ScalarProperty Name="eMail" ColumnName="eMail" />
+                <ScalarProperty Name="calle" ColumnName="calle" />
+                <ScalarProperty Name="numeroExterior" ColumnName="numeroExterior" />
+                <ScalarProperty Name="numeroInterior" ColumnName="numeroInterior" />
+                <ScalarProperty Name="colonia" ColumnName="colonia" />
+                <ScalarProperty Name="cp" ColumnName="cp" />
+                <ScalarProperty Name="localidad" ColumnName="localidad" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="credencial" ColumnName="credencial" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="contrasena" ColumnName="contrasena" />
+                <ScalarProperty Name="verificado" ColumnName="verificado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

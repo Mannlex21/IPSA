@@ -169,6 +169,7 @@
     <Compile Include="Controllers\DepartamentosController.cs" />
     <Compile Include="Controllers\EjercicioController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
+    <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialesController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
@@ -236,6 +237,24 @@
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\Empleados.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Empleados.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\empleados.cs">
+      <DependentUpon>Empleados.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Empleados.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Empleados.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Empleados1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Empleados.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GpoMateriales.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -282,6 +301,7 @@
     <Content Include="Content\css\grid.css" />
     <Content Include="Content\css\gridDetalle.css" />
     <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\registroUsuarios.css" />
     <Content Include="Content\css\revisionTotal.css" />
     <Content Include="Content\css\validacion.css" />
     <Content Include="Content\datatables.min.css" />
@@ -389,6 +409,16 @@
       <DependentUpon>Compras.edmx</DependentUpon>
       <LastGenOutput>Compras.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\Empleados.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Empleados.edmx</DependentUpon>
+      <LastGenOutput>Empleados.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Empleados.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Empleados.edmx</DependentUpon>
+      <LastGenOutput>Empleados1.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -414,6 +444,13 @@
     </EntityDeploy>
     <Content Include="Models\Compras.edmx.diagram">
       <DependentUpon>Compras.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Empleados.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Empleados.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Empleados.edmx.diagram">
+      <DependentUpon>Empleados.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Properties\PublishProfiles\Servidor.pubxml" />
@@ -480,6 +517,7 @@
     <Content Include="Scripts\js\departamento.js" />
     <Content Include="Scripts\js\detalleRequisicion.js" />
     <Content Include="Scripts\js\divExpandir.js" />
+    <Content Include="Scripts\js\empleado.js" />
     <Content Include="Scripts\js\imprimirPDF.js" />
     <Content Include="Scripts\js\pdfmake.min.js" />
     <Content Include="Scripts\js\registro.js" />
@@ -532,6 +570,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Archivos\" />
+    <Folder Include="Views\Empleados\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
