@@ -135,6 +135,16 @@
             <div class="modal-body modalE">
                 <div class="loaderE"></div>
                 <div id="divE">
+                    <div>
+                        <input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="filterItem" placeholder="Id" id="idEmp" />
+                        <input type="text" class="filterItem" placeholder="Nombre" id="nombreEmp" />
+                        <input type="text" class="filterItem" placeholder="Apellido paterno" id="apellidoPEmp" />
+                        <input type="text" class="filterItem" placeholder="Apellido materno" id="apellidoMEmp" />
+                        <input type="text" class="filterItem" placeholder="RFC" id="rfcEmp" />
+
+                        <button id="filterButton" name="search" class="btn btn-success btn-sm glyphicon glyphicon-search" />
+                        <button id="refreshButton" name="refresh" class="btn btn-success btn-sm glyphicon glyphicon-refresh" />
+                    </div>
                     <table id="gridEmp"></table>
                     <div id="pagerEmp"></div>
                 </div>

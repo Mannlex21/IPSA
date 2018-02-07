@@ -16,7 +16,7 @@ namespace AplicacionWebMVC.Controllers
             return View();
         }
         EmpleadosEntities DB = new EmpleadosEntities();
-        public JsonResult GetEmpleados(string sidx, string sord, int page, int rows/*, string descripcionF, string marca, string idMaterial, string consecutivo*/) //Gets the todo Lists.  
+        public JsonResult GetEmpleados(string sidx, string sord, int page, int rows, string idEmp, string nombreEmp, string apellidoPEmp, string apellidoMEmp, string rfcEmp) //Gets the todo Lists.  
         {
             int pageIndex = Convert.ToInt32(page) - 1;
             int pageSize = rows;
@@ -29,18 +29,26 @@ namespace AplicacionWebMVC.Controllers
                     a.apellidoPaterno,
                     a.rfc
                 });
-            /*if (!string.IsNullOrEmpty(marca))
+            if (!string.IsNullOrEmpty(idEmp))
             {
-                Results = Results.Where(s => s.marca.Contains(marca));
+                Results = Results.Where(s => s.empleado.ToString().Contains(idEmp));
             }
-            if (!string.IsNullOrEmpty(descripcionF))
+            if (!string.IsNullOrEmpty(nombreEmp))
             {
-                Results = Results.Where(s => s.descripcion.Contains(descripcionF));
+                Results = Results.Where(s => s.nombre.Contains(nombreEmp));
             }
-            if (!string.IsNullOrEmpty(idMaterial))
+            if (!string.IsNullOrEmpty(apellidoPEmp))
             {
-                Results = Results.Where(s => s.idMaterial.ToString().Contains(idMaterial));
-            }*/
+                Results = Results.Where(s => s.apellidoPaterno.ToString().Contains(apellidoPEmp));
+            }
+            if (!string.IsNullOrEmpty(apellidoMEmp))
+            {
+                Results = Results.Where(s => s.apellidoMaterno.ToString().Contains(apellidoMEmp));
+            }
+            if (!string.IsNullOrEmpty(rfcEmp))
+            {
+                Results = Results.Where(s => s.rfc.ToString().Contains(rfcEmp));
+            }
             int totalRecords = Results.Count();
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")

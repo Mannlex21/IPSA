@@ -90,13 +90,12 @@ $(function () {
         stringResult: true,
         pager: jQuery('#pagerEmp'),
         rowNum: 10,
-        rowList: [10, 30,30,30,30, 40],
+        rowList: [10, 20, 30, 40],
         height: '100%',
         width: '100%',
         caption: 'Tabla departamentos',
         loadtext: "Cargando...",
         emptyrecords: 'No se encontraron datos',
-        /*postData: { username: username },*/
         jsonReader:
         {
             root: "rows",
@@ -104,7 +103,6 @@ $(function () {
             total: "total",
             records: "records",
             repeatitems: false,
-            Id: "0",
 
         },
         fixed: true,
@@ -144,25 +142,52 @@ $(function () {
             }
         }
     });
-    /*
-    var url = $('#departamentoURL').data('request-url');
-    $.ajax({
-        type: "GET",
-        url: url,
-        data: {
-            "username": username,
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (r) {
-            for (var obj in r) {
-                descripcionDep.value = r[obj].descripcion;
-                descripcionA.value = r[obj].area;
-                descripcionD.value = r[obj].idDepartamento;
-            }
-        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-            console.log("No se encontro");
-        }
-    });*/
+    $('#filterButton').click(function (event) {
+        var $th = $(this);
+        if ($th.hasClass('processing'))
+            return;
+        $th.addClass('processing');
+
+        filterGrid();
+        setTimeout(function () {
+            filterGrid();
+        }, 500);
+        setTimeout(function () {
+            filterGrid();
+            $th.removeClass('processing');
+        }, 1000);
+
+    });
+    $('#refreshButton').click(function (event) {
+        document.getElementById("idEmp").value = "";
+        document.getElementById("nombreEmp").value = "";
+        document.getElementById("apellidoPEmp").value = "";
+        document.getElementById("apellidoMEmp").value = "";
+        document.getElementById("rfcEmp").value = "";
+        var $th = $(this);
+        if ($th.hasClass('processing'))
+            return;
+        $th.addClass('processing');
+
+        filterGrid();
+        setTimeout(function () {
+            filterGrid();
+        }, 500);
+        setTimeout(function () {
+            filterGrid();
+            $th.removeClass('processing');
+        }, 1000);
+
+    });
 });
+function filterGrid() {
+    $("#gridEmp").jqGrid().setGridParam({
+        postData: {
+            idEmp: document.getElementById('idEmp').value,
+            nombreEmp: document.getElementById('nombreEmp').value,
+            apellidoPEmp: document.getElementById('apellidoPEmp').value,
+            apellidoMEmp: document.getElementById('apellidoMEmp').value,
+            rfcEmp: document.getElementById('rfcEmp').value
+        }, page: 1
+    }).trigger('reloadGrid');
+}
