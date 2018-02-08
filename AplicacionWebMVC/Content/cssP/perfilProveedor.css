@@ -1,0 +1,10 @@
+﻿.inputBox2 {
+    width: 95%;
+    max-width: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    .inputBox2:read-only {
+        background: #e0e0e0;
+    }

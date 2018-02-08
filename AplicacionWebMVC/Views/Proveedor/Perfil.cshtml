@@ -11,39 +11,77 @@
         var username = "@HttpContext.Current.User.Identity.Name";
         console.log(username);
 </script>
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/cssP/perfilProveedor.css")" />
 @if (!User.Identity.IsAuthenticated)
 {
     Response.Redirect("~/Home/Index");
 }
 <div class="loader"></div>
-<h2>Perfil</h2>
-<div class="jumbotron row">
-    <h1>Materiales</h1>
+<div class="jumbotron row" style="margin-top: 20px;">
+    <h1 style="padding-left: 15px;">INFORMACION</h1>
     <form action="" name="infoPar" id="infoPar">
         <div class="div1 col-md-6">
-            <label for="descripcion">Decripción <span id="errDescripcion" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="descripcion" id="descripcion" maxlength="255">
+            <label for="razSoc">Razón social <span id="errRazSoc" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="razSoc" id="razSoc" maxlength="255">
 
-            <label for="cantidad">Cantidad <span id="errCantidad" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="cantidad" id="cantidad">
+            <label for="RFC">RFC<span id="errRFC" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="RFC" id="RFC">
 
-            <label for="unidad">Unidad <span id="errUnidad" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="unidad" id="unidad">
+            <label for="padronProv">Padron proveedor <span id="errPadronProv" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="padronProv" id="padronProv">
 
-            <label for="existencia">Existencia <span id="errExistencia" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="existencia" id="existencia">
+            <label for="direccion">Dirección <span id="errDireccion" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="direccion" id="direccion">
 
-            <label for="clave">Codigo de material <span id="errClave" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="clave" id="clave">
+            <label for="telefono">Telefono <span id="errTelefono" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="telefono" id="telefono">
+
+            <label for="representante">Representante<span id="errRepresentante" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="representante" id="representante">
+
+            <label for="fecha">Fecha<span id="errFecha" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="fecha" id="fecha">
         </div>
+        <div class="div1 col-md-6">
+            <label for="colonia">Colonia <span id="errColonia" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="colonia" id="colonia">
 
+            <label for="ciudad">Ciudad <span id="errCiudad" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="ciudad" id="ciudad">
+
+            <label for="codigoPostal">Codigo postal<span id="errCodigoPostal" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="codigoPostal" id="codigoPostal">
+
+            <label for="fax">Fax<span id="errFax" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="fax" id="fax">
+
+            <label for="tipo">Tipo<span id="errTipo" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="tipo" id="tipo">
+
+            <label for="tipoProveedor">Tipo proveedor<span id="errTipoProveedor" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="tipoProveedor" id="tipoProveedor">
+        </div>
+    </form>
+</div>
+<div class="jumbotron row">
+    <form action="" name="infoPar" id="infoPar">
         <div class="div2 col-md-6">
-            <label for="precioU">Precio unitario <span id="errPrecioU" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="precioU" id="precioU">
+            <label for="actaCons">Acta cons<span id="errActaCons" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="actaCons" id="actaCons">
 
-            <label for="detalle">Detalle <span id="errDetalle" class="errorPersonalizado"></span></label>
-            <textarea name="detalle" class="inputBox2" id="detalle" cols="30" rows="4" maxlength="255"></textarea>
+            <label for="cuenta">Cuenta<span id="errCuenta" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="cuenta" id="cuenta">
 
+            <label for="subCuenta">Sub cuenta<span id="errSubCuenta" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="subCuenta" id="subCuenta">
+
+        </div>
+        <div class="div2 col-md-6">
+            <label for="subSubCuenta">Sub sub cuenta<span id="errSubSubCuenta" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="subSubCuenta" id="subSubCuenta">
+
+            <label for="catOrg">Cat org<span id="errCatOrg" class="errorPersonalizado"></span></label>
+            <input type="text" class="inputBox2" name="catOrg" id="catOrg">
         </div>
     </form>
 </div>
