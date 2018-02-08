@@ -5,6 +5,22 @@
     padding-right: 10px;
 }
 
-    .inputBox2:read-only {
-        background: #e0e0e0;
-    }
+.inputBox2:read-only {
+    background: #e0e0e0;
+}
+.btnGuardar {
+    float: right;
+    margin: 10px;
+    margin-right: 4%;
+}
+/*FILE INPUT*/
+#file1 {
+    max-width: 100%;
+}
+
+.divFile {
+    width: 96%;
+    height: 49px;
+    padding: 10px 16px;
+    font-size: 16px;
+}

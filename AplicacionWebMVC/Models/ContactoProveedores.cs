@@ -15,7 +15,7 @@ namespace AplicacionWebMVC.Models
     public partial class ContactoProveedores
     {
         public int idContactos { get; set; }
-        public Nullable<int> proveedor { get; set; }
+        public Nullable<int> idproveedor { get; set; }
         public string nombre { get; set; }
         public string correo1 { get; set; }
         public string correo2 { get; set; }

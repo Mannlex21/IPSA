@@ -16,11 +16,12 @@
         colModel: [
             {
                 key: true,
-                name: 'proveedor',
-                index: 'proveedor',
+                name: 'consecutivos',
+                index: 'consecutivos',
                 editable: false,
                 width: 30,
                 resizable: true,
+                align: 'center',
                 sorttype: "int"
             }, {
                 key: false,

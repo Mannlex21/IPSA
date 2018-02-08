@@ -20,7 +20,8 @@ namespace AplicacionWebMVC.Models
             this.ContactoProveedores = new HashSet<ContactoProveedores>();
         }
     
-        public int proveedor { get; set; }
+        public int consecutivos { get; set; }
+        public Nullable<int> proveedor { get; set; }
         public string razSoc { get; set; }
         public Nullable<decimal> padronProv { get; set; }
         public string direccion { get; set; }
@@ -41,6 +42,7 @@ namespace AplicacionWebMVC.Models
         public string catOrg { get; set; }
         public Nullable<short> tipoProveedor { get; set; }
         public string razSoc2 { get; set; }
+        public string status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ContactoProveedores> ContactoProveedores { get; set; }

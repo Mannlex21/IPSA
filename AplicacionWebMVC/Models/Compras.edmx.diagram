@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="392a907e029e4a96a60ccc9c520c677c" Name="Diagram1" ZoomLevel="85">
+      <Diagram DiagramId="392a907e029e4a96a60ccc9c520c677c" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="Compras.CondicionesPago" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Compras.ContactoProveedores" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Compras.Proveedores" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Compras.sysdiagrams" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
-        <AssociationConnector Association="Compras.FK_ContactoProveedores_Proveedores" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Compras.Usuario" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="Compras.Proveedores" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Compras.ContactoProveedores" Width="1.5" PointX="3" PointY="2.375" />
+        <AssociationConnector Association="Compras.FK_ContactoProveedores_Proveedores" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

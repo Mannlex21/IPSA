@@ -105,50 +105,81 @@ namespace AplicacionWebMVC.Controllers
             }
             return RedirectToAction("ListaProveedor");
         }
-        public ActionResult DeleteUsuarioP(int id, string username)
+        public ActionResult DeleteUsuarioP(int id)
         {
             try
             {
-                var context = new ComprasEntities();
-                var connection = context.Database.Connection;
-                if (DB.Usuarios.Find(id).nombreUsuario.ToString() == username)
+                var usuarioP = DBC.Usuario.Where(s=>s.idUsuarios==id).FirstOrDefault();
+                if (usuarioP!=null)
                 {
-                    Usuario usuarioPConex = DBC.Usuario.Find(id);
-                    if (usuarioPConex != null)
+                    DBC.Usuario.Remove(usuarioP);
+                    DBC.SaveChanges();
+                }
+                var usuario = DB.Usuarios.Where(s=>s.idUsuario==id).FirstOrDefault();
+                if (usuarioP != null)
+                {
+                    DB.Usuarios.Remove(usuario);
+                    DB.SaveChanges();
+                }
+                return RedirectToAction("ListaProveedor");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("ListaProveedor");
+            }
+
+        }
+        public JsonResult ActualizarProveedor(string razSoc, string RFC, string direccion, string telefono, 
+            string representante, string colonia, string ciudad, string codigoPostal, string fax, string tipoProveedor) //Gets the todo Lists.  
+        {
+            try
+            {
+                var u = User.Identity.Name;
+                var usuario = DB.Usuarios.Where(s => s.nombreUsuario.ToUpper().Equals(u.ToUpper())).FirstOrDefault();
+                var ud = DBC.Usuario.Where(s => s.idUsuarios == usuario.idUsuario).FirstOrDefault();
+                var proveedor = DBC.Proveedores.Where(s => s.consecutivos == ud.Proveedor).FirstOrDefault();
+                if (proveedor != null)
+                {
+                    proveedor.razSoc2 = razSoc;
+                    proveedor.direccion = direccion;
+                    proveedor.telefono = telefono;
+                    proveedor.representante = representante;
+                    proveedor.colonia = colonia;
+                    proveedor.ciudad = ciudad;
+                    proveedor.codigoPostal = Int32.Parse(codigoPostal);
+                    proveedor.fax = fax;
+                    proveedor.tipoProveedor = Int16.Parse(tipoProveedor);
+
+                    DBC.Entry(proveedor).State = System.Data.Entity.EntityState.Modified;
+                    DBC.SaveChanges();
+                    var d = new
                     {
-                        DBC.Usuario.Remove(usuarioPConex);
-                        DBC.SaveChanges();
-                    }
-                    Usuarios usuarioP = DB.Usuarios.Find(id);
-                    if (usuarioP != null)
-                    {
-                        DB.Usuarios.Remove(usuarioP);
-                        DB.SaveChanges();
-                    }
-                    return RedirectToAction("SignOut");
+                        code = "ok",
+                        message = "Se edito correctamento"
+                    };
+                    return Json(proveedor, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    Usuario usuarioPConex = DBC.Usuario.Find(id);
-                    if (usuarioPConex!=null)
+                    var d = new
                     {
-                        DBC.Usuario.Remove(usuarioPConex);
-                        DBC.SaveChanges();
-                    }
-                    Usuarios usuarioP = DB.Usuarios.Find(id);
-                    if (usuarioP != null)
-                    {
-                        DB.Usuarios.Remove(usuarioP);
-                        DB.SaveChanges();
-                    }
-                    return RedirectToAction("ListaProveedor");
+                        code = "error",
+                        message = "No se encontro proveedor"
+                    };
+                    return Json(d, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (DataException/* dex */)
+            catch (SqlException odbcEx)
             {
-                //Log the error (uncomment dex variable name and add a line here to write a log.
-                return RedirectToAction("ListaProveedor", new { id = id, saveChangesError = true });
+                var r = new { code = "error", message = odbcEx.Message };
+                return Json(r, JsonRequestBehavior.AllowGet);
             }
+            catch (Exception ex)
+            {
+                var r = new { code = "error", message = ex.Message };
+                return Json(r, JsonRequestBehavior.AllowGet);
+            }
+
 
         }
         public JsonResult GetProveedores(string sidx, string sord, int page, int rows,string idProveedor, string razsoc,string rfc ) //Gets the todo Lists.  
@@ -158,7 +189,7 @@ namespace AplicacionWebMVC.Controllers
             var Results = DBC.Proveedores.Select(
                 a => new
                 {
-                    a.proveedor,
+                    a.consecutivos,
                     a.razSoc,
                     a.razSoc2,
                     a.RFC
@@ -167,7 +198,7 @@ namespace AplicacionWebMVC.Controllers
             if (!string.IsNullOrEmpty(idProveedor))
             {
                 int idp = Int32.Parse(idProveedor);
-                Results = Results.Where(s => s.proveedor==idp);
+                Results = Results.Where(s => s.consecutivos==idp);
             }
             if (!string.IsNullOrEmpty(razsoc))
             {
@@ -183,12 +214,12 @@ namespace AplicacionWebMVC.Controllers
             var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
             if (sord.ToUpper() == "DESC")
             {
-                Results = Results.OrderByDescending(s => s.proveedor);
+                Results = Results.OrderByDescending(s => s.consecutivos);
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             else
             {
-                Results = Results.OrderBy(s => s.proveedor);
+                Results = Results.OrderBy(s => s.consecutivos);
                 Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
             }
             var jsonData = new
@@ -199,6 +230,42 @@ namespace AplicacionWebMVC.Controllers
                 rows = Results
             };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetProveedor() //Gets the todo Lists.  
+        {
+            try
+            {
+                var u = User.Identity.Name;
+                var usuario = DB.Usuarios.Where(s => s.nombreUsuario.ToUpper().Equals(u.ToUpper())).FirstOrDefault();
+                var ud = DBC.Usuario.Where(s=>s.idUsuarios==usuario.idUsuario).FirstOrDefault();
+                var proveedor = DBC.Proveedores.Where(s=>s.consecutivos==ud.Proveedor).FirstOrDefault();
+                if (proveedor!=null)
+                {
+                   
+                    return Json(proveedor, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var d = new
+                    {
+                        code="error",
+                        message="No se encontro proveedor"
+                    };
+                    return Json(d, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (SqlException odbcEx)
+            {
+                var r = new { code = "error", message = odbcEx.Message };
+                return Json(r, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var r = new { code = "error", message = ex.Message };
+                return Json(r, JsonRequestBehavior.AllowGet);
+            }
+
+
         }
     }
 }
