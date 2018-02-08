@@ -75,7 +75,7 @@ namespace AplicacionWebMVC.Controllers
 
                                 ModelState.Clear();
                             ViewBag.Message = "";
-                            return RedirectToAction("ListaUsuarios");
+                            return RedirectToAction("ListaProveedor");
                         }
                         else
                         {
@@ -103,7 +103,7 @@ namespace AplicacionWebMVC.Controllers
                 }
 
             }
-            return View();
+            return RedirectToAction("ListaProveedor");
         }
         public ActionResult DeleteUsuarioP(int id, string username)
         {
