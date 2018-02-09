@@ -25,6 +25,8 @@
 <div class="loader"></div>
 <div id="GetProveedorURL" data-request-url="@Url.Action("GetProveedor", "Proveedor")"></div>
 <div id="UpdateProveedorURL" data-request-url="@Url.Action("ActualizarProveedor", "Proveedor")"></div>
+<div id="UploadInfoProveedorURL" data-request-url="@Url.Action("UploadFilesInfoProveedor", "Proveedor")"></div>
+<div id="CambiarPasswordURL" data-request-url="@Url.Action("CambiarPassword", "Proveedor")"></div>
 <div class="jumbotron row" style="margin-top: 20px;">
     <h1 style="padding-left: 15px;">Información</h1>
     <form action="" name="infoPar" id="infoPar">
@@ -68,9 +70,26 @@
     <form id="formm" enctype="multipart/form-data">
         <label for="archivo">Documentos<span id="errRazSoc" class="errorPersonalizado"></span></label>
         <div class="form-control divFile">
-            <input type="file" id="file1" name="file" multiple />
+            <input type="file" id="file" name="file" multiple />
         </div>
     </form>
         <button type="button" id="btnGuardarArchivo" class="btn btn-success btn-lg btnGuardar">Guardar</button>
 </div>
 
+<div class="jumbotron row" style="margin-top: 20px;">
+    <h1 style="padding-left: 15px;">Cambiar contraseña</h1>
+    <form action="" name="infoPar" id="infoPar">
+        <div class="div1 col-md-12">
+            <label for="passwordA">Contraseña anterior</label>
+            <input type="text" class="inputBox2" name="passwordA" id="passwordA" maxlength="100">
+
+            <label for="passwordN">Contraseña nueva</label>
+            <input type="text" class="inputBox2" name="passwordN" id="passwordN" maxlength="100">
+
+            <label for="passwordN2">Repetir contraseña nueva</label>
+            <input type="text" class="inputBox2" name="passwordN2" id="passwordN2" maxlength="100">
+
+        </div>
+    </form>
+    <button type="button" id="btnGuardarContraseña" class="btn btn-success btn-lg btnGuardar">Guardar</button>
+</div>

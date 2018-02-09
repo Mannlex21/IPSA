@@ -62,7 +62,6 @@ namespace AplicacionWebMVC.Controllers
                 db.Solicitud_Requisiciones.Add(soli);
                 
                 int cont = 0;
-                string r = "";
                 foreach (var value in partidas)
                 {
                     DetalleRequisicion detR = new DetalleRequisicion();
@@ -141,7 +140,7 @@ namespace AplicacionWebMVC.Controllers
                 var url="";
                 if (files.Count>0)
                 {
-                    if (req.ContentLength>1500)
+                    if (req.ContentLength< 150000000)
                     {
                         var carpeta = "SolicitudReq-" + id + "-" + departamento + "-" + ejercicio;
                         url = root + carpeta;
@@ -204,30 +203,6 @@ namespace AplicacionWebMVC.Controllers
             }
             
         }
-        /*public String crearImagen(String url, String primero, String id)
-        {
-            try
-            {
-                url = url.ToLower();
-
-                String ext = (url.EndsWith(".png")) ? ".png" : ".jpg";
-                try
-                {
-                    String nuevo = carpetaImagen + primero + "-" + id + ext;
-                    File.Copy(url, nuevo, true);
-                    return nuevo;
-                }
-                catch (FileNotFoundException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine(e);
-            }
-            return "";
-        }*/
         public string crearCarpetaAdjunto(string dir)
         {
             try
@@ -249,31 +224,5 @@ namespace AplicacionWebMVC.Controllers
                 return "";
             }
         }
-        /*public void crearImagenes(string url, string primero, string id, string urlN)
-        {
-            try
-            {
-                url = url.ToLower();
-                String[] urlA = url.Split(',');
-                for (int i = 0; i < urlA.Length; i++)
-                {
-                    string nuevo = "";
-                    if (urlA[i] != "")
-                    {
-                        string[] parts = urlA[i].Split('\\');
-                        string[] ext = parts[parts.Length - 1].Split('.');
-                        string[] files = Directory.GetFiles(urlN);
-                        int fc = files.Length + 1;
-
-                        nuevo = "M-" + fc + "." + ext[1];
-                        File.Copy(urlA[i], urlN + "\\" + nuevo, true);
-                    }
-                }
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine(e);
-            }
-        }*/
     }
 }

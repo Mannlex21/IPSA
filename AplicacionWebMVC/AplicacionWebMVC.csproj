@@ -230,6 +230,9 @@
     <Compile Include="Models\DetalleRequisicion2.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DetallesProveedor.cs">
+      <DependentUpon>Compras.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DetallesUsuarios.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
