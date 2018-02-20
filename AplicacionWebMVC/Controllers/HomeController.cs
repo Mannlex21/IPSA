@@ -375,7 +375,10 @@ namespace AplicacionWebMVC.Controllers
                 {
                     using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                     {
-                        string query = "DELETE FROM DetallesUsuarios WHERE idUsuario=" + id+ " DELETE FROM UsuarioDepartamento WHERE idUsuario="+id;
+                        string query = "DELETE FROM DetallesUsuarios WHERE idUsuario=" + id + " " +
+                            "DELETE FROM DetallesUsuarios2 WHERE idUsuario=" + id + " " +
+                            "DELETE FROM UsuarioDepartamento WHERE idUsuario=" + id + " " +
+                            "DELETE FROM Usuarios WHERE idUsuario=" + id;
                         string s = "";
                         using (SqlCommand cmd = new SqlCommand(query))
                         {
@@ -385,9 +388,6 @@ namespace AplicacionWebMVC.Controllers
                             con.Close();
                         }
                     }
-                    Usuarios student = DB.Usuarios.Find(id);
-                    DB.Usuarios.Remove(student);
-                    DB.SaveChanges();
                     return RedirectToAction("SignOut");
                 }
                 else
@@ -395,7 +395,10 @@ namespace AplicacionWebMVC.Controllers
 
                     using (SqlConnection con = new SqlConnection(connection.ConnectionString))
                     {
-                        string query = "DELETE FROM DetallesUsuarios WHERE idUsuario="+id + " DELETE FROM UsuarioDepartamento WHERE idUsuario=" + id;
+                        string query = "DELETE FROM DetallesUsuarios WHERE idUsuario="+id + " " +
+                            "DELETE FROM DetallesUsuarios2 WHERE idUsuario=" +id+" "+
+                            "DELETE FROM UsuarioDepartamento WHERE idUsuario=" + id+" " +
+                            "DELETE FROM Usuarios WHERE idUsuario="+id;
                         string s="";
                         using (SqlCommand cmd = new SqlCommand(query))
                         {
@@ -405,9 +408,6 @@ namespace AplicacionWebMVC.Controllers
                             con.Close();
                         }
                     }
-                    Usuarios student = DB.Usuarios.Find(id);
-                    DB.Usuarios.Remove(student);
-                    DB.SaveChanges();
                     return RedirectToAction("ListaUsuarios");
                 }
             }

@@ -17,11 +17,11 @@
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/Main.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/gridDetalle.css")" />
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/sweetalert.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/pdfmake.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/js/vfs_fonts.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.0.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/js/pdfmake.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/js/vfs_fonts.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/detalleRequisicion.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/js/imprimirPDF.js")"></script>
 }
@@ -134,7 +134,7 @@
                     <p>Desconocido</p>
                 }
             </td>
-            <td style="text-align: center;"> 
+            <td style="text-align: center;">
                 @if (item.liberaElectrico == "P")
                 {
                     <p>Pendiente</p>

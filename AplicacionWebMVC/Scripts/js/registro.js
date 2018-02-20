@@ -60,7 +60,7 @@ $(function () {
             }, error: function () {
             },
             success: function () {
-                window.location.href = "/Home/ListaUsuarios";
+                window.location.href = "/WebAdquisicion/Home/ListaUsuarios";
             }
         });
     });
@@ -120,7 +120,7 @@ $(function () {
                         swal("Error!", "Ocurrio el siguiente error: " + result.message, "error");
                     } else {
                         swal("Guardado!", "Se ha registrado el usuario exitosamente", "success").then((value) => {
-                            window.location.href = "/Home/ListaUsuarios";
+                            window.location.href = "/WebAdquisicion/Home/ListaUsuarios";
                         });
                     }
                 }

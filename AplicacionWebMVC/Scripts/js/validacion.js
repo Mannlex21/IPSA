@@ -163,7 +163,7 @@ $(function () {
                                 dataType: "json",
                                 async: false,
                                 success: function (result) {
-                                    $(".loader").fadeOufilet(100);
+                                    $(".loader").fadeOut(100);
                                     swal("Guardado!", "Se ha guardado la solicitud correctamente", "success");
                                     console.log("Se envio mail");
                                 }, error: function (XMLHttpRequest, textStatus, errorThrown) {
