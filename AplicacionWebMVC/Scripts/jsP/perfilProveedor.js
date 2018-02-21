@@ -51,4 +51,33 @@
             }
         });
     });
+    $("#btnGuardarArchivo").on('click', function (e) {
+        var files = $("#file");
+        document.getElementById("btnImprimir").disabled = false;
+        prerequisicionG = result.preRequisicion;
+        var totalFiles = files[0].files.length;
+        var data = new FormData();
+        data.append("id", result.preRequisicion);
+        data.append("dep", document.getElementById("departamentoD").value);
+        data.append("ejercicio", document.getElementById("ejercicio").value);
+        for (var i = 0; i < totalFiles; i++) {
+            data.append("Foto", files[0].files[i]);
+        }
+        var fileUploadUrl = $('#UploadFileURL').data('request-url');
+        $.ajax({
+            url: fileUploadUrl,
+            data: data,
+            type: 'POST',
+            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            processData: false, // NEEDED
+            success: function (response) {
+            },
+            error: function (error) {
+                console.log(error);
+                $(".loader").fadeOut(100);
+                swal("Aviso!", "Se ha guardado la solicitud, pero no se pudieron subir los adjuntos. Error: " + error.statusText, "warning");
+            }
+        });
+    });
 });
+
