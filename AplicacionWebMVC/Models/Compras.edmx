@@ -13,7 +13,7 @@
           <Property Name="descripcion" Type="nvarchar" MaxLength="100" />
           <Property Name="dias" Type="smallint" />
           <Property Name="anticipo" Type="bit" />
-          <Property Name="porcentaje" Type="smallint" />
+          <Property Name="porcentaje" Type="decimal" Precision="5" Scale="2" />
         </EntityType>
         <EntityType Name="ContactoProveedores">
           <Key>
@@ -25,6 +25,17 @@
           <Property Name="correo1" Type="nvarchar" MaxLength="255" />
           <Property Name="correo2" Type="nvarchar" MaxLength="255" />
           <Property Name="telefono" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="DetallesProveedor">
+          <Key>
+            <PropertyRef Name="idDetalles" />
+          </Key>
+          <Property Name="idDetalles" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="proveedor" Type="int" />
+          <Property Name="perfil" Type="nvarchar" MaxLength="1000" />
+          <Property Name="cotizaciones" Type="nvarchar" MaxLength="1000" />
+          <Property Name="pedidos" Type="nvarchar" MaxLength="1000" />
+          <Property Name="facturas" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="Proveedores">
           <Key>
@@ -83,15 +94,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DetallesProveedor_Proveedores">
+          <End Role="Proveedores" Type="Self.Proveedores" Multiplicity="0..1" />
+          <End Role="DetallesProveedor" Type="Self.DetallesProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="consecutivos" />
+            </Principal>
+            <Dependent Role="DetallesProveedor">
+              <PropertyRef Name="proveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ComprasStoreContainer">
           <EntitySet Name="CondicionesPago" EntityType="Self.CondicionesPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactoProveedores" EntityType="Self.ContactoProveedores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetallesProveedor" EntityType="Self.DetallesProveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ContactoProveedores_Proveedores" Association="Self.FK_ContactoProveedores_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="ContactoProveedores" EntitySet="ContactoProveedores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallesProveedor_Proveedores" Association="Self.FK_DetallesProveedor_Proveedores">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="DetallesProveedor" EntitySet="DetallesProveedor" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -127,6 +155,11 @@
           <AssociationSet Name="FK_ContactoProveedores_Proveedores" Association="Compras.FK_ContactoProveedores_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="ContactoProveedores" EntitySet="ContactoProveedores" />
+          </AssociationSet>
+          <EntitySet Name="DetallesProveedor" EntityType="Compras.DetallesProveedor" />
+          <AssociationSet Name="FK_DetallesProveedor_Proveedores" Association="Compras.FK_DetallesProveedor_Proveedores">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="DetallesProveedor" EntitySet="DetallesProveedor" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Usuario">
@@ -164,6 +197,7 @@
           <Property Name="razSoc2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="ContactoProveedores" Relationship="Compras.FK_ContactoProveedores_Proveedores" FromRole="Proveedores" ToRole="ContactoProveedores" />
+          <NavigationProperty Name="DetallesProveedor" Relationship="Compras.FK_DetallesProveedor_Proveedores" FromRole="Proveedores" ToRole="DetallesProveedor" />
         </EntityType>
         <EntityType Name="ContactoProveedores">
           <Key>
@@ -186,6 +220,30 @@
             </Principal>
             <Dependent Role="ContactoProveedores">
               <PropertyRef Name="idproveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DetallesProveedor">
+          <Key>
+            <PropertyRef Name="idDetalles" />
+          </Key>
+          <Property Name="idDetalles" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="proveedor" Type="Int32" />
+          <Property Name="perfil" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="cotizaciones" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="pedidos" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="facturas" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Proveedores" Relationship="Compras.FK_DetallesProveedor_Proveedores" FromRole="DetallesProveedor" ToRole="Proveedores" />
+        </EntityType>
+        <Association Name="FK_DetallesProveedor_Proveedores">
+          <End Type="Compras.Proveedores" Role="Proveedores" Multiplicity="0..1" />
+          <End Type="Compras.DetallesProveedor" Role="DetallesProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="consecutivos" />
+            </Principal>
+            <Dependent Role="DetallesProveedor">
+              <PropertyRef Name="proveedor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -263,6 +321,18 @@
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="idproveedor" ColumnName="idproveedor" />
                 <ScalarProperty Name="idContactos" ColumnName="idContactos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetallesProveedor">
+            <EntityTypeMapping TypeName="Compras.DetallesProveedor">
+              <MappingFragment StoreEntitySet="DetallesProveedor">
+                <ScalarProperty Name="facturas" ColumnName="facturas" />
+                <ScalarProperty Name="pedidos" ColumnName="pedidos" />
+                <ScalarProperty Name="cotizaciones" ColumnName="cotizaciones" />
+                <ScalarProperty Name="perfil" ColumnName="perfil" />
+                <ScalarProperty Name="proveedor" ColumnName="proveedor" />
+                <ScalarProperty Name="idDetalles" ColumnName="idDetalles" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

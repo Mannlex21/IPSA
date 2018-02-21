@@ -87,9 +87,6 @@
         var externalDataRetrievedFromServer = [];
         
         var i = 1;
-
-        
-
         obj.forEach(function (value) {
             var row = [];
             externalDataRetrievedFromServer.push({
@@ -234,9 +231,6 @@ function ToJavaScriptDate(value) {
     return (dia + "/" + mes + "/" + dt.getFullYear());
 }
 function ImprimirPDF(preReq, depa, ejer) {
-    console.log(preReq)
-    console.log(depa)
-    console.log(ejer)
     var totalL = 0;
     var d={
         "preRequisicion": preReq,
@@ -260,164 +254,166 @@ function ImprimirPDF(preReq, depa, ejer) {
             var xhr = new XMLHttpRequest();
             var f = new Date();
             var fechaActual = f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear();
-            //xhr.open("GET", "/WebAdquisicion/file/logo.png", true);
-            xhr.open("GET", "/file/logo.png", true);
+            xhr.open("GET", "/WebAdquisicion/file/logo.png", true);
+            //xhr.open("GET", "/file/logo.png", true);
             xhr.responseType = "blob";
+            
             xhr.onload = function (e) {
+                console.log(e);
                 var reader = new FileReader();
                 reader.onload = function (event) {
                     var res = event.target.result;
                     img = res;
+                    var url = $('#ejercicioURL').data('request-url');
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: false,
+                        cache: false,
+                        success: function (result) {
+                            identificacion = result.ejercicio.identificacion;
+                            fecha = ToJavaScriptDate(result.ejercicio.fecha);
+                            version = result.ejercicio.version;
+                        }, error: function () {
+
+                        }
+                    });
+                    result.partidas.forEach(function (value) {
+                        var row = [];
+                        externalDataRetrievedFromServer.push({
+                            Partida: i,
+                            Cantidad: value.cantidad,
+                            Unidad: value.unidad,
+                            'Descripcion del articulo': value.descripcion + ':\n' + value.detalle,
+                            Clave: value.material,
+                            Existencia: value.existencia,
+                            'Precio unitario': value.costoU,
+                            'Precio total': parseFloat(value.costoU) * parseFloat(value.cantidad)
+                        })
+                        totalL = totalL + parseFloat(value.costoU) * parseFloat(value.cantidad);
+                        i++;
+                    });
+                    for (i; i <= 8; i++) {
+                        externalDataRetrievedFromServer.push({
+                            Partida: i,
+                            Cantidad: "",
+                            Unidad: "",
+                            'Descripcion del articulo': "",
+                            Clave: "",
+                            Existencia: "",
+                            'Precio unitario': "",
+                            'Precio total': ""
+                        })
+                    }
+                    var docDefinition = {
+                        pageSize: 'A4',
+                        pageOrientation: 'landscape',
+                        header: function (page, pages) {
+                            return {
+                                stack: [
+                                    {
+                                        table: {
+                                            widths: [45, '*', '*', '*', '*'],
+                                            headerRows: 1,
+                                            body: [
+                                                [{ image: img, width: 45, height: 45, rowSpan: 3, style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Identificacion', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Version', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Fecha', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Paginas', style: 'tableHeader', alignment: 'center' }],
+                                                ['', { text: identificacion, style: 'tableHeader', alignment: 'center' },
+                                                    { text: version, style: 'tableHeader', alignment: 'center' },
+                                                    { text: fecha, style: 'tableHeader', alignment: 'center' },
+                                                    { text: page + " de " + pages, style: 'tableHeader', alignment: 'center' }],
+                                                ['', { colSpan: 4, rowSpan: 1, alignment: 'center', text: 'SOLICITUD Y REQUISICION DE BIENES Y/O SERVICIOS' }, '', '', '']
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        margin: [530, 10, 0, 0],
+                                        table: {
+                                            widths: ['auto', 100, 100],
+                                            headerRows: 2,
+                                            body: [
+                                                [{ text: 'Fecha', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Numero', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Pre-Requisición', style: 'tableHeader', alignment: 'center' }],
+                                                ['' + fechaActual, '',
+                                                { text: '' + result.solicitud.preRequisicion, alignment: 'center' }]
+                                            ]
+                                        }
+                                    }
+                                ],
+                                margin: [10, 10]
+                            };
+                        },
+                        footer: function (page, pages) {
+                            return {
+                                columns: [
+                                    {
+                                        margin: [0, 30, 0, 0],
+                                        table: {
+                                            widths: ['*', '*', '*', '*', '*', '*'],
+                                            headerRows: 2,
+                                            body: [
+                                                [{ text: 'Departamento Solicitante', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Almacen', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Superintendente', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Director general', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Compras', style: 'tableHeader', alignment: 'center' },
+                                                { text: 'Proveedor', style: 'tableHeader', alignment: 'center' }],
+                                                ['\n\n\n', '', '', '', '', '']
+                                            ]
+                                        }
+                                    }
+                                ],
+                                margin: [10, 10]
+                            };
+                        },
+                        content: [
+                            table(externalDataRetrievedFromServer, [{ text: 'Partida', alignment: 'center' }, { text: 'Cantidad', alignment: 'center' }, { text: 'Unidad', alignment: 'center' }, { text: 'Descripcion del articulo', alignment: 'center' }, { text: 'Clave', alignment: 'center' }, { text: 'Existencia', alignment: 'center' }, { text: 'Precio unitario', alignment: 'center' }, { text: 'Precio total', alignment: 'center' }]),
+                            {
+                                margin: [-110, 2, 0, 0],
+                                table: {
+                                    widths: ['95.5%', '11.5%', '9%'],
+                                    body: [
+                                        [{ text: '', alignment: 'center' },
+                                        { text: 'Total', alignment: 'center' },
+                                        { text: '$ ' + totalL, style: 'tableHeader', alignment: 'center' }]
+                                    ]
+                                }
+                            },
+                            {
+                                margin: [-110, 2, 0, 0],
+                                table: {
+                                    widths: ['59%', '57%'],
+                                    headerRows: 2,
+                                    body: [
+                                        [{ text: 'Departamento: ' + result.solicitud.departamento, style: 'tableHeader', alignment: 'left' },
+                                        { text: 'Observaciones', style: 'tableHeader', alignment: 'center' }],
+                                        [{ text: 'Uso: ' + result.solicitud.uso, style: 'tableHeader', alignment: 'left' }, { text: result.solicitud.observaciones.replace(/[\r\n\v]+/g, ' '), style: 'personal', alignment: 'justify', rowSpan: 3 }],
+                                        [{ text: 'Fecha a necesitar: ' + ToJavaScriptDate(result.solicitud.fechaNecesitar), style: 'tableHeader', alignment: 'left' }, ''],
+                                        [{ text: 'Partida presupuestal: PARTIDA PRESUPUESTAL', style: 'tableHeader', alignment: 'left' }, '']
+                                    ]
+                                }
+                            }
+                        ],
+                        pageMargins: 120,
+                        styles: {
+                            personal: {
+                                fontSize: 9,
+                            }
+                        }
+                    };
+                    pdfMake.createPdf(docDefinition).open();
                 }
                 var file = this.response;
                 reader.readAsDataURL(file)
             };
             xhr.send()
             
-            var url = $('#ejercicioURL').data('request-url');
-            $.ajax({
-                type: "GET",
-                url: url,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async: false,
-                cache: false,
-                success: function (result) {
-                    identificacion = result.ejercicio.identificacion;
-                    fecha = ToJavaScriptDate(result.ejercicio.fecha);
-                    version = result.ejercicio.version;
-                }, error: function () {
-
-                }
-            });
-            result.partidas.forEach(function (value) {
-                var row = [];
-                externalDataRetrievedFromServer.push({
-                    Partida: i,
-                    Cantidad: value.cantidad,
-                    Unidad: value.unidad,
-                    'Descripcion del articulo': value.descripcion + ':\n' + value.detalle,
-                    Clave: value.material, 
-                    Existencia: value.existencia,
-                    'Precio unitario': value.costoU,
-                    'Precio total': parseFloat(value.costoU) * parseFloat(value.cantidad)
-                })
-                totalL = totalL + parseFloat(value.costoU) * parseFloat(value.cantidad);
-                i++;
-            });
-            for (i; i <= 8; i++) {
-                externalDataRetrievedFromServer.push({
-                    Partida: i,
-                    Cantidad: "",
-                    Unidad: "",
-                    'Descripcion del articulo': "",
-                    Clave: "",
-                    Existencia: "",
-                    'Precio unitario': "",
-                    'Precio total': ""
-                })
-            }
-            var docDefinition = {
-                pageSize: 'A4',
-                pageOrientation: 'landscape',
-                header: function (page, pages) {
-                    return {
-                        stack: [
-                            {
-                                table: {
-                                    widths: [45, '*', '*', '*', '*'],
-                                    headerRows: 1,
-                                    body: [
-                                        [{ image: img, width: 45, height: 45, rowSpan: 3, style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Identificacion', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Version', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Fecha', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Paginas', style: 'tableHeader', alignment: 'center' }],
-                                        ['', { text: identificacion, style: 'tableHeader', alignment: 'center' },
-                                            { text: version, style: 'tableHeader', alignment: 'center' },
-                                            { text: fecha, style: 'tableHeader', alignment: 'center' },
-                                            { text: page + " de " + pages, style: 'tableHeader', alignment: 'center' }],
-                                        ['', { colSpan: 4, rowSpan: 1, alignment: 'center', text: 'SOLICITUD Y REQUISICION DE BIENES Y/O SERVICIOS' }, '', '', '']
-                                    ]
-                                }
-                            },
-                            {
-                                margin: [530, 10, 0, 0],
-                                table: {
-                                    widths: ['auto', 100, 100],
-                                    headerRows: 2,
-                                    body: [
-                                        [{ text: 'Fecha', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Numero', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Pre-Requisición', style: 'tableHeader', alignment: 'center' }],
-                                        ['' + fechaActual, '',
-                                        { text: '' + result.solicitud.preRequisicion, alignment: 'center' }]
-                                    ]
-                                }
-                            }
-                        ],
-                        margin: [10, 10]
-                    };
-                },
-                footer: function (page, pages) {
-                    return {
-                        columns: [
-                            {
-                                margin: [0, 30, 0, 0],
-                                table: {
-                                    widths: ['*', '*', '*', '*', '*', '*'],
-                                    headerRows: 2,
-                                    body: [
-                                        [{ text: 'Departamento Solicitante', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Almacen', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Superintendente', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Director general', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Compras', style: 'tableHeader', alignment: 'center' },
-                                        { text: 'Proveedor', style: 'tableHeader', alignment: 'center' }],
-                                        ['\n\n\n', '', '', '', '', '']
-                                    ]
-                                }
-                            }
-                        ],
-                        margin: [10, 10]
-                    };
-                },
-                content: [
-                    table(externalDataRetrievedFromServer, [{ text: 'Partida', alignment: 'center' }, { text: 'Cantidad', alignment: 'center' }, { text: 'Unidad', alignment: 'center' }, { text: 'Descripcion del articulo', alignment: 'center' }, { text: 'Clave', alignment: 'center' }, { text: 'Existencia', alignment: 'center' }, { text: 'Precio unitario', alignment: 'center' }, { text: 'Precio total', alignment: 'center' }]),
-                    {
-                        margin: [-110, 2, 0, 0],
-                        table: {
-                            widths: ['95.5%', '11.5%', '9%'],
-                            body: [
-                                [{ text: '', alignment: 'center' },
-                                { text: 'Total', alignment: 'center' },
-                                { text: '$ ' + totalL, style: 'tableHeader', alignment: 'center' }]
-                            ]
-                        }
-                    },
-                    {
-                        margin: [-110, 2, 0, 0],
-                        table: {
-                            widths: ['59%', '57%'],
-                            headerRows: 2,
-                            body: [
-                                [{ text: 'Departamento: ' + result.solicitud.departamento, style: 'tableHeader', alignment: 'left' },
-                                    { text: 'Observaciones', style: 'tableHeader', alignment: 'center' }],
-                                [{ text: 'Uso: ' + result.solicitud.uso, style: 'tableHeader', alignment: 'left' }, { text: result.solicitud.observaciones.replace(/[\r\n\v]+/g, ' '), style: 'personal', alignment: 'justify', rowSpan: 3 }],
-                                [{ text: 'Fecha a necesitar: ' + ToJavaScriptDate(result.solicitud.fechaNecesitar), style: 'tableHeader', alignment: 'left' }, ''],
-                                [{ text: 'Partida presupuestal: PARTIDA PRESUPUESTAL', style: 'tableHeader', alignment: 'left' }, '']
-                            ]
-                        }
-                    }
-                ],
-                pageMargins: 120,
-                styles: {
-                    personal: {
-                        fontSize: 9,
-                    }
-                }
-            };
-            pdfMake.createPdf(docDefinition).open();
         }, error: function (result) {
             console.log(result);
             swal("Error!", "Ocurrio el siguiente error: " + result.message, "error");

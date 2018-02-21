@@ -145,6 +145,7 @@ $(function () {
                         contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
                         processData: false, // NEEDED
                         success: function (response) {
+                            document.getElementById("file1").value = "";
                             var d = {
                                 Subject: "Se agrego una pre-requisicion",
                                 fechaNecesitar: document.getElementById("fechaNecesitar").value,
