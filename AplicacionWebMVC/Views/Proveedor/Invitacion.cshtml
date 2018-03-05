@@ -1,15 +1,16 @@
-﻿
+﻿@model PagedList.IPagedList<AplicacionWebMVC.Models.Solicitud_Requisiciones>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Invitaciones";
 }
 <script type="text/javascript">
-        $(window).load(function () {
-            setTimeout(function () {
-                $(".loader").fadeOut(100);
-            }, 1000);
-        });
-        var username = "@HttpContext.Current.User.Identity.Name";
-        console.log(username);
+    $(window).load(function () {
+        setTimeout(function () {
+            $(".loader").fadeOut(100);
+        }, 1000);
+    });
+    var username = "@HttpContext.Current.User.Identity.Name";
+    console.log(username);
 </script>
 @if (!User.Identity.IsAuthenticated)
 {
@@ -17,4 +18,37 @@
 }
 <div class="loader"></div>
 <h2>Invitaciones</h2>
+<table class="table">
+    <tr>
+        <th style="text-align: center;">
+            Clave de requisición
+        </th>
+        <th style="text-align: center;">
+            Fecha a necesitar
+        </th>
+        <th style="text-align: center;">
+            Fecha de requisición
+        </th>
+        <th></th>
+    </tr>
 
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.requisicion)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.fechaNecesitar)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.fechaRequisicion)
+        </td>
+        <td style="text-align: center;">
+            <button class="btn btn-success glyphicon glyphicon-info-sign" onclick="@("abrirDetalle('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"','"+item.uso+ "','" + item.ciclo + "')")"></button>
+            <a class="btn btn-primary glyphicon glyphicon-print" onclick="@("ImprimirPDF('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"')")"></a>
+        </td>
+    </tr>
+    }
+
+</table>

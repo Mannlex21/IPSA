@@ -10,7 +10,7 @@ $(function () {
             dataType: "json",
             async: false,
             success: function (r) {
-
+                console.log(r);
                 if (document.getElementsByClassName('addDepto') != null) {
                     for (var obj in r) {
                         $('#departamento').append($('<option>', {
@@ -35,7 +35,6 @@ $(function () {
                         }));
                     }
                 }
-
                 if (document.getElementById('departamentoS') != null) {
                     for (var obj in r) {
                         $('#departamentoS').append($('<option>', {

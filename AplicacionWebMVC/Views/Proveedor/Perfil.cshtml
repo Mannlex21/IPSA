@@ -1,4 +1,4 @@
-﻿
+﻿@model AplicacionWebMVC.Models.Proveedores
 @{
     ViewBag.Title = "Perfil";
 }
@@ -31,37 +31,37 @@
     <h1 style="padding-left: 15px;">Información</h1>
     <form action="" name="infoPar" id="infoPar">
         <div class="div1 col-md-6">
-            <label for="razSoc">Razón social <span id="errRazSoc" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="razSoc" id="razSoc" maxlength="255">
+            <label for="razSoc2">Razón social</label>
+            @Html.EditorFor(model => model.razSoc2, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 255 })
 
             <label for="RFC">RFC<span id="errRFC" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="RFC" id="RFC" maxlength="14" readonly>
+            @Html.EditorFor(model => model.RFC, new { htmlAttributes = new { @class = "inputBox2", @readonly = "readonly" }, maxlength = 14 })
 
             <label for="direccion">Dirección <span id="errDireccion" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="direccion" id="direccion" maxlength="60">
+            @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 60 })
 
             <label for="telefono">Telefono <span id="errTelefono" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="telefono" id="telefono" maxlength="40">
+            @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 40 })
 
             <label for="representante">Representante<span id="errRepresentante" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="representante" id="representante" maxlength="60">
+            @Html.EditorFor(model => model.representante, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 60 })
 
         </div>
         <div class="div1 col-md-6">
             <label for="colonia">Colonia <span id="errColonia" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="colonia" id="colonia" maxlength="50">
+            @Html.EditorFor(model => model.colonia, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 50 })
 
             <label for="ciudad">Ciudad <span id="errCiudad" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="ciudad" id="ciudad" maxlength="50">
+            @Html.EditorFor(model => model.ciudad, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 50 })
 
             <label for="codigoPostal">Codigo postal<span id="errCodigoPostal" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="codigoPostal" id="codigoPostal">
+            @Html.EditorFor(model => model.codigoPostal, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 255 })
 
             <label for="fax">Fax<span id="errFax" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="fax" id="fax" maxlength="32">
+            @Html.EditorFor(model => model.fax, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 32 })
 
             <label for="tipoProveedor">Tipo proveedor<span id="errTipoProveedor" class="errorPersonalizado"></span></label>
-            <input type="text" class="inputBox2" name="tipoProveedor" id="tipoProveedor">
+            @Html.EditorFor(model => model.tipoProveedor, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 255 })
         </div>
     </form>
     <button type="button" id="btnGuardar" class="btn btn-success btn-lg btnGuardar">Guardar</button>
@@ -73,7 +73,7 @@
             <input type="file" id="file" name="file" multiple />
         </div>
     </form>
-        <button type="button" id="btnGuardarArchivo" class="btn btn-success btn-lg btnGuardar">Guardar</button>
+    <button type="button" id="btnGuardarArchivo" class="btn btn-success btn-lg btnGuardar">Guardar</button>
 </div>
 
 <div class="jumbotron row" style="margin-top: 20px;">

@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Data.Entity.Core;
 using System.IO;
 
+
 namespace AplicacionWebMVC.Controllers
 {
     public class ProveedorController : Controller
@@ -28,12 +29,20 @@ namespace AplicacionWebMVC.Controllers
         [Authorize(Roles = "Admin, Proveedor")]
         public ActionResult Perfil()
         {
-            return View();
+            var u = User.Identity.Name;
+            var idU=DB.Usuarios.Where(s=>s.nombreUsuario.ToUpper().Equals(u.ToString().ToUpper())).FirstOrDefault().idUsuario;
+            var idP = DBC.Usuario.Where(s=>s.idUsuarios==idU).FirstOrDefault().Proveedor;
+            var p = DBC.Proveedores.Where(s=>s.consecutivos==idP).FirstOrDefault();
+            return View(p);
         }
         [Authorize(Roles = "Admin, Proveedor")]
-        public ActionResult Invitacion()
+        public ActionResult Invitacion(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View();
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            return View(DB.Solicitud_Requisiciones.OrderBy(i => i.fechaNecesitar).ToPagedList(page ?? 1, pageSize));
+            //return View(DB.Solicitud_Requisiciones.ToList());
         }
         [Authorize(Roles = "Admin")]
         public ActionResult ListaProveedor()
@@ -131,7 +140,8 @@ namespace AplicacionWebMVC.Controllers
             }
 
         }
-        public JsonResult ActualizarProveedor(string razSoc, string RFC, string direccion, string telefono,
+        [HttpPost]
+        public string ActualizarProveedor(string razSoc2, string RFC, string direccion, string telefono,
             string representante, string colonia, string ciudad, string codigoPostal, string fax, string tipoProveedor) //Gets the todo Lists.  
         {
             try
@@ -142,7 +152,7 @@ namespace AplicacionWebMVC.Controllers
                 var proveedor = DBC.Proveedores.Where(s => s.consecutivos == ud.Proveedor).FirstOrDefault();
                 if (proveedor != null)
                 {
-                    proveedor.razSoc2 = razSoc;
+                    proveedor.razSoc2 = razSoc2;
                     proveedor.direccion = direccion;
                     proveedor.telefono = telefono;
                     proveedor.representante = representante;
@@ -159,7 +169,8 @@ namespace AplicacionWebMVC.Controllers
                         code = "ok",
                         message = "Se edito correctamento"
                     };
-                    return Json(proveedor, JsonRequestBehavior.AllowGet);
+                    return "ok";
+                    //return Json(proveedor, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -168,21 +179,22 @@ namespace AplicacionWebMVC.Controllers
                         code = "error",
                         message = "No se encontro proveedor"
                     };
-                    return Json(d, JsonRequestBehavior.AllowGet);
+                    return "No se encontro proveedor";
+                    //return Json(d, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (SqlException odbcEx)
             {
                 var r = new { code = "error", message = odbcEx.Message };
-                return Json(r, JsonRequestBehavior.AllowGet);
+                return odbcEx.Message;
+                //return Json(r, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 var r = new { code = "error", message = ex.Message };
-                return Json(r, JsonRequestBehavior.AllowGet);
+                return ex.Message;
+                //return Json(r, JsonRequestBehavior.AllowGet);
             }
-
-
         }
         public JsonResult GetProveedores(string sidx, string sord, int page, int rows, string idProveedor, string razsoc, string rfc) //Gets the todo Lists.  
         {
