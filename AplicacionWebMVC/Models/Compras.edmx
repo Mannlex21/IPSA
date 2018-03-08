@@ -37,6 +37,18 @@
           <Property Name="pedidos" Type="nvarchar" MaxLength="1000" />
           <Property Name="facturas" Type="nvarchar" MaxLength="1000" />
         </EntityType>
+        <EntityType Name="invitacionReq">
+          <Key>
+            <PropertyRef Name="idInvitacion" />
+          </Key>
+          <Property Name="idInvitacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idProveedores" Type="int" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" />
+          <Property Name="requisicion" Type="nvarchar" MaxLength="50" />
+          <Property Name="preRequisicion" Type="int" />
+          <Property Name="departamento" Type="smallint" />
+          <Property Name="ejercicio" Type="int" />
+        </EntityType>
         <EntityType Name="Proveedores">
           <Key>
             <PropertyRef Name="consecutivos" />
@@ -106,10 +118,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_invitacionReq_Proveedores">
+          <End Role="Proveedores" Type="Self.Proveedores" Multiplicity="0..1" />
+          <End Role="invitacionReq" Type="Self.invitacionReq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="consecutivos" />
+            </Principal>
+            <Dependent Role="invitacionReq">
+              <PropertyRef Name="idProveedores" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ComprasStoreContainer">
           <EntitySet Name="CondicionesPago" EntityType="Self.CondicionesPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactoProveedores" EntityType="Self.ContactoProveedores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetallesProveedor" EntityType="Self.DetallesProveedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="invitacionReq" EntityType="Self.invitacionReq" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
@@ -120,6 +145,10 @@
           <AssociationSet Name="FK_DetallesProveedor_Proveedores" Association="Self.FK_DetallesProveedor_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="DetallesProveedor" EntitySet="DetallesProveedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_invitacionReq_Proveedores" Association="Self.FK_invitacionReq_Proveedores">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="invitacionReq" EntitySet="invitacionReq" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -161,6 +190,11 @@
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="DetallesProveedor" EntitySet="DetallesProveedor" />
           </AssociationSet>
+          <EntitySet Name="invitacionReq" EntityType="Compras.invitacionReq" />
+          <AssociationSet Name="FK_invitacionReq_Proveedores" Association="Compras.FK_invitacionReq_Proveedores">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="invitacionReq" EntitySet="invitacionReq" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Usuario">
           <Key>
@@ -198,6 +232,7 @@
           <Property Name="status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="ContactoProveedores" Relationship="Compras.FK_ContactoProveedores_Proveedores" FromRole="Proveedores" ToRole="ContactoProveedores" />
           <NavigationProperty Name="DetallesProveedor" Relationship="Compras.FK_DetallesProveedor_Proveedores" FromRole="Proveedores" ToRole="DetallesProveedor" />
+          <NavigationProperty Name="invitacionReq" Relationship="Compras.FK_invitacionReq_Proveedores" FromRole="Proveedores" ToRole="invitacionReq" />
         </EntityType>
         <EntityType Name="ContactoProveedores">
           <Key>
@@ -244,6 +279,31 @@
             </Principal>
             <Dependent Role="DetallesProveedor">
               <PropertyRef Name="proveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="invitacionReq">
+          <Key>
+            <PropertyRef Name="idInvitacion" />
+          </Key>
+          <Property Name="idInvitacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProveedores" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="requisicion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="preRequisicion" Type="Int32" />
+          <Property Name="departamento" Type="Int16" />
+          <Property Name="ejercicio" Type="Int32" />
+          <NavigationProperty Name="Proveedores" Relationship="Compras.FK_invitacionReq_Proveedores" FromRole="invitacionReq" ToRole="Proveedores" />
+        </EntityType>
+        <Association Name="FK_invitacionReq_Proveedores">
+          <End Type="Compras.Proveedores" Role="Proveedores" Multiplicity="0..1" />
+          <End Type="Compras.invitacionReq" Role="invitacionReq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="consecutivos" />
+            </Principal>
+            <Dependent Role="invitacionReq">
+              <PropertyRef Name="idProveedores" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -333,6 +393,19 @@
                 <ScalarProperty Name="perfil" ColumnName="perfil" />
                 <ScalarProperty Name="proveedor" ColumnName="proveedor" />
                 <ScalarProperty Name="idDetalles" ColumnName="idDetalles" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="invitacionReq">
+            <EntityTypeMapping TypeName="Compras.invitacionReq">
+              <MappingFragment StoreEntitySet="invitacionReq">
+                <ScalarProperty Name="ejercicio" ColumnName="ejercicio" />
+                <ScalarProperty Name="departamento" ColumnName="departamento" />
+                <ScalarProperty Name="preRequisicion" ColumnName="preRequisicion" />
+                <ScalarProperty Name="requisicion" ColumnName="requisicion" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="idProveedores" ColumnName="idProveedores" />
+                <ScalarProperty Name="idInvitacion" ColumnName="idInvitacion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

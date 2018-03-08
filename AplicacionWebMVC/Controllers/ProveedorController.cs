@@ -38,10 +38,21 @@ namespace AplicacionWebMVC.Controllers
         [Authorize(Roles = "Admin, Proveedor")]
         public ActionResult Invitacion(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            var u = User.Identity.Name;
+            var idU = DB.Usuarios.Where(s => s.nombreUsuario.ToUpper().Equals(u.ToString().ToUpper())).FirstOrDefault().idUsuario;
+            var idP = DBC.Usuario.Where(s => s.idUsuarios == idU).FirstOrDefault().Proveedor;
+            var p = DBC.Proveedores.Where(s => s.consecutivos == idP).FirstOrDefault();
             int pageSize = 10;
             int pageNumber = (page ?? 1);
+            List<Solicitud_Requisiciones> listaSolicitudes = new List<Solicitud_Requisiciones>();
+            foreach (var r in DBC.invitacionReq.Where(s=>s.idProveedores==p.consecutivos))
+            {
+                Solicitud_Requisiciones solicitud = new Solicitud_Requisiciones();
+                solicitud = DB.Solicitud_Requisiciones.Where(s=>s.preRequisicion==r.preRequisicion && s.ejercicio==r.ejercicio && s.departamento==r.departamento).FirstOrDefault();
 
-            return View(DB.Solicitud_Requisiciones.OrderBy(i => i.fechaNecesitar).ToPagedList(page ?? 1, pageSize));
+                listaSolicitudes.Add(solicitud);
+            }
+            return View(listaSolicitudes.OrderBy(i => i.fechaNecesitar).ToPagedList(page ?? 1, pageSize));
             //return View(DB.Solicitud_Requisiciones.ToList());
         }
         [Authorize(Roles = "Admin")]

@@ -261,6 +261,9 @@
     <Compile Include="Models\GpoMateriales.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\invitacionReq.cs">
+      <DependentUpon>Compras.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Materiales.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
