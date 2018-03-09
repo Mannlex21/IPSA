@@ -420,6 +420,7 @@ function ImprimirPDF(preReq, depa, ejer) {
         }
     });
 }
+
 function buildTableBody(data, columns) {
     var body = [];
     body.push(columns);
