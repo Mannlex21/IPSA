@@ -32,5 +32,7 @@ namespace AplicacionWebMVC.Models
         public virtual DbSet<ContactoProveedores> ContactoProveedores { get; set; }
         public virtual DbSet<DetallesProveedor> DetallesProveedor { get; set; }
         public virtual DbSet<invitacionReq> invitacionReq { get; set; }
+        public virtual DbSet<Cotizacion_Requisiciones> Cotizacion_Requisiciones { get; set; }
+        public virtual DbSet<DetallesCotizacion> DetallesCotizacion { get; set; }
     }
 }

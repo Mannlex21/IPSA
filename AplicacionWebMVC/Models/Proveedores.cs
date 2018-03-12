@@ -20,6 +20,7 @@ namespace AplicacionWebMVC.Models
             this.ContactoProveedores = new HashSet<ContactoProveedores>();
             this.DetallesProveedor = new HashSet<DetallesProveedor>();
             this.invitacionReq = new HashSet<invitacionReq>();
+            this.Cotizacion_Requisiciones = new HashSet<Cotizacion_Requisiciones>();
         }
     
         public int consecutivos { get; set; }
@@ -52,5 +53,7 @@ namespace AplicacionWebMVC.Models
         public virtual ICollection<DetallesProveedor> DetallesProveedor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<invitacionReq> invitacionReq { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cotizacion_Requisiciones> Cotizacion_Requisiciones { get; set; }
     }
 }

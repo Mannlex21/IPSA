@@ -1,4 +1,4 @@
-﻿
+﻿@model AplicacionWebMVC.Models.Proveedores
 @{
     ViewBag.Title = "Cotización";
 }
@@ -11,10 +11,30 @@
         var username = "@HttpContext.Current.User.Identity.Name";
         console.log(username);
 </script>
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/cssP/cotizacion.css")" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/js/sweetalert.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/js/vfs_fonts.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.10.0.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")"></script>
 @if (!User.Identity.IsAuthenticated)
 {
     Response.Redirect("~/Home/Index");
 }
 <div class="loader"></div>
+<div id="solicitudURL" data-request-url="@Url.Action("GetSolicitud", "Home")"></div>
 <h2>Cotización</h2>
-
+<div class="jumbotron row" style="margin-top: 20px;">
+    <h1 style="padding-left: 15px;">Información</h1>
+    <form action="" name="infoPar" id="infoPar">
+        <div class="div1 col-md-6">
+            <label for="razSoc2">Razón social</label>
+            @Html.EditorFor(model => model.razSoc2, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 255 })
+        </div>
+        <div class="div1 col-md-6">
+            <label for="colonia">Colonia <span id="errColonia" class="errorPersonalizado"></span></label>
+            @Html.EditorFor(model => model.colonia, new { htmlAttributes = new { @class = "inputBox2" }, maxlength = 50 })
+        </div>
+    </form>
+    <button type="button" id="btnGuardar" class="btn btn-success btn-lg btnGuardar">Guardar</button>
+</div>

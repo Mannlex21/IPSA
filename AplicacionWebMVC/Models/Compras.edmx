@@ -26,6 +26,43 @@
           <Property Name="correo2" Type="nvarchar" MaxLength="255" />
           <Property Name="telefono" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="Cotizacion_Requisiciones">
+          <Key>
+            <PropertyRef Name="idCotizacion" />
+          </Key>
+          <Property Name="idCotizacion" Type="int" Nullable="false" />
+          <Property Name="idProveedor" Type="int" />
+          <Property Name="idCondicionPago" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="requisicion" Type="nvarchar" MaxLength="11" />
+          <Property Name="departamento" Type="smallint" />
+          <Property Name="area" Type="nvarchar" MaxLength="1" />
+          <Property Name="ciclo" Type="nvarchar" MaxLength="1" />
+          <Property Name="proveedor" Type="nvarchar" MaxLength="255" />
+          <Property Name="fechaCotizacion" Type="datetime" />
+          <Property Name="descripcionCondicion" Type="nvarchar" MaxLength="100" />
+          <Property Name="libreAbordo" Type="nvarchar" MaxLength="30" />
+          <Property Name="descuento" Type="money" />
+          <Property Name="garantia" Type="smallint" />
+          <Property Name="anticipo" Type="money" />
+          <Property Name="apoyoTecnico" Type="bit" />
+          <Property Name="estatus" Type="bit" />
+          <Property Name="observaciones" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="DetallesCotizacion">
+          <Key>
+            <PropertyRef Name="idDetalleCotizacion" />
+          </Key>
+          <Property Name="idDetalleCotizacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idCotizacion" Type="int" />
+          <Property Name="idMaterial" Type="int" />
+          <Property Name="cantidad" Type="int" />
+          <Property Name="uMedida" Type="nvarchar" MaxLength="255" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="255" />
+          <Property Name="costoU" Type="money" />
+          <Property Name="tiempoEntrega" Type="smallint" />
+          <Property Name="nota" Type="nvarchar" MaxLength="255" />
+          <Property Name="partida" Type="smallint" />
+        </EntityType>
         <EntityType Name="DetallesProveedor">
           <Key>
             <PropertyRef Name="idDetalles" />
@@ -106,6 +143,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Cotizacion_Requisiciones_Proveedores">
+          <End Role="Proveedores" Type="Self.Proveedores" Multiplicity="0..1" />
+          <End Role="Cotizacion_Requisiciones" Type="Self.Cotizacion_Requisiciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="consecutivos" />
+            </Principal>
+            <Dependent Role="Cotizacion_Requisiciones">
+              <PropertyRef Name="idProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallesContizacion_Cotizacion_Requisiciones">
+          <End Role="Cotizacion_Requisiciones" Type="Self.Cotizacion_Requisiciones" Multiplicity="0..1" />
+          <End Role="DetallesCotizacion" Type="Self.DetallesCotizacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cotizacion_Requisiciones">
+              <PropertyRef Name="idCotizacion" />
+            </Principal>
+            <Dependent Role="DetallesCotizacion">
+              <PropertyRef Name="idCotizacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DetallesProveedor_Proveedores">
           <End Role="Proveedores" Type="Self.Proveedores" Multiplicity="0..1" />
           <End Role="DetallesProveedor" Type="Self.DetallesProveedor" Multiplicity="*" />
@@ -133,6 +194,8 @@
         <EntityContainer Name="ComprasStoreContainer">
           <EntitySet Name="CondicionesPago" EntityType="Self.CondicionesPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactoProveedores" EntityType="Self.ContactoProveedores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cotizacion_Requisiciones" EntityType="Self.Cotizacion_Requisiciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetallesCotizacion" EntityType="Self.DetallesCotizacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetallesProveedor" EntityType="Self.DetallesProveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="invitacionReq" EntityType="Self.invitacionReq" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
@@ -141,6 +204,14 @@
           <AssociationSet Name="FK_ContactoProveedores_Proveedores" Association="Self.FK_ContactoProveedores_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="ContactoProveedores" EntitySet="ContactoProveedores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cotizacion_Requisiciones_Proveedores" Association="Self.FK_Cotizacion_Requisiciones_Proveedores">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="Cotizacion_Requisiciones" EntitySet="Cotizacion_Requisiciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallesContizacion_Cotizacion_Requisiciones" Association="Self.FK_DetallesContizacion_Cotizacion_Requisiciones">
+            <End Role="Cotizacion_Requisiciones" EntitySet="Cotizacion_Requisiciones" />
+            <End Role="DetallesCotizacion" EntitySet="DetallesCotizacion" />
           </AssociationSet>
           <AssociationSet Name="FK_DetallesProveedor_Proveedores" Association="Self.FK_DetallesProveedor_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
@@ -195,6 +266,16 @@
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="invitacionReq" EntitySet="invitacionReq" />
           </AssociationSet>
+          <EntitySet Name="Cotizacion_Requisiciones" EntityType="Compras.Cotizacion_Requisiciones" />
+          <EntitySet Name="DetallesCotizacion" EntityType="Compras.DetallesCotizacion" />
+          <AssociationSet Name="FK_Cotizacion_Requisiciones_Proveedores" Association="Compras.FK_Cotizacion_Requisiciones_Proveedores">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="Cotizacion_Requisiciones" EntitySet="Cotizacion_Requisiciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallesContizacion_Cotizacion_Requisiciones" Association="Compras.FK_DetallesContizacion_Cotizacion_Requisiciones">
+            <End Role="Cotizacion_Requisiciones" EntitySet="Cotizacion_Requisiciones" />
+            <End Role="DetallesCotizacion" EntitySet="DetallesCotizacion" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Usuario">
           <Key>
@@ -233,6 +314,7 @@
           <NavigationProperty Name="ContactoProveedores" Relationship="Compras.FK_ContactoProveedores_Proveedores" FromRole="Proveedores" ToRole="ContactoProveedores" />
           <NavigationProperty Name="DetallesProveedor" Relationship="Compras.FK_DetallesProveedor_Proveedores" FromRole="Proveedores" ToRole="DetallesProveedor" />
           <NavigationProperty Name="invitacionReq" Relationship="Compras.FK_invitacionReq_Proveedores" FromRole="Proveedores" ToRole="invitacionReq" />
+          <NavigationProperty Name="Cotizacion_Requisiciones" Relationship="Compras.FK_Cotizacion_Requisiciones_Proveedores" FromRole="Proveedores" ToRole="Cotizacion_Requisiciones" />
         </EntityType>
         <EntityType Name="ContactoProveedores">
           <Key>
@@ -304,6 +386,70 @@
             </Principal>
             <Dependent Role="invitacionReq">
               <PropertyRef Name="idProveedores" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Cotizacion_Requisiciones">
+          <Key>
+            <PropertyRef Name="idCotizacion" />
+          </Key>
+          <Property Name="idCotizacion" Type="Int32" Nullable="false" />
+          <Property Name="idProveedor" Type="Int32" />
+          <Property Name="idCondicionPago" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="requisicion" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="departamento" Type="Int16" />
+          <Property Name="area" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="ciclo" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="proveedor" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="fechaCotizacion" Type="DateTime" Precision="3" />
+          <Property Name="descripcionCondicion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="libreAbordo" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="descuento" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="garantia" Type="Int16" />
+          <Property Name="anticipo" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="apoyoTecnico" Type="Boolean" />
+          <Property Name="estatus" Type="Boolean" />
+          <Property Name="observaciones" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Proveedores" Relationship="Compras.FK_Cotizacion_Requisiciones_Proveedores" FromRole="Cotizacion_Requisiciones" ToRole="Proveedores" />
+          <NavigationProperty Name="DetallesCotizacion" Relationship="Compras.FK_DetallesContizacion_Cotizacion_Requisiciones" FromRole="Cotizacion_Requisiciones" ToRole="DetallesCotizacion" />
+        </EntityType>
+        <EntityType Name="DetallesCotizacion">
+          <Key>
+            <PropertyRef Name="idDetalleCotizacion" />
+          </Key>
+          <Property Name="idDetalleCotizacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idCotizacion" Type="Int32" />
+          <Property Name="idMaterial" Type="Int32" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="uMedida" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="costoU" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="tiempoEntrega" Type="Int16" />
+          <Property Name="nota" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="partida" Type="Int16" />
+          <NavigationProperty Name="Cotizacion_Requisiciones" Relationship="Compras.FK_DetallesContizacion_Cotizacion_Requisiciones" FromRole="DetallesCotizacion" ToRole="Cotizacion_Requisiciones" />
+        </EntityType>
+        <Association Name="FK_Cotizacion_Requisiciones_Proveedores">
+          <End Type="Compras.Proveedores" Role="Proveedores" Multiplicity="0..1" />
+          <End Type="Compras.Cotizacion_Requisiciones" Role="Cotizacion_Requisiciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="consecutivos" />
+            </Principal>
+            <Dependent Role="Cotizacion_Requisiciones">
+              <PropertyRef Name="idProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallesContizacion_Cotizacion_Requisiciones">
+          <End Type="Compras.Cotizacion_Requisiciones" Role="Cotizacion_Requisiciones" Multiplicity="0..1" />
+          <End Type="Compras.DetallesCotizacion" Role="DetallesCotizacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cotizacion_Requisiciones">
+              <PropertyRef Name="idCotizacion" />
+            </Principal>
+            <Dependent Role="DetallesCotizacion">
+              <PropertyRef Name="idCotizacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -406,6 +552,45 @@
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="idProveedores" ColumnName="idProveedores" />
                 <ScalarProperty Name="idInvitacion" ColumnName="idInvitacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cotizacion_Requisiciones">
+            <EntityTypeMapping TypeName="Compras.Cotizacion_Requisiciones">
+              <MappingFragment StoreEntitySet="Cotizacion_Requisiciones">
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="apoyoTecnico" ColumnName="apoyoTecnico" />
+                <ScalarProperty Name="anticipo" ColumnName="anticipo" />
+                <ScalarProperty Name="garantia" ColumnName="garantia" />
+                <ScalarProperty Name="descuento" ColumnName="descuento" />
+                <ScalarProperty Name="libreAbordo" ColumnName="libreAbordo" />
+                <ScalarProperty Name="descripcionCondicion" ColumnName="descripcionCondicion" />
+                <ScalarProperty Name="fechaCotizacion" ColumnName="fechaCotizacion" />
+                <ScalarProperty Name="proveedor" ColumnName="proveedor" />
+                <ScalarProperty Name="ciclo" ColumnName="ciclo" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="departamento" ColumnName="departamento" />
+                <ScalarProperty Name="requisicion" ColumnName="requisicion" />
+                <ScalarProperty Name="idCondicionPago" ColumnName="idCondicionPago" />
+                <ScalarProperty Name="idProveedor" ColumnName="idProveedor" />
+                <ScalarProperty Name="idCotizacion" ColumnName="idCotizacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetallesCotizacion">
+            <EntityTypeMapping TypeName="Compras.DetallesCotizacion">
+              <MappingFragment StoreEntitySet="DetallesCotizacion">
+                <ScalarProperty Name="partida" ColumnName="partida" />
+                <ScalarProperty Name="nota" ColumnName="nota" />
+                <ScalarProperty Name="tiempoEntrega" ColumnName="tiempoEntrega" />
+                <ScalarProperty Name="costoU" ColumnName="costoU" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="uMedida" ColumnName="uMedida" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="idMaterial" ColumnName="idMaterial" />
+                <ScalarProperty Name="idCotizacion" ColumnName="idCotizacion" />
+                <ScalarProperty Name="idDetalleCotizacion" ColumnName="idDetalleCotizacion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

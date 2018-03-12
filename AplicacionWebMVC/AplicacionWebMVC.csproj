@@ -221,6 +221,9 @@
     <Compile Include="Models\ContactoProveedores.cs">
       <DependentUpon>Compras.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cotizacion_Requisiciones.cs">
+      <DependentUpon>Compras.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Departamentos.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -229,6 +232,9 @@
     </Compile>
     <Compile Include="Models\DetalleRequisicion2.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DetallesCotizacion.cs">
+      <DependentUpon>Compras.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetallesProveedor.cs">
       <DependentUpon>Compras.tt</DependentUpon>
@@ -300,6 +306,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cssP\cotizacion.css" />
     <Content Include="Content\cssP\perfilProveedor.css" />
     <Content Include="Content\cssP\registroProveedores.css" />
     <Content Include="Content\css\cargando.css" />
@@ -517,6 +524,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsP\invitacion.js" />
     <Content Include="Scripts\jsP\perfilProveedor.js" />
     <Content Include="Scripts\jsP\proveedores.js" />
     <Content Include="Scripts\jsP\registroProveedor.js" />

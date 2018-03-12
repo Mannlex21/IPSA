@@ -23,6 +23,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/js/pdfmake.min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/js/vfs_fonts.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/js/detalleRequisicion.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jsP/invitacion.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/js/imprimirPDF.js")"></script>
 @if (!User.Identity.IsAuthenticated)
 {
@@ -60,8 +61,9 @@
                 @Html.DisplayFor(modelItem => item.fechaRequisicion)
             </td>
             <td style="text-align: center;">
-                <button class="btn btn-success glyphicon glyphicon-info-sign" onclick="@("abrirDetalle('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"','"+item.uso+ "','" + item.ciclo + "')")"></button>
-                <a class="btn btn-primary glyphicon glyphicon-print" onclick="@("ImprimirPDF('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"')")"></a>
+                <a class="btn btn-success glyphicon glyphicon-info-sign" onclick="@("abrirDetalle('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"','"+item.uso+ "','" + item.ciclo + "')")" data-toggle="tooltip" data-placement="top" title="Detalle"></a>
+                <a class="btn btn-primary glyphicon glyphicon-print" onclick="@("ImprimirPDF('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"')")" data-toggle="tooltip" data-placement="top" title="Imprimir"></a>
+                <a class="btn btn-primary glyphicon glyphicon-usd" onclick="@("Cotizacion('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"','"+item.uso+ "','" + item.ciclo + "')")" data-toggle="tooltip" data-placement="top" title="Cotizar"></a>
             </td>
         </tr>
     }
@@ -87,6 +89,31 @@
                     <p id="lblCiclo"></p>
                     <table id="gridDet"></table>
                     <div id="pagerDet"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modalCotizacion" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Detalle</h4>
+            </div>
+            <div class="modal-body modalC">
+                <div class="loaderC"></div>
+                <div id="divC" style="display:none;">
+                    <label for="lblPreReq2">PreRequisicion :</label>
+                    <p id="lblPreReq2"></p>
                 </div>
 
             </div>

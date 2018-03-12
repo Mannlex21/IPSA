@@ -8,7 +8,7 @@
     z-index: 9999;
     background: url('../../file/loading2.gif') 50% 50% no-repeat rgb(249,249,249);
 }
-.loaderD,.loaderM,.loaderE {
+.loaderD,.loaderM,.loaderE,.loaderC {
     left: 11px;
     top: 89px;
     width: 100%;
