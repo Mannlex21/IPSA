@@ -1,0 +1,45 @@
+﻿.inputBox2 {
+    width: 100%;
+    max-width: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    .inputBox2:read-only {
+        background: #e0e0e0;
+    }
+
+.btnGuardar {
+    float: right;
+    margin: 10px;
+    margin-right: 4%;
+}
+/*FILE INPUT*/
+#file1 {
+    max-width: 100%;
+}
+
+.divFile {
+    width: 96%;
+    height: 49px;
+    padding: 10px 16px;
+    font-size: 16px;
+}
+.modal-body{
+    padding:0;
+}
+#divC {
+    padding: 0 40px 0 40px;
+}
+.div1 label {
+    line-height: 27px;
+}
+.div1 input{
+    margin-bottom:10px;
+}
+#divC h1 {
+    margin-bottom: 10px;
+}
+#btnAgregarI, #btnGuardar {
+    margin: 0;
+}

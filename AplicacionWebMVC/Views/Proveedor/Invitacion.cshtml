@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.jqGrid/ui.jqgrid.css")" />
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/Main.css")" />
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/gridDetalle.css")" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/cssP/invitacion.css")" />
 <script type="text/javascript" src="@Url.Content("~/Scripts/js/sweetalert.min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.jqGrid.min.js")"></script>
@@ -25,6 +26,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/js/detalleRequisicion.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jsP/invitacion.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/js/imprimirPDF.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/js/divExpandir.js")"></script>
 @if (!User.Identity.IsAuthenticated)
 {
     Response.Redirect("~/Home/Index");
@@ -63,7 +65,7 @@
             <td style="text-align: center;">
                 <a class="btn btn-success glyphicon glyphicon-info-sign" onclick="@("abrirDetalle('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"','"+item.uso+ "','" + item.ciclo + "')")" data-toggle="tooltip" data-placement="top" title="Detalle"></a>
                 <a class="btn btn-primary glyphicon glyphicon-print" onclick="@("ImprimirPDF('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"')")" data-toggle="tooltip" data-placement="top" title="Imprimir"></a>
-                <a class="btn btn-primary glyphicon glyphicon-usd" onclick="@("Cotizacion('"+item.preRequisicion+"','"+item.departamento+"','"+item.ejercicio+"','"+item.uso+ "','" + item.ciclo + "')")" data-toggle="tooltip" data-placement="top" title="Cotizar"></a>
+                <a class="btn btn-primary glyphicon glyphicon-usd" onclick="@("Cotizacion('"+item.preRequisicion+"','"+item.requisicion+"','"+item.departamento+"','"+item.ejercicio+"','"+item.area+ "','" + item.ciclo + "')")" data-toggle="tooltip" data-placement="top" title="Cotizar"></a>
             </td>
         </tr>
     }
@@ -107,15 +109,146 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Detalle</h4>
+                <h1 class="modal-title">Cotizar</h1>
             </div>
             <div class="modal-body modalC">
                 <div class="loaderC"></div>
                 <div id="divC" style="display:none;">
-                    <label for="lblPreReq2">PreRequisicion :</label>
-                    <p id="lblPreReq2"></p>
-                </div>
+                    <div class="jumbotron row" style="margin-top: 20px;">
+                        <h1>Información </h1>
+                        <div class="div1 col-md-4">
+                            <label for="requisicionCotizacion">Requisición</label>
+                            <input id="requisicionCotizacion" class="inputBox2" readonly />
 
+                            <label for="departamentoCotizacion">Departamento</label>
+                            <input id="departamentoCotizacion" class="inputBox2" readonly />
+
+                            <label for="areaCotizacion">Area</label>
+                            <input id="areaCotizacion" class="inputBox2" readonly />
+
+                            <label for="cicloCotizacion">Ciclo</label>
+                            <input id="cicloCotizacion" class="inputBox2" readonly />
+
+                            <label for="proveedorCotizacion">Proveedor</label>
+                            <input id="proveedorCotizacion" class="inputBox2" />
+
+                        </div>
+                        <div class="div1 col-md-4">
+                            <label for="fechaCotizacion">Fecha cotización</label>
+                            <input id="fechaCotizacion" class="inputBox2" />
+
+                            <label for="descripcionCondicion">Descripción</label>
+                            <input id="descripcionCondicion" class="inputBox2" />
+
+                            <label for="libreAbordoCotizacion">Libre abordo</label>
+                            <input id="libreAbordoCotizacion" class="inputBox2" />
+
+                            <label for="descuentoCotizacion">Descuento</label>
+                            <input id="descuentoCotizacion" class="inputBox2" />
+                        </div>
+                        <div class="div1 col-md-4">
+                            <label for="garantiaCotizacion">Garantia</label>
+                            <input id="garantiaCotizacion" class="inputBox2" />
+
+                            <label for="anticipoCotizacion">Anticipo</label>
+                            <input id="anticipoCotizacion" class="inputBox2" />
+
+                            <label for="apoyoTecnicoCotizacion">Apoyo tecnico</label>
+                            <input id="apoyoTecnicoCotizacion" class="inputBox2" />
+
+                            <label for="observacionesCotizacion">Observaciones</label>
+                            <input id="observacionesCotizacion" class="inputBox2" />
+                        </div>
+                    </div>
+
+                    <div class="jumbotron row" style="margin-top: 20px;">
+                        <h1>Material </h1>
+                        <div class="div1 col-md-6">
+                            <label for="partidaCotizacion">Costo</label>
+                            <input id="partidaCotizacion" class="inputBox2" />
+
+                            <label for="materialCotizacion">Material</label>
+                            <input id="materialCotizacion" class="inputBox2" />
+
+                            <label for="cantidadCotizacion">Cantidad</label>
+                            <input id="cantidadCotizacion" class="inputBox2" />
+
+                            <label for="uMedidaCotizacion">Unidad de medida</label>
+                            <input id="uMedidaCotizacion" class="inputBox2" />
+
+                        </div>
+                        <div class="div1 col-md-6">
+                            <label for="descripcionMCotizacion">Descripción</label>
+                            <input id="descripcionMCotizacion" class="inputBox2" />
+
+                            <label for="costoCotizacion">Costo</label>
+                            <input id="costoCotizacion" class="inputBox2" />
+
+                            <label for="tiempoEntregaCotizacion">Tiempo de entrega</label>
+                            <input id="tiempoEntregaCotizacion" class="inputBox2" />
+
+                            <label for="notaCotizacion">Nota</label>
+                            <input id="notaCotizacion" class="inputBox2" />
+
+                            <button type="button" id="btnAgregarI" class="btn btn-success btn-lg">Agregar</button>
+                        </div>
+                    </div>
+                    <div class="jumbotron row" style="margin-top: 20px;">
+                        <div id="tabla" class="table-responsive">
+                            <h1>Partidas </h1>
+                            <table id="tablaPartida" style="width:100%; background:white;" class="table table-condensed table-striped table-bordered table-hover dt-responsive">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th>Partida</th>
+                                        <th>Cantidad</th>
+                                        <th>Unidad</th>
+                                        <th>Descripcion</th>
+                                        <th>Clave</th>
+                                        <th>Existencia</th>
+                                        <th>Detalle</th>
+                                        <th>Precio unitario</th>
+                                        <th>Precio total</th>
+                                        <th>Control</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th class="noBorde"></th>
+                                        <th class="noBorde"></th>
+                                        <th class="noBorde"></th>
+                                        <th class="noBorde"></th>
+                                        <th class="noBorde"></th>
+                                        <th class="noBorde"></th>
+                                        <th class="noBorde"></th>
+                                        <th>Total</th>
+                                        <th id="idTotal"></th>
+                                        <th class="noBorde"></th>
+                                    </tr>
+                                </tfoot>
+                                <tbody id="tbody"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="jumbotron row">
+                        <div>
+                            <h1>Archivos <a id="abrirCerrar2" data-target="#fm2" class="tabs glyphicon glyphicon-plus" data-group="footer-blocks" data-toggle="collapse"></a></h1>
+
+                        </div>
+                        <div id="fm2" class="collapse show-in-md">
+                            <form id="formm" enctype="multipart/form-data">
+                                <div class="form-control divFile">
+                                    <input type="file" id="file1" name="file" multiple />
+                                </div>
+                            </form>
+                            <button id="btnLimpiarFile" class="btn btn-info">Limpiar</button>
+                        </div>
+
+                    </div>
+                    <div class="jumbotron row" style="margin-top: 20px;">
+                        <button type="button" id="btnGuardar" class="btn btn-success btn-lg">Guardar</button>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
