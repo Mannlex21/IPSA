@@ -103,7 +103,6 @@
                         }
                         else if (Roles.IsUserInRole(HttpContext.Current.User.Identity.Name, "Proveedor"))
                         {
-                                <li id="barCotizacion" class="barElem">@Html.ActionLink("Cotizacion", "Cotizacion", "Proveedor")</li>
                                 <li id="barInvitacion" class="barElem">@Html.ActionLink("Invitaciones", "Invitacion", "Proveedor")</li>
                                 <li id="barPerfil" class="barElem">@Html.ActionLink("Perfil", "Perfil", "Proveedor")</li>
                         }

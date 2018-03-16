@@ -48,7 +48,7 @@
                     $(".loader").fadeIn(1);
                 },
                 complete: function () {
-
+                    console.log(r);
                 },
                 success: function (r) {
                     $(".loader").fadeOut(100);

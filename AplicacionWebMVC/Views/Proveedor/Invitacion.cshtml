@@ -114,7 +114,7 @@
             <div class="modal-body modalC">
                 <div class="loaderC"></div>
                 <div id="divC" style="display:none;">
-                    <div class="jumbotron row" style="margin-top: 20px;">
+                    <div id="divInfo" class="jumbotron row" style="margin-top: 20px;">
                         <h1>Información </h1>
                         <div class="div1 col-md-4">
                             <label for="requisicionCotizacion">Requisición</label>
@@ -161,10 +161,10 @@
                         </div>
                     </div>
 
-                    <div class="jumbotron row" style="margin-top: 20px;">
+                    <div id="divMaterial" class="jumbotron row" style="margin-top: 20px;">
                         <h1>Material </h1>
                         <div class="div1 col-md-6">
-                            <label for="partidaCotizacion">Costo</label>
+                            <label for="partidaCotizacion">Partida</label>
                             <input id="partidaCotizacion" class="inputBox2" />
 
                             <label for="materialCotizacion">Material</label>
@@ -202,12 +202,11 @@
                                         <th>Partida</th>
                                         <th>Cantidad</th>
                                         <th>Unidad</th>
-                                        <th>Descripcion</th>
-                                        <th>Clave</th>
-                                        <th>Existencia</th>
-                                        <th>Detalle</th>
-                                        <th>Precio unitario</th>
-                                        <th>Precio total</th>
+                                        <th>Material</th>
+                                        <th>Descripción</th>
+                                        <th>Costo</th>
+                                        <th>Tiempo de entrega</th>
+                                        <th>Nota</th>
                                         <th>Control</th>
                                     </tr>
                                 </thead>
@@ -220,8 +219,7 @@
                                         <th class="noBorde"></th>
                                         <th class="noBorde"></th>
                                         <th class="noBorde"></th>
-                                        <th>Total</th>
-                                        <th id="idTotal"></th>
+                                        <th class="noBorde"></th>
                                         <th class="noBorde"></th>
                                     </tr>
                                 </tfoot>

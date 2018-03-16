@@ -21,7 +21,7 @@ namespace AplicacionWebMVC.Controllers
         AlmacenEntities DB = new AlmacenEntities();
         ComprasEntities DBC = new ComprasEntities();
         // GET: Proveedor
-        [Authorize(Roles = "Admin, Proveedor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Cotizacion()
         {
             return View();
